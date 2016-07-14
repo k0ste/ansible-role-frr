@@ -1,0 +1,12 @@
+{% for a in quagga_access_list %}
+{% if a.name is defined and a.name != '' %}
+{% if a.remark is defined and a.remark != '' %}
+{{ 'access-list ' + a.name + ' remark ' + a.remark }}
+{% endif %}
+{% if a.rules is defined and a.rules != '' %}
+{% for acl in a.rules %}
+{{ 'access-list ' + a.name + ' ' + acl }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}

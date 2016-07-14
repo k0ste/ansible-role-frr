@@ -1,0 +1,6 @@
+{% for l in z.line %}
+{{ 'line vty' }}
+{% if l.vty_access_class is defined and l.vty_access_class != '' %}
+{{ ' access-class ' + l.vty_access_class }}
+{% endif %}
+{% endfor %}

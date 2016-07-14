@@ -1,0 +1,46 @@
+{{ '## ' + hostvars[inventory_hostname]['quagga_zebra_service'] + '.conf'}}
+{{ '# ' + ansible_managed }}
+{{ '# ' + 'Do not edit manually' }}
+
+{{ '!' }}
+{{ '! Zebra configuration saved from vty' }}
+{{ '!    ' + ansible_date_time.date + ' ' + ansible_date_time.time }}
+{{ '!' }}
+{% if quagga_zebra_conft is defined %}
+{% for z in quagga_zebra_conft %}
+{% include 'zebra_generic.j2' %}
+{% if z.service is defined and z.service != '' %}
+{% include 'zebra_service.j2' %}
+{% endif %}
+{% if z.log is defined and z.log != '' %}
+{% include 'zebra_log.j2' %}
+{% endif %}
+{{ '!' }}
+{% if z.debug is defined and z.debug != '' %}
+{% include 'zebra_debug.j2' %}
+{% endif %}
+{{ '!' }}
+{% if quagga_interfaces is defined and quagga_interfaces != '' %}
+{% include 'zebra_interfaces.j2' %}
+{% endif %}
+{% if quagga_static_route is defined and quagga_static_route != '' %}
+{% include 'zebra_routes.j2' %}
+{% endif %}
+{{ '!' }}
+{% if quagga_access_list is defined and quagga_access_list != '' %}
+{% include 'zebra_acl.j2' %}
+{% endif %}
+{{ '!' }}
+{% if quagga_prefix_list is defined and quagga_prefix_list != '' %}
+{% include 'zebra_prefix.j2' %}
+{% endif %}
+{{ '!' }}
+{% if quagga_route_map is defined and quagga_route_map != '' %}
+{% include 'zebra_route_map.j2' %}
+{% endif %}
+{% if z.line is defined and z.line != '' %}
+{% include 'zebra_vty.j2' %}
+{% endif %}
+{{ '!' }}
+{% endfor %}
+{% endif %}

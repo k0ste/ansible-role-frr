@@ -1,0 +1,23 @@
+{% for l in z.log %}
+{% if l.facility is defined and l.facility != '' %}
+{{ 'log facility ' + l.facility }}
+{% endif %}
+{% if l.file is defined and l.file != '' %}
+{{ 'log file ' + l.file }}
+{% endif %}
+{% if l.monitor is defined and l.monitor != '' %}
+{{ 'log monitor ' + l.monitor }}
+{% endif %}
+{% if l.record_priority is defined and l.record_priority != '' %}
+{{ 'log record-priority' }}
+{% endif %}
+{% if l.stdout is defined and l.stdout != '' %}
+{{ 'log stdout ' + l.stdout }}
+{% endif %}
+{% if l.syslog is defined and l.syslog != '' %}
+{{ 'log syslog ' + l.syslog }}
+{% endif %}
+{% if l.timestamp_precision is defined and l.timestamp_precision != '' %}
+{{ 'log log timestamp precision ' + l.timestamp_precision }}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,8 @@
+{% for r in quagga_static_route %}
+{% if (r.destination is defined and r.destination != '') and (r.next_hop is defined and r.next_hop != '') %}
+{{ 'ip route ' + r.destination + ' ' + r.next_hop -}}
+{% if (r.distance is defined) and (r.distance > '1' and r.distance <= '255') %}{{ ' ' + r.distance }}{% endif %}
+{% if (r.tag is defined and r.tag != '') and (quagga_cumulus is defined and quagga_cumulus == 'true') %}{{ ' ' + r.tag }}{% endif %}
+
+{% endif %}
+{% endfor %}

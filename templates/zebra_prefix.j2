@@ -1,0 +1,12 @@
+{% for p in quagga_prefix_list %}
+{% if p.name is defined and p.name != '' %}
+{% if p.description is defined and p.description != '' %}
+{{ 'ip prefix-list ' + p.name + ' description ' + p.description }}
+{% endif %}
+{% if p.rules is defined and p.rules != '' %}
+{% for list in p.rules %}
+{{ 'ip prefix-list ' + p.name + ' ' + list }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}

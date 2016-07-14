@@ -1,0 +1,9 @@
+---
+quagga_service: ''
+quagga_ospfd_service: 'ospfd'
+quagga_ospfd_instance_service: 'ospfd-instance@'
+quagga_bgpd_service: 'bgpd'
+quagga_zebra_service: 'zebra'
+quagga_dest: '/etc/quagga'
+quagga_owner: 'quagga'
+quagga_group: 'quagga'

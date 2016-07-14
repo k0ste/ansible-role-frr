@@ -1,0 +1,30 @@
+{% for d in z.debug %}
+{% if d.events is defined and d.events == 'true' %}
+{{ 'debug zebra events' }}
+{% endif %}
+{% if d.fpm is defined and d.fpm == 'true' %}
+{{ 'debug zebra fpm' }}
+{% endif %}
+{% if d.kernel is defined and d.kernel == 'true' %}
+{{ 'debug zebra kernel' }}
+{% endif %}
+{% if d.nht is defined and (d.nht == 'true' and quagga_cumulus == 'true') %}
+{{ 'debug zebra nht' }}
+{% endif %}
+{% if d.packet is defined %}
+{% for e in d.packet %}
+{% if e.state == 'true' %}
+{{ 'debug zebra packet' }}
+{% elif e.state in ['recv', 'send'] %}
+{{ 'debug zebra packet ' + e.state }}{% if e.detail is defined and e.detail == 'true' %} {{ ' detail' }}{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if d.rib is defined %}
+{% for e in d.rib %}
+{% if e.state == 'true' %}
+{{ 'debug zebra rib' }}{% if e.detail is defined and e.detail == 'true' %}{{ ' detail' }}{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
