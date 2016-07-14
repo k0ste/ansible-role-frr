@@ -20,7 +20,7 @@
     group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
     owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
     mode: "0640"
-  when: "(hostvars[inventory_hostname]['quagga_zebra_mgmt'] is defined and hostvars[inventory_hostname]['quagga_zebra_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus != 'true')"
+  when: "(hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined and hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus != 'true')"
   register: "ospfd_deploy_result"
   notify:
     - 'Validate ospfd configuration'
@@ -33,7 +33,7 @@
     owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
     mode: "0640"
   with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
-  when: "(hostvars[inventory_hostname]['quagga_zebra_mgmt'] is defined and hostvars[inventory_hostname]['quagga_zebra_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus == 'true')"
+  when: "(hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined and hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus == 'true')"
   register: "ospfd_multi_deploy_result"
   notify:
     - 'Validate multi ospfd configuration'

@@ -1,3 +1,7 @@
 ---
-netctl_restart: 'false'
-netctl_enable: 'false'
+quagga_restart: 'false'
+quagga_enable: 'false'
+quagga_zebra_mgmt: 'true'
+quagga_ospfd_mgmt: 'true'
+quagga_cumulus: 'false'
+quagga_ospfd_instances: []
