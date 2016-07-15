@@ -5,6 +5,7 @@ Role for deploy '[quagga upstream](http://download.savannah.gnu.org/releases/qua
 
 Ansible versions
 --------------------
+
 Role is adapted for Ansible 2.0.
 
 Requirements for usage
@@ -16,16 +17,16 @@ Requirements for usage
 library (on machine with Ansible);
 
 About
-----------
+---------
 
-* Support zebra daemon;
-* Support ospfd daemon;
+* zebra daemon;
+* ospfd daemon;
 * ospfd multi instance (CumulusLinux);
-* Access lists;
-* Prefix lists;
-* Route maps;
-* Static routes;
-* Interfaces.
+* access lists;
+* prefix lists;
+* route maps;
+* static routes;
+* interfaces.
 
 Extra
 -----------
@@ -115,13 +116,13 @@ quagga_access_list:
 - name: 'vty'
   remark: 'Disable connections to vtysh from non localhost'
   rules:
-  - "permit 127.0.0.1/8"
-  - "deny any"
+  - 'permit 127.0.0.1/8'
+  - 'deny any'
 - name: '101'
   remark: 'Filter 0.0.0.0/0'
   rules:
-  - "deny ip host 0.0.0.0 any"
-  - "permit ip any any"
+  - 'deny ip host 0.0.0.0 any'
+  - 'permit ip any any'
 
 quagga_prefix_list:
 - name: 'EXAMPLE_PREFIX_LIST'
@@ -132,8 +133,8 @@ quagga_prefix_list:
 - name: 'no_default_originate'
   description: 'Filter gateway of last resort'
   rules:
-  - "seq 10 deny 0.0.0.0/0"
-  - "seq 100 permit 0.0.0.0/0 le 32"
+  - 'seq 10 deny 0.0.0.0/0'
+  - 'seq 100 permit 0.0.0.0/0 le 32'
 
 quagga_route_map:
 - name: 'DISTRIBUTE_TO_OSPF'
@@ -146,7 +147,7 @@ quagga_route_map:
   actions:
   - action: 'permit 10'
     rules:
-    - 'match ip address prefix-list EXAMPLE_PREFIX_LISTf'
+    - 'match ip address prefix-list EXAMPLE_PREFIX_LIST'
     - 'match ip next-hop prefix-list i_give_up'
   - action: 'permit 11'
     rules:
@@ -224,9 +225,6 @@ quagga_router_ospf:
     - route_map: 'TO_OSPF_KERNEL'
       metric: '46'
       metric_type: '2'
-  - ospf:
-    - instance_id: '1'
-      route_map: 'FROM_OSPF_1_TO_OSPF_2'
 
 quagga_router_ospf_multi:
 - instance_id: '1'
