@@ -160,8 +160,8 @@ quagga_interfaces:
   link_detect: 'true'
   multicast: 'true'
   ip:
-  - address: '10.0.0.1/8'
-    label: 'EXAMPLE_LABEL_FOR_IPROUTE'
+  - address: '172.16.255.1/32'
+    label: 'Router1'
 - name: 'tap0'
   description: 'openvpn0 description'
   ip:
