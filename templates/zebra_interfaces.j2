@@ -14,6 +14,7 @@
 {% for ii in i.ip %}
 {% if ii.address is defined and ii.address | ipaddr() %}
 {{ ' ip address ' + ii.address }}{% if ii.label is defined and ii.label != '' %}{{ ' label ' + ii.label }}
+{% else %}{{ '\n' -}}
 {% endif %}
 {% endif %}
 {% endfor %}
