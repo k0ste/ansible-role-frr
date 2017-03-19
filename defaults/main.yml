@@ -5,3 +5,6 @@ quagga_zebra_mgmt: 'true'
 quagga_ospfd_mgmt: 'true'
 quagga_cumulus: 'false'
 quagga_ospfd_instances: []
+quagga_dest: '/etc/quagga'
+quagga_owner: 'quagga'
+quagga_group: 'quagga'

@@ -1,7 +1,7 @@
 ansible-role-quagga
-==========================
+======================
 
-Role for deploy '[quagga upstream](http://download.savannah.gnu.org/releases/quagga/)' or '[quagga CumulusLinux](//github.com/CumulusNetworks/quagga)'.
+Role for deploy '[quagga upstream](http://download.savannah.gnu.org/releases/quagga/)' or '[quagga CumulusLinux](//github.com/CumulusNetworks/quagga)'. [frr](//github.com/freerangerouting/frr/) is aslo supported.
 
 Ansible versions
 --------------------
@@ -9,15 +9,15 @@ Ansible versions
 Role is adapted for Ansible 2.0.
 
 Requirements for usage
------------------------------------
+-----------------------
 
 * GNU/Linux;
-* Quagga upstream or Quagga with CumulusLinux patch set;
+* Quagga (with or withot CumulusLinux patch set) or frr;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html)
-library (on machine with Ansible);
+  library (on machine with Ansible);
 
-About
----------
+Role support
+-------------
 
 * zebra daemon;
 * ospfd daemon;
@@ -41,7 +41,9 @@ Behavior of handlers rule by variables:
 * **quagga_enable**, *default is false*
 * **quagga_restart**, *default is false*
 
-**quagga_cumulus**, if true - enable CumulusLinux OSPF multi instance support.
+**quagga_cumulus**, if true - enable CumulusLinux OSPF
+  multi instance support.
+
 **quagga_ospfd_instances** - this is list with your ospfd instances, example:
 
 ```yaml
@@ -64,10 +66,14 @@ Example configuration
 
 ```yaml
 ---
+
 quagga_restart: 'true'
 quagga_enable: 'true'
 quagga_zebra_mgmt: 'true'
 quagga_ospfd_mgmt: 'true'
+quagga_dest: '/etc/frr' # freerangerouting
+quagga_owner: 'frr'
+quagga_group: 'frr'
 quagga_cumulus: 'true'
 quagga_ospfd_instances:
   - 1
