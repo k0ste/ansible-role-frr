@@ -1,40 +1,16 @@
 ---
-- name: Add the OS specific variables
-  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
-- name: Deploy zebra daemon
-  template:
-    src: "zebra.j2"
-    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] + '/' + hostvars[inventory_hostname]['quagga_zebra_service'] + '.conf' }}"
-    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
-    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
-    mode: "0640"
-  when: "hostvars[inventory_hostname]['quagga_zebra_mgmt'] is defined and hostvars[inventory_hostname]['quagga_zebra_mgmt'] == 'true'"
-  register: "zebra_deploy_result"
-  notify:
-    - 'Validate zebra configuration'
-- meta: flush_handlers
-- name: Deploy ospfd daemon
-  template:
-    src: "ospfd.j2"
-    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] + '/' + hostvars[inventory_hostname]['quagga_ospfd_service'] + '.conf' }}"
-    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
-    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
-    mode: "0640"
-  when: "(hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined and hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus != 'true')"
-  register: "ospfd_deploy_result"
-  notify:
-    - 'Validate ospfd configuration'
-- meta: flush_handlers
-- name: Deploy ospfd multi instance daemon
-  template:
-    src: "ospfd.j2"
-    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] + '/' + hostvars[inventory_hostname]['quagga_ospfd_service'] + '-' + item|string + '.conf' }}"
-    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
-    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
-    mode: "0640"
-  with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
-  when: "(hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined and hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true') and (hostvars[inventory_hostname]['quagga_cumulus'] is defined and quagga_cumulus == 'true')"
-  register: "ospfd_multi_deploy_result"
-  notify:
-    - 'Validate multi ospfd configuration'
-- meta: flush_handlers
+- include_tasks: pre_requisite.yml
+- include_tasks: packages.yml
+  when:
+  - "hostvars[inventory_hostname]['quagga_install_packages'] is defined"
+  - "hostvars[inventory_hostname]['quagga_install_packages'] == 'true'"
+  - "hostvars[inventory_hostname]['quagga_packages'] is defined"
+  - "hostvars[inventory_hostname]['quagga_packages'] != ''"
+- include_tasks: deploy_zebra.yml
+  when:
+  - "hostvars[inventory_hostname]['quagga_zebra_mgmt']"
+  - "hostvars[inventory_hostname]['quagga_zebra_mgmt'] == 'true'"
+- include_tasks: deploy_ospfd.yml
+  when:
+  - "hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined"
+  - "hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true'"

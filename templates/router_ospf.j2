@@ -1,4 +1,4 @@
-{% for r in quagga_router_ospf %}
+{% for r in hostvars[inventory_hostname]['quagga_router_ospf'] %}
 {#}
 Secure if cumulus linux false, but error in ospf singe instance definition.
 Use only fifst elements in loop
@@ -8,12 +8,15 @@ Use only fifst elements in loop
 {% if r.router_id is defined and r.router_id | ipaddr('host') %}
 {{ ' ospf router-id ' + r.router_id }}
 {% endif %}
-{% if r.log_adjacency_changes is defined and r.log_adjacency_changes == 'true' %}
+{% if r.log_adjacency_changes is defined and
+      r.log_adjacency_changes == 'true' %}
 {{ ' log-adjacency-changes' }}
-{% elif r.log_adjacency_changes is defined and r.log_adjacency_changes == 'detail' %}
+{% elif r.log_adjacency_changes is defined and
+        r.log_adjacency_changes == 'detail' %}
 {{ ' log-adjacency-changes detail' }}
 {% endif %}
-{% if r.default_information_originate is defined and r.default_information_originate != '' %}
+{% if r.default_information_originate is defined and
+      r.default_information_originate != '' %}
 {% for di in r.default_information_originate %}
 {% if di.enabled is defined and di.enabled == 'true' %}
 {{ ' default-information originate' -}}
@@ -51,7 +54,8 @@ Use only fifst elements in loop
 {% endif %}
 {% if r.network is defined and r.network != '' %}
 {% for n in r.network %}
-{% if (n.network is defined and n.network | ipv4('network')) and (n.area is defined and n.area != '') %}
+{% if (n.network is defined and n.network | ipv4('network')) and
+      (n.area is defined and n.area != '') %}
 {{ ' network ' + n.network + ' area ' + n.area }}
 {% endif %}
 {% endfor %}

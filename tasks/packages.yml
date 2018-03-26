@@ -1,0 +1,21 @@
+---
+- name: quagga | Install the required packages in Redhat derivatives
+  yum:
+    name: "{{ hostvars[inventory_hostname]['quagga_packages'] }}"
+    state: "installed"
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
+- name: quagga | Install the required packages in Debian derivatives
+  apt:
+    name: "{{ hostvars[inventory_hostname]['quagga_packages'] }}"
+    state: "installed"
+    update_cache: "yes"
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
+- name: quagga | Install the required packages in ArchLinux derivatives
+  pacman:
+    name: "{{ hostvars[inventory_hostname]['quagga_packages'] }}"
+    state: "installed"
+    update_cache: "yes"
+  when:
+  - "hostvars[inventory_hostname]['ansible_os_family'] == 'Archlinux'"

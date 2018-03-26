@@ -1,15 +1,18 @@
-{% for r in quagga_router_ospf_multi %}
+{% for r in hostvars[inventory_hostname]['quagga_router_ospf_multi'] %}
 {% if r.instance_id == item|string %}
 {{ 'router ospf ' + r.instance_id }}
 {% if r.router_id is defined and r.router_id | ipaddr('host') %}
 {{ ' ospf router-id ' + r.router_id }}
 {% endif %}
-{% if r.log_adjacency_changes is defined and r.log_adjacency_changes == 'true' %}
+{% if r.log_adjacency_changes is defined and
+      r.log_adjacency_changes == 'true' %}
 {{ ' log-adjacency-changes' }}
-{% elif r.log_adjacency_changes is defined and r.log_adjacency_changes == 'detail' %}
+{% elif r.log_adjacency_changes is defined and
+        r.log_adjacency_changes == 'detail' %}
 {{ ' log-adjacency-changes detail' }}
 {% endif %}
-{% if r.default_information_originate is defined and r.default_information_originate != '' %}
+{% if r.default_information_originate is defined and
+      r.default_information_originate != '' %}
 {% for di in r.default_information_originate %}
 {% if di.enabled is defined and di.enabled == 'true' %}
 {{ ' default-information originate' -}}

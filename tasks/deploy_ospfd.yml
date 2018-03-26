@@ -1,0 +1,47 @@
+---
+- name: quagga | Deploy ospfd
+  template:
+    src: "ospfd.j2"
+    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+              hostvars[inventory_hostname]['quagga_ospfd_service'] ~ '.conf' }}"
+    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
+    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
+    mode: "0640"
+  when:
+  - "hostvars[inventory_hostname]['quagga_cumulus'] is defined"
+  - "hostvars[inventory_hostname]['quagga_cumulus'] != 'true'"
+  notify:
+  - "Validate ospfd configuration"
+- meta: flush_handlers
+- name: Enable ospfd daemon
+  service:
+    name: "{{ hostvars[inventory_hostname]['quagga_ospfd_service'] }}"
+    enabled: "yes"
+  when:
+  - "hostvars[inventory_hostname]['quagga_enable'] is defined"
+  - "hostvars[inventory_hostname]['quagga_enable'] == 'true'"
+- name: quagga | Deploy ospfd multi instance
+  template:
+    src: "ospfd.j2"
+    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+              hostvars[inventory_hostname]['quagga_ospfd_service'] ~ '-' ~
+              item ~ '.conf' }}"
+    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
+    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
+    mode: "0640"
+  with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
+  when:
+  - "hostvars[inventory_hostname]['quagga_cumulus'] is defined"
+  - "hostvars[inventory_hostname]['quagga_cumulus'] == 'true'"
+  notify:
+  - "Validate multi ospfd configuration"
+- meta: flush_handlers
+- name: Enable multi ospfd daemon
+  service:
+    name: "{{
+      hostvars[inventory_hostname]['quagga_ospfd_instance_service'] ~ item }}"
+    enabled: "yes"
+  with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
+  when:
+  - "hostvars[inventory_hostname]['quagga_enable'] is defined"
+  - "hostvars[inventory_hostname]['quagga_enable'] == 'true'"

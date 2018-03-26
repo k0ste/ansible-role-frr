@@ -1,4 +1,4 @@
-{% for p in quagga_prefix_list %}
+{% for p in hostvars[inventory_hostname]['quagga_prefix_list'] %}
 {% if p.name is defined and p.name != '' %}
 {% if p.description is defined and p.description != '' %}
 {{ 'ip prefix-list ' + p.name + ' description ' + p.description }}

@@ -8,7 +8,9 @@
 {% if d.kernel is defined and d.kernel == 'true' %}
 {{ 'debug zebra kernel' }}
 {% endif %}
-{% if d.nht is defined and (d.nht == 'true' and quagga_cumulus == 'true') %}
+{% if (d.nht is defined and d.nht == 'true') and
+      (hostvars[inventory_hostname]['quagga_cumulus'] is defined and
+       hostvars[inventory_hostname]['quagga_cumulus'] == 'true') %}
 {{ 'debug zebra nht' }}
 {% endif %}
 {% if d.packet is defined %}

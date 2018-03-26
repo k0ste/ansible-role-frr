@@ -1,4 +1,4 @@
-{% for i in quagga_interfaces %}
+{% for i in hostvars[inventory_hostname]['quagga_interfaces'] %}
 {% if i.name is defined and i.name != '' %}
 {{ 'interface ' + i.name }}
 {% if i.description is defined and i.description != '' %}
@@ -11,7 +11,9 @@
 {% if o.cost is defined and o.cost != '' %}
 {{ ' ip ospf cost ' + o.cost }}
 {% endif %}
-{% if (o.instance_id is defined and o.instance_id != '') and (quagga_cumulus is defined and quagga_cumulus == 'true') %}
+{% if (o.instance_id is defined and o.instance_id != '') and
+      (hostvars[inventory_hostname]['quagga_cumulus'] is defined and
+       hostvars[inventory_hostname]['quagga_cumulus'] == 'true') %}
 {% if o.area is defined and o.area != '' %}
 {{ ' ip ospf ' + o.instance_id + ' area '  + o.area }}
 {% endif %}

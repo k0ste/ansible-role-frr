@@ -1,0 +1,19 @@
+---
+- name: quagga | Deploy zebra
+  template:
+    src: "zebra.j2"
+    dest: "{{ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+              hostvars[inventory_hostname]['quagga_zebra_service'] ~ '.conf' }}"
+    group: "{{ hostvars[inventory_hostname]['quagga_group'] }}"
+    owner: "{{ hostvars[inventory_hostname]['quagga_owner'] }}"
+    mode: "0640"
+  notify:
+  - "Validate zebra configuration"
+- meta: flush_handlers
+- name: Enable zebra daemon
+  service:
+    name: "{{ hostvars[inventory_hostname]['quagga_zebra_service'] }}"
+    enabled: "yes"
+  when:
+  - "hostvars[inventory_hostname]['quagga_enable'] is defined"
+  - "hostvars[inventory_hostname]['quagga_enable'] == 'true'"

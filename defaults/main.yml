@@ -8,3 +8,5 @@ quagga_ospfd_instances: []
 quagga_dest: '/etc/quagga'
 quagga_owner: 'quagga'
 quagga_group: 'quagga'
+quagga_install_packages: 'false'
+quagga_packages: []

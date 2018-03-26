@@ -1,56 +1,51 @@
-ansible-role-quagga
-======================
+# ansible-role-quagga
 
-Role for deploy '[quagga upstream](http://download.savannah.gnu.org/releases/quagga/)' or '[quagga CumulusLinux](//github.com/CumulusNetworks/quagga)'. [frr](//github.com/freerangerouting/frr/) is aslo supported.
+Role for deploy
+'[quagga upstream](http://download.savannah.gnu.org/releases/quagga/)' or
+'[quagga CumulusLinux](//github.com/CumulusNetworks/quagga)'.
+[frr](//github.com/freerangerouting/frr/) is aslo supported.
 
-Ansible versions
---------------------
+## Requirements for usage
 
-Role is adapted for Ansible 2.0.
-
-Requirements for usage
------------------------
-
+* Ansible 2.4;
 * GNU/Linux;
 * Quagga (with or withot CumulusLinux patch set) or frr;
 * [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html)
   library (on machine with Ansible);
 
-Role support
--------------
+## Role support
 
 * zebra daemon;
 * ospfd daemon;
-* ospfd multi instance (CumulusLinux);
+* ospfd multi instance (CumulusLinux or `frr`);
 * access lists;
 * prefix lists;
 * route maps;
 * static routes;
 * interfaces.
 
-Extra
------------
+## Extra
 
 You can enable/disable quagga management by this role via vars:
 
-* **quagga_zebra_mgmt**, *default is true*
-* **quagga_ospfd_mgmt**, *default is true*
+* `quagga_zebra_mgmt` - default is true;
+* `quagga_ospfd_mgmt` - default is true;
 
 Behavior of handlers rule by variables:
 
-* **quagga_enable**, *default is false*
-* **quagga_restart**, *default is false*
+* `quagga_enable` - default is false;
+* `quagga_restart` - default is false;
 
-**quagga_cumulus**, if true - enable CumulusLinux OSPF
+`quagga_cumulus` - if true - enable CumulusLinux OSPF
   multi instance support.
 
-**quagga_ospfd_instances** - this is list with your ospfd instances, example:
+`quagga_ospfd_instances` - this is list with your ospfd instances, example:
 
 ```yaml
 ---
 quagga_ospfd_instances:
-  - 126
-  - 17
+- 126
+- 17
 
 quagga_router_ospf_multi:
 - instance_id: '126'
@@ -59,14 +54,13 @@ quagga_router_ospf_multi:
   router_id: '192.168.1.1'
 ```
 
-This is need, because Ansible can't access to dict, for work with_items.
+~~This is need, because Ansible can't access to dict, for work with_items.~~
+Should be rewritten on Ansible 2.2+.
 
-Example configuration
--------------------------
+## Example configuration
 
 ```yaml
 ---
-
 quagga_restart: 'true'
 quagga_enable: 'true'
 quagga_zebra_mgmt: 'true'
@@ -75,9 +69,11 @@ quagga_dest: '/etc/frr' # freerangerouting
 quagga_owner: 'frr'
 quagga_group: 'frr'
 quagga_cumulus: 'true'
+quagga_install_packages: 'true'
+quagga_packages: 'frr' # packages should be explicitly defined
 quagga_ospfd_instances:
-  - 1
-  - 2
+- 1
+- 2
 
 quagga_zebra_conft:
 - hostname: 'R1'

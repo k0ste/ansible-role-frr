@@ -1,4 +1,4 @@
-{% for a in quagga_access_list %}
+{% for a in hostvars[inventory_hostname]['quagga_access_list'] %}
 {% if a.name is defined and a.name != '' %}
 {% if a.remark is defined and a.remark != '' %}
 {{ 'access-list ' + a.name + ' remark ' + a.remark }}

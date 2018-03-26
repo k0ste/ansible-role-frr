@@ -1,4 +1,4 @@
-{% for i in quagga_interfaces %}
+{% for i in hostvars[inventory_hostname]['quagga_interfaces'] %}
 {% if i.name is defined and i.name != '' %}
 {{ 'interface ' + i.name }}
 {% if i.description is defined and i.description != '' %}

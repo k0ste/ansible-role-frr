@@ -1,5 +1,6 @@
-{% for rm in quagga_route_map %}
-{% if (rm.name is defined and rm.name != '') and (rm.actions is defined and rm.actions != '') %}
+{% for rm in hostvars[inventory_hostname]['quagga_route_map'] %}
+{% if (rm.name is defined and rm.name != '') and
+      (rm.actions is defined and rm.actions != '') %}
 {% for rma in rm.actions %}
 {{ 'route-map ' + rm.name + ' ' + rma.action }}
 {% if rma.rules is defined and rma.rules != '' %}
