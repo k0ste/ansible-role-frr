@@ -7,11 +7,7 @@ Role for deploy
 
 ## Requirements for usage
 
-* Ansible 2.4;
-* GNU/Linux;
-* Quagga (with or withot CumulusLinux patch set) or frr;
-* [python-netaddr](//docs.ansible.com/ansible/playbooks_filters_ipaddr.html)
-  library (on machine with Ansible);
+* Ansible 2.5+;
 
 ## Role support
 

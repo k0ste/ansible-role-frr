@@ -1,18 +1,17 @@
 ---
 - name: Validate zebra configuration
   command: "{{ hostvars[inventory_hostname]['quagga_zebra_service'] ~
-               ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
-               hostvars[inventory_hostname]['quagga_zebra_service'] ~
-               '.conf' }}"
+    ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+    hostvars[inventory_hostname]['quagga_zebra_service'] ~ '.conf' }}"
   register: "zebra_dry_run"
-  failed_when: "zebra_dry_run.stderr != ''"
+  failed_when:
+  - "zebra_dry_run.stderr is search('(.*)(errors\\:)(.*)')"
   notify:
   - "Start zebra daemon"
 - name: Validate ospfd configuration
   command: "{{ hostvars[inventory_hostname]['quagga_ospfd_service'] ~
-               ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
-               hostvars[inventory_hostname]['quagga_ospfd_service'] ~
-               '.conf' }}"
+    ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+    hostvars[inventory_hostname]['quagga_ospfd_service'] ~ '.conf' }}"
   register: "ospfd_dry_run"
   failed_when:
   - "ospfd_dry_run.stderr != ''"
@@ -20,10 +19,10 @@
   - "Start ospfd daemon"
 - name: Validate multi ospfd configuration
   command: "{{ hostvars[inventory_hostname]['quagga_ospfd_service'] ~ ' -n ' ~
-               item ~ ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~
-               '/' ~ hostvars[inventory_hostname]['quagga_ospfd_service'] ~
-               '-' ~ item ~ '.conf' }}"
-  with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
+    item ~ ' -C -f ' ~ hostvars[inventory_hostname]['quagga_dest'] ~ '/' ~
+    hostvars[inventory_hostname]['quagga_ospfd_service'] ~ '-' ~ item ~
+    '.conf' }}"
+  loop: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
   register: "ospfd_multi_dry_run"
   failed_when:
   - "ospfd_multi_dry_run.stderr != ''"
@@ -34,14 +33,14 @@
     name: "{{ hostvars[inventory_hostname]['quagga_zebra_service'] }}"
     state: "restarted"
   when:
-  - "zebra_dry_run|success"
+  - "zebra_dry_run is success"
   - "hostvars[inventory_hostname]['quagga_restart'] == 'true'"
 - name: Start ospfd daemon
   service:
     name: "{{ hostvars[inventory_hostname]['quagga_ospfd_service'] }}"
     state: "restarted"
   when:
-  - "ospfd_dry_run|success"
+  - "ospfd_dry_run is success"
   - "hostvars[inventory_hostname]['quagga_restart'] == 'true'"
 - name: Start multi ospfd daemon
   service:
@@ -50,5 +49,5 @@
     state: "restarted"
   with_items: "{{ hostvars[inventory_hostname]['quagga_ospfd_instances'] }}"
   when:
-  - "ospfd_multi_dry_run|success"
+  - "ospfd_multi_dry_run is success"
   - "hostvars[inventory_hostname]['quagga_restart'] == 'true'"

@@ -1,4 +1,4 @@
 ---
 - name: quagga | Add the OS specific variables
-  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] ~
-                    '.yml' }}"
+  include_vars: "{{
+    hostvars[inventory_hostname]['ansible_os_family'] ~ '.yml' }}"
