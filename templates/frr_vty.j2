@@ -1,0 +1,12 @@
+{% for l in vars['frr_vty_settings'] %}
+{{ 'line vty' }}
+{% if l.access_class is defined and l.access_class != '' %}
+{{ ' access-class ' + l.access_class }}
+{% endif %}
+{% if l.ipv6_access_class is defined and l.ipv6_access_class != '' %}
+{{ ' ipv6 access-class ' + l.ipv6_access_class }}
+{% endif %}
+{% if loop.last %}
+{{ '!' }}
+{% endif %}
+{% endfor %}

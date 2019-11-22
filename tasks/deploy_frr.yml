@@ -1,0 +1,34 @@
+---
+- name: frr | Deploy frr daemons
+  template:
+    src: "daemons.j2"
+    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
+              'daemons.conf' }}"
+    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    mode: "0640"
+  notify:
+  - "Restart frr"
+- name: frr | Deploy frr configuration
+  template:
+    src: "frr.j2"
+    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
+              'frr.conf' }}"
+    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    mode: "0640"
+  notify:
+  - "Restart frr"
+- name: frr | Enable frr service
+  service:
+    name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
+    enabled: "yes"
+  when:
+  - "hostvars[inventory_hostname]['frr'] is defined"
+  - "hostvars[inventory_hostname]['frr'] != ''"
+  - "hostvars[inventory_hostname]['frr'] |
+     json_query(vars['frr_enable']) is defined"
+  - "hostvars[inventory_hostname]['frr'] |
+     json_query(vars['frr_enable']) == 'true'"
+  vars:
+    frr_enable: "[] | map(&enable || 'false', @) | [0]"

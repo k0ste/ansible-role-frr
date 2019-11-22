@@ -1,4 +1,35 @@
 ---
-- name: quagga | Add the OS specific variables
-  include_vars: "{{
-    hostvars[inventory_hostname]['ansible_os_family'] ~ '.yml' }}"
+- name: frr | Add the OS specific variables
+  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] +
+                    '.yml' }}"
+- name: frr | Set facts about frr role
+  set_fact:
+    frr_daemons_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].daemons[]') }}"
+    frr_vtysh_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].vtysh_options[]') }}"
+    frr_init_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].init_options[]') }}"
+    frr_zebra_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].zebra[]') }}"
+    frr_vty_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].vty[]') }}"
+    frr_routes: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].routes[]') }}"
+    frr_interfaces: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].interfaces[]') }}"
+    frr_router_ospf_settings: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].router[].ospf[]') }}"
+    frr_router_route_maps: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].router[].route_map[]') }}"
+    frr_router_access_lists: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].router[].access_list[]') }}"
+    frr_router_prefix_lists: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].router[].prefix_list[]') }}"
+- name: frr | Create frr catalog
+  file:
+    path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] }}"
+    state: "directory"
+    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    mode: "0750"

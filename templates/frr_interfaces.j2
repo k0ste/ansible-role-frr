@@ -1,0 +1,37 @@
+{% for i in vars['frr_interfaces'] %}
+{% if i.name is defined and i.name != '' %}
+{{ 'interface ' + i.name }}
+{% if i.description is defined and i.description != '' %}
+{{ ' description ' + i.description }}
+{% endif %}
+{% if i.link_detect is defined and i.link_detect == 'true' %}
+{{ ' link-detect' }}
+{% endif %}
+{% if i.multicast is defined and i.multicast == 'true' %}
+{{ ' multicast' }}
+{% endif %}
+{% if i.ip is defined and i.ip != '' %}
+{% for ii in i.ip %}
+{% if ii.address is defined and ii.address | ipaddr('host/prefix') %}
+{{ ' ip address ' + ii.address -}}
+{% if ii.label is defined and ii.label != '' %}
+{{ ' label ' + ii.label }}
+{% endif %}
+{% endif %}
+{% if ii.ospf is defined and ii.ospf != '' %}
+{% for iio in ii.ospf %}
+{% if iio.cost is defined and iio.cost != '' %}
+{{ ' ip ospf cost ' + iio.cost }}
+{% endif %}
+{% if iio.instance_id is defined and iio.instance_id != '' %}
+{% if iio.area is defined and iio.area != '' %}
+{{ ' ip ospf ' + iio.instance_id + ' area '  + iio.area }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{{ '!' }}
+{% endfor %}

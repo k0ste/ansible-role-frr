@@ -1,16 +1,13 @@
 ---
-- import_tasks: pre_requisite.yml
-- include_tasks: packages.yml
+- import_tasks: "pre_requisite.yml"
+- include_tasks: "packages.yml"
   when:
-  - "hostvars[inventory_hostname]['quagga_install_packages'] is defined"
-  - "hostvars[inventory_hostname]['quagga_install_packages'] == 'true'"
-  - "hostvars[inventory_hostname]['quagga_packages'] is defined"
-  - "hostvars[inventory_hostname]['quagga_packages'] != ''"
-- include_tasks: deploy_zebra.yml
-  when:
-  - "hostvars[inventory_hostname]['quagga_zebra_mgmt']"
-  - "hostvars[inventory_hostname]['quagga_zebra_mgmt'] == 'true'"
-- include_tasks: deploy_ospfd.yml
-  when:
-  - "hostvars[inventory_hostname]['quagga_ospfd_mgmt'] is defined"
-  - "hostvars[inventory_hostname]['quagga_ospfd_mgmt'] == 'true'"
+  - "hostvars[inventory_hostname]['frr'] is defined"
+  - "hostvars[inventory_hostname]['frr'] != ''"
+  - "hostvars[inventory_hostname]['frr'] |
+     json_query(vars['frr_install_package']) is defined"
+  - "hostvars[inventory_hostname]['frr'] |
+     json_query(vars['frr_install_package']) == 'true'"
+  vars:
+    frr_install_package: "[] | map(&install_package || 'false', @) | [0]"
+- import_tasks: "deploy_frr.yml"

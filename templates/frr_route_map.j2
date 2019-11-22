@@ -1,4 +1,4 @@
-{% for rm in hostvars[inventory_hostname]['quagga_route_map'] %}
+{% for rm in vars['frr_router_route_maps'] %}
 {% if (rm.name is defined and rm.name != '') and
       (rm.actions is defined and rm.actions != '') %}
 {% for rma in rm.actions %}

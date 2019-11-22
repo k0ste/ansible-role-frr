@@ -1,6 +1,6 @@
-{% for r in hostvars[inventory_hostname]['quagga_router_ospf_multi'] %}
-{% if r.instance_id == item|string %}
-{{ 'router ospf ' + r.instance_id }}
+{% for r in hostvars[inventory_hostname]['frr_router_ospf_settings'] %}
+{% if r.instance_id is defined and r.instance_id != '' %}
+{{ 'router ospf ' ~ r.instance_id }}
 {% if r.router_id is defined and r.router_id | ipaddr('host') %}
 {{ ' ospf router-id ' + r.router_id }}
 {% endif %}
@@ -19,15 +19,21 @@
 {% elif di.enabled is defined and di.enabled == 'always' %}
 {{ ' default-information originate always' -}}
 {% endif %}
-{% if di.route_map is defined and di.route_map != '' %}{{ ' route-map ' + di.route_map }}{% endif %}
-{% if di.metric is defined and di.metric != '' %}{{ ' metric ' + di.metric }}{% endif %}
-{% if di.metric_type is defined and di.metric_type != '' %}{{ ' metric-type ' + di.metric_type }}{% endif %}
-
+{% if di.route_map is defined and di.route_map != '' %}
+{{ ' route-map ' + di.route_map -}}
+{% endif %}
+{% if di.metric is defined and di.metric != '' %}
+{{ ' metric ' + di.metric -}}
+{% endif %}
+{% if di.metric_type is defined and di.metric_type != '' %}
+{{ ' metric-type ' + di.metric_type -}}
+{% endif %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% if r.passive_interface is defined and r.passive_interface != '' %}
 {% for pi in r.passive_interface %}
-{{ ' passive-interface ' + pi }}
+{{ ' passive-interface ' ~ pi }}
 {% endfor %}
 {% endif %}
 {% if r.area is defined and r.area != '' %}
@@ -52,50 +58,41 @@
 {% for rr in r.redistribute %}
 {% if rr.connected is defined and rr.connected != '' %}
 {{ ' redistribute connected' -}}
-{% for rc in rr.connected %}
-{% if rc.route_map is defined and rc.route_map != '' %}{{ ' route-map ' + rc.route_map }}{% endif %}
-{% if rc.metric is defined and rc.metric != '' %}{{ ' metric ' + rc.metric }}{% endif %}
-{% if rc.metric_type is defined and rc.metric_type != '' %}{{ ' metric-type ' + rc.metric_type }}{% endif %}
-
+{% for r in rr.connected %}
+{% include 'frr_redistribute_generic.j2' %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% if rr.static is defined and rr.static != '' %}
 {{ ' redistribute static' -}}
-{% for rs in rr.static %}
-{% if rs.route_map is defined and rs.route_map != '' %}{{ ' route-map ' + rs.route_map }}{% endif %}
-{% if rs.metric is defined and rs.metric != '' %}{{ ' metric ' + rs.metric }}{% endif %}
-{% if rs.metric_type is defined and rs.metric_type != '' %}{{ ' metric-type ' + rs.metric_type }}{% endif %}
-
+{% for r in rr.static %}
+{% include 'frr_redistribute_generic.j2' %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% if rr.bgp is defined and rr.bgp != '' %}
 {{ ' redistribute bgp' -}}
-{% for rb in rr.bgp %}
-{% if rb.route_map is defined and rb.route_map != '' %}{{ ' route-map ' + rb.route_map }}{% endif %}
-{% if rb.metric is defined and rb.metric != '' %}{{ ' metric ' + rb.metric }}{% endif %}
-{% if rb.metric_type is defined and rb.metric_type != '' %}{{ ' metric-type ' + rb.metric_type }}{% endif %}
-
+{% for r in rr.bgp %}
+{% include 'frr_redistribute_generic.j2' %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% if rr.kernel is defined and rr.kernel != '' %}
 {{ ' redistribute kernel' -}}
-{% for rk in rr.kernel %}
-{% if rk.route_map is defined and rk.route_map != '' %}{{ ' route-map ' + rk.route_map }}{% endif %}
-{% if rk.metric is defined and rk.metric != '' %}{{ ' metric ' + rk.metric }}{% endif %}
-{% if rk.metric_type is defined and rk.metric_type != '' %}{{ ' metric-type ' + rk.metric_type }}{% endif %}
-
+{% for r in rr.kernel %}
+{% include 'frr_redistribute_generic.j2' %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% if rr.ospf is defined and rr.ospf != '' %}
-{% for ro in rr.ospf %}
-{{ ' redistribute ospf ' + ro.instance_id -}}
-{% if ro.route_map is defined and ro.route_map != '' %}{{ ' route-map ' + ro.route_map }}{% endif %}
-{% if ro.metric is defined and ro.metric != '' %}{{ ' metric ' + ro.metric }}{% endif %}
-{% if ro.metric_type is defined and ro.metric_type != '' %}{{ ' metric-type ' + ro.metric_type }}{% endif %}
-
+{% for r in rr.ospf %}
+{{ ' redistribute ospf ' + r.instance_id -}}
+{% include 'frr_redistribute_generic.j2' %}
+{{ ' ' }}
 {% endfor %}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
+{{ '!' }}
 {% endfor %}

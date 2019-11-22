@@ -1,12 +1,15 @@
-{% for a in hostvars[inventory_hostname]['quagga_access_list'] %}
+{% for a in vars['frr_router_access_lists'] %}
 {% if a.name is defined and a.name != '' %}
 {% if a.remark is defined and a.remark != '' %}
 {{ 'access-list ' + a.name + ' remark ' + a.remark }}
 {% endif %}
 {% if a.rules is defined and a.rules != '' %}
 {% for acl in a.rules %}
-{{ 'access-list ' + a.name + ' ' + acl }}
+{{ 'access-list ' ~ a.name ~ ' ' ~ 'seq ' ~ (loop.index * 5) ~ ' ' ~ acl }}
 {% endfor %}
 {% endif %}
+{% endif %}
+{% if loop.last %}
+{{ '!' }}
 {% endif %}
 {% endfor %}

@@ -1,0 +1,56 @@
+{% if vars['frr_zebra_settings'] is defined and vars['frr_zebra_settings'] %}
+{% for z in vars['frr_zebra_settings'] %}
+{% if z.hostname is defined and z.hostname != '' %}
+{{ 'hostname ' ~ z.hostname }}
+{% endif %}
+{% if z.log_commands is defined and z.log_commands == 'true' %}
+{{ 'log commands' }}
+{% endif %}
+{% if z.log_facility is defined and z.log_facility == 'true' %}
+{{ 'log facility' }}
+{% endif %}
+{% if z.log_file is defined and z.log_file != '' %}
+{{ 'log file ' + z.log_file }}
+{% endif %}
+{% if z.log_monitor is defined and z.log_monitor in ['alerts', 'critical',
+   'debugging', 'emergencies', 'errors', 'informational', 'notifications',
+   'warnings'] %}
+{{ 'log monitor ' + z.log_monitor }}
+{% endif %}
+{% if z.log_record_priority is defined and z.log_record_priority == 'true' %}
+{{ 'log record-priority' }}
+{% endif %}
+{% if z.log_stdout is defined and z.log_stdout in ['alerts', 'critical',
+   'debugging', 'emergencies', 'errors', 'informational', 'notifications',
+   'warnings'] %}
+{{ 'log stdout ' + z.log_stdout }}
+{% endif %}
+{% if z.log_syslog is defined and z.log_syslog in ['alerts', 'critical',
+      'debugging', 'emergencies', 'errors', 'informational', 'notifications',
+      'warnings'] %}
+{{ 'log syslog ' + z.log_syslog }}
+{% endif %}
+{% if z.log_timestamp_precision is defined and
+      (z.log_timestamp_precision > '0' <= '6') %}
+{{ 'log timestamp precision ' + z.log_timestamp_precision }}
+{% endif %}
+{% if z.service_integrated_vtysh_config is defined and
+      z.service_integrated_vtysh_config == 'true' %}
+{{ 'service integrated-vtysh-config' }}
+{% endif %}
+{% if z.service_advanced_vty is defined and z.service_advanced_vty == 'true' %}
+{{ 'service advanced-vty' }}
+{% endif %}
+{% if z.service_password_encryption is defined and
+      z.service_password_encryption == 'true' %}
+{{ 'service password-encryption' }}
+{% endif %}
+{% if z.password is defined and z.password != '' %}
+{{ 'password ' + z.password }}
+{% endif %}
+{% if z.enable_password is defined and z.enable_password != '' %}
+{{ 'enable password ' + z.enable_password }}
+{% endif %}
+{% endfor %}
+{{ '!' }}
+{% endif %}
