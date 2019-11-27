@@ -22,41 +22,41 @@ frr:
   daemons:
   - bgpd: 'yes'
     ospfd: 'yes'
-    ospf6d: 'yes'
-    ripd: 'yes'
-    ripngd: 'yes'
-    isisd: 'yes'
-    pimd: 'yes'
-    ldpd: 'yes'
-    nhrpd: 'yes'
-    eigrpd: 'yes'
-    babeld: 'yes'
-    sharpd: 'yes'
+    ospf6d: 'no'
+    ripd: 'no'
+    ripngd: 'no'
+    isisd: 'no'
+    pimd: 'no'
+    ldpd: 'no'
+    nhrpd: 'no'
+    eigrpd: 'no'
+    babeld: 'no'
+    sharpd: 'no'
     pbrd: 'yes'
     bfdd: 'yes'
-    fabricd: 'yes'
+    fabricd: 'no'
     vrrpd: 'yes'
     zebra: 'yes'
   vtysh_options:
   - vtysh_enable: 'yes'
-    zebra_options: '-A 127.0.0.1 -s 90000000 -d -f /etc/frr/zebra.conf'
-    bgpd_options: '-A 127.0.0.1 -M rpki -d -f /etc/frr/bgpd.conf'
-    ospfd_options: '-A 127.0.0.1 -d -f /etc/frr/ospfd.conf'
-    ospf6d_options: '-A ::1 -d -f /etc/frr/ospf6d.conf'
-    ripd_options: '-A 127.0.0.1 -d -f /etc/frr/ripd.conf'
-    ripngd_options: '-A ::1 -d -f /etc/frr/ripngd.conf'
-    isisd_options: '-A 127.0.0.1 -d -f /etc/frr/isisd.conf'
-    pimd_options: '-A 127.0.0.1 -d -f /etc/frr/pimd.conf'
-    ldpd_options: '-A 127.0.0.1 -d -f /etc/frr/ldpd.conf'
-    nhrpd_options: '-A 127.0.0.1 -d -f /etc/frr/nhrdp.conf'
-    eigrpd_options: '-A 127.0.0.1 -d -f /etc/frr/eigrpd.conf'
-    babeld_options: '-A 127.0.0.1 -d -f /etc/frr/babeld.conf'
-    sharpd_options: '-A 127.0.0.1 -d -f /etc/frr/sharpd.conf'
-    pbrd_options: '-A 127.0.0.1 -d -f /etc/frr/pbrd.conf'
-    staticd_options: '-A 127.0.0.1 -d -f /etc/frr/staticd.conf'
-    bfdd_options: '-A 127.0.0.1 -d -f /etc/frr/bfdd.conf'
-    fabricd_options: '-A 127.0.0.1 -d -f /etc/frr/fabricd.conf'
-    vrrpd_options: '-A 127.0.0.1 -d -f /etc/frr/vrrpd.conf'
+    zebra_options: '-A 127.0.0.1 -s 90000000 -d'
+    bgpd_options: '-A 127.0.0.1 -M rpki -d'
+    ospfd_options: '-A 127.0.0.1 -d'
+    ospf6d_options: '-A ::1 -d'
+    ripd_options: '-A 127.0.0.1 -d'
+    ripngd_options: '-A ::1 -d'
+    isisd_options: '-A 127.0.0.1 -d'
+    pimd_options: '-A 127.0.0.1 -d'
+    ldpd_options: '-A 127.0.0.1 -d'
+    nhrpd_options: '-A 127.0.0.1 -d'
+    eigrpd_options: '-A 127.0.0.1 -d'
+    babeld_options: '-A 127.0.0.1 -d'
+    sharpd_options: '-A 127.0.0.1 -d'
+    pbrd_options: '-A 127.0.0.1 -d'
+    staticd_options: '-A 127.0.0.1 -d'
+    bfdd_options: '-A 127.0.0.1 -d'
+    fabricd_options: '-A 127.0.0.1 -d'
+    vrrpd_options: '-A 127.0.0.1 -d'
   init_options:
   - max_fds: '1024'
     watchfrr_enable: 'yes'
@@ -270,6 +270,102 @@ frr:
         - ospf:
           - instance_id: '1'
             route_map: 'FROM_OSPF_1_TO_OSPF_2'
+      bgp:
+      - as_num: '198181'
+        router_id: '100.100.100.1'
+        bgp_graceful_restart: 'true'
+        neighbors:
+        - neighbor: '212.17.15.169'
+          remote_as: '25549'
+          description: 'avantel crit'
+        - neighbor: '95.156.85.193'
+          remote_as: '12389'
+          description: 'rostelecom crit'
+        - neighbor: '178.49.129.89'
+          remote_as: '31200'
+          description: 'novotelecom crit'
+        - neighbor: '185.1.13.1'
+          remote_as: '60430'
+          description: 'redix1 warn'
+        - neighbor: '185.1.13.2'
+          remote_as: '60430'
+          description: 'redix2 warn'
+        address_family_ipv4_unicast:
+        - networks:
+          - '193.150.124.0/24'
+          - '193.150.125.0/24'
+          neighbors:
+          - neighbor: '212.17.15.169'
+            distribute_list:
+            - in: '101'
+            prefix_list:
+            - out: 'opentech_bgp_advertise'
+            route_map:
+            - in: 'opentech_avantel_in'
+              out: 'opentech_avantel_out'
+            soft_reconfiguration_inbound: 'true'
+          - neighbor: '95.156.85.193'
+            distribute_list:
+            - in: '101'
+            prefix_list:
+            - out: 'opentech_bgp_advertise'
+            route_map:
+            - in: 'opentech_rostelecom_in'
+              out: 'opentech_rostelecom_out'
+            soft_reconfiguration_inbound: 'true'
+          - neighbor: '178.49.129.89'
+            distribute_list:
+            - in: '101'
+            prefix_list:
+            - out: 'opentech_bgp_advertise'
+            route_map:
+            - in: 'opentech_novotelecom_in'
+              out: 'opentech_novotelecom_out'
+            soft_reconfiguration_inbound: 'true'
+          - neighbor: '185.1.13.1'
+            distribute_list:
+            - in: '101'
+            prefix_list:
+            - out: 'opentech_bgp_advertise'
+            route_map:
+            - in: 'opentech_krsix_in'
+              out: 'opentech_krsix_out'
+            soft_reconfiguration_inbound: 'true'
+            filter_list:
+            - in: 'ixonly_in'
+          - neighbor: '185.1.13.2'
+            distribute_list:
+            - in: '101'
+            prefix_list:
+            - out: 'opentech_bgp_advertise'
+            route_map:
+            - in: 'opentech_krsix_in'
+              out: 'opentech_krsix_out'
+            soft_reconfiguration_inbound: 'true'
+            filter_list:
+            - in: 'ixonly_in'
+      bgp_as_path_access_list:
+      - name: 'avantel'
+        rules:
+        - 'permit ^_25549$'
+      - name: 'ertelecom'
+        rules:
+        - 'permit ^_9049$'
+      - name: 'ixonly_in'
+        rules:
+        - 'permit ^_[0-9]*$'
+      - name: 'novotelecom'
+        rules:
+        - 'permit ^_31200$'
+      - name: 'rostelecom'
+        rules:
+        - 'permit ^_12389$'
+      - name: 'rtcloud'
+        rules:
+        - 'permit ^_50166$'
+      - name: 'zsttk'
+        rules:
+        - 'permit ^_21127$'
       route_map:
       - name: 'DISTRIBUTE_TO_OSPF'
         actions:
@@ -287,6 +383,56 @@ frr:
           rules:
           - 'match ip address prefix-list FROM_TO'
         - action: 'deny 100'
+      - name: 'opentech_krsix_in'
+        actions:
+        - action: 'permit 10'
+          rules:
+          - 'set local-preference 200'
+      - name: 'opentech_krsix_out'
+        actions:
+        - action: 'permit 10'
+      - name: 'opentech_avantel_in'
+        actions:
+        - action: 'permit 10'
+          rules:
+          - 'match as-path avantel'
+          - 'set local-preference 300'
+        - action: 'permit 20'
+          rules:
+          - 'set local-preference 100'
+      - name: 'opentech_avantel_out'
+        actions:
+        - action: 'permit 10'
+      - name: 'opentech_rostelecom_in'
+        actions:
+        - action: 'permit 10'
+          rules:
+          - 'match as-path rostelecom'
+          - 'set local-preference 300'
+        - action: 'permit 20'
+          rules:
+          - 'set local-preference 100'
+      - name: 'opentech_rostelecom_out'
+        actions:
+        - action: 'permit 10'
+      - name: 'opentech_novotelecom_in'
+        actions:
+        - action: 'permit 10'
+          rules:
+          - 'match as-path novotelecom'
+          - 'set local-preference 300'
+        - action: 'permit 20'
+          rules:
+          - 'set local-preference 100'
+      - name: 'opentech_novotelecom_out'
+        actions:
+        - action: 'permit 10'
+      - name: 'blackhole'
+        actions:
+        - action: 'permit 10'
+          rules:
+          - 'match ip address prefix-list blackhole'
+          - 'set community 12389:55555'
       access_list:
       - name: 'vty'
         remark: 'Disable connections to vtysh from non localhost'
@@ -309,4 +455,14 @@ frr:
         rules:
         - 'deny 0.0.0.0/0'
         - 'permit 0.0.0.0/0 le 32'
+      - name: 'blackhole'
+        description: 'BlackHole RFC 7999'
+        rules:
+        - 'permit 193.150.124.100/32'
+        - 'deny any'
+      - name: 'opentech_bgp_advertise'
+        description: 'AS198181 ipv4 prefixes'
+        rules:
+        - 'permit 193.150.124.0/24'
+        - 'deny any'
 ```

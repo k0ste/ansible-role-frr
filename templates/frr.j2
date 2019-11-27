@@ -2,6 +2,7 @@
 {{ '# ' + ansible_managed }}
 {{ '# ' + 'Do not edit manually' }}
 
+{{ '!' }}
 {% if vars['frr_zebra_settings'] is defined and
       vars['frr_zebra_settings'] != [] %}
 {% include 'frr_zebra_settings.j2' %}
@@ -17,6 +18,10 @@
       vars['frr_router_ospf_settings'] != [] %}
 {% include 'frr_ospf_settings.j2' %}
 {% endif %}
+{% if vars['frr_router_bgp_settings'] is defined and
+      vars['frr_router_bgp_settings'] != [] %}
+{% include 'frr_bgp_settings.j2' %}
+{% endif %}
 {% if vars['frr_router_access_lists'] is defined and
       vars['frr_router_access_lists'] != [] %}
 {% include 'frr_access_lists.j2' %}
@@ -24,6 +29,10 @@
 {% if vars['frr_router_prefix_lists'] is defined and
       vars['frr_router_prefix_lists'] != [] %}
 {% include 'frr_prefix_list.j2' %}
+{% endif %}
+{% if vars['frr_router_bgp_access_lists'] is defined and
+      vars['frr_router_bgp_access_lists'] != [] %}
+{% include 'frr_bgp_access_lists.j2' %}
 {% endif %}
 {% if vars['frr_router_route_maps'] is defined and
       vars['frr_router_route_maps'] != [] %}

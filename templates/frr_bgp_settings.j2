@@ -1,0 +1,51 @@
+{% for r in hostvars[inventory_hostname]['frr_router_bgp_settings'] %}
+{% if r.as_num is defined and r.as_num != '' %}
+{{ 'router bgp ' ~ r.as_num }}
+{% if r.router_id is defined and r.router_id | ipaddr('host') %}
+{{ ' bgp router-id ' + r.router_id }}
+{% endif %}
+{% if r.bgp_graceful_restart is defined and r.bgp_graceful_restart == 'true' %}
+{{ ' bgp graceful-restart' }}
+{% endif %}
+{% if r.neighbors is defined and r.neighbors != '' %}
+{% for n in r.neighbors %}
+{% if n.neighbor is defined and n.neighbor | ipaddr('host') %}
+{% if n.remote_as is defined and n.remote_as != '' %}
+{{ ' neighbor ' ~ n.neighbor ~ ' remote-as ' ~ n.remote_as }}
+{% endif %}
+{% if n.description is defined and n.description != '' %}
+{{ ' neighbor ' ~ n.neighbor ~ ' description ' ~ n.description }}
+{% endif %}
+{% if n.shutdown is defined and n.shutdown == 'true' %}
+{{ ' neighbor ' ~ n.neighbor ~ ' shutdown' }}
+{% endif %}
+{% if n.passive is defined and n.passive == 'true' %}
+{{ ' neighbor ' ~ n.neighbor ~ ' passive' }}
+{% endif %}
+{% if n.port is defined and n.port != '' %}
+{{ ' neighbor ' ~ n.neighbor ~ ' port ' ~ n.port }}
+{% endif %}
+{% if n.solo is defined and n.solo == 'true' %}
+{{ ' neighbor ' + n.neighbor + ' solo ' }}
+{% endif %}
+{% if n.disable_connected_check is defined and
+      n.disable_connected_check == 'true' %}
+{{ ' neighbor ' + n.neighbor + ' disable-connected-check ' }}
+{% endif %}
+{% if n.advertisement_interval is defined and
+     (n.advertisement_interval > '0' <= '600') %}
+{{ ' neighbor ' + n.neighbor + ' advertisement-interval ' ~
+     n.advertisement_interval }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if r.address_family_ipv4_unicast is defined and
+      r.address_family_ipv4_unicast != '' %}
+{% for ipv4u in r.address_family_ipv4_unicast %}
+{% include 'frr_bgp_address_family_ipv4_unicast.j2' %}
+{% endfor %}
+{% endif %}
+{{ '\n!' }}
+{% endfor %}
