@@ -12,11 +12,12 @@
 {% endif %}
 {% if i.ip is defined and i.ip != '' %}
 {% for ii in i.ip %}
-{% if ii.address is defined and ii.address | ipaddr('host/prefix') %}
+{% if ii.address is defined and ii.address | ipaddr() %}
 {{ ' ip address ' + ii.address -}}
 {% if ii.label is defined and ii.label != '' %}
-{{ ' label ' + ii.label }}
+{{ ' label ' + ii.label -}}
 {% endif %}
+{{ '' }}
 {% endif %}
 {% if ii.ospf is defined and ii.ospf != '' %}
 {% for iio in ii.ospf %}
