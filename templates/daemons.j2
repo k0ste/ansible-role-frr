@@ -56,9 +56,6 @@
 {% if d.zebra is defined and d.zebra in ['yes', 'no'] %}
 {{ 'zebra=' + d.zebra }}
 {% endif %}
-{% if d.zebra is defined and d.zebra in ['yes', 'no'] %}
-{{ 'zebra=' + d.zebra }}
-{% endif %}
 {% endfor %}
 {% endif %}
 {% if vars['frr_router_ospf_settings'] is defined and
