@@ -1,3 +1,6 @@
 ---
 frr_service: 'frr'
 frr_package: 'frr'
+frr_conf_dest: '/etc/frr'
+frr_user: 'frr'
+frr_group: 'frr'
