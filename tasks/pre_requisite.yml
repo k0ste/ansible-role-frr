@@ -34,6 +34,6 @@
   file:
     path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] }}"
     state: "directory"
-    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
-    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    owner: "root"
+    group: "root"
     mode: "0750"
