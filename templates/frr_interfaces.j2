@@ -21,18 +21,16 @@
 {% endif %}
 {% if ii.ospf is defined and ii.ospf != '' %}
 {% for iio in ii.ospf %}
-{% if iio.cost is defined and iio.cost != '' %}
-{{ ' ip ospf cost ' + iio.cost }}
-{% endif %}
-{% if iio.instance_id is defined and iio.instance_id != '' %}
-{% if iio.area is defined and iio.area != '' %}
-{{ ' ip ospf ' + iio.instance_id + ' area '  + iio.area }}
-{% endif %}
-{% endif %}
+{% include 'frr_interface/frr_interface_ospf.j2' %}
 {% endfor %}
 {% endif %}
 {% endfor %}
 {% endif %}
+{% endif %}
+{% if i.vrrp is defined and i.vrrp != '' %}
+{% for iv in i.vrrp %}
+{% include 'frr_interface/frr_interface_vrrp.j2' %}
+{% endfor %}
 {% endif %}
 {{ '!' }}
 {% endfor %}

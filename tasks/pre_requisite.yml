@@ -16,6 +16,8 @@
       json_query('[].settings[].vty[]') }}"
     frr_routes: "{{ hostvars[inventory_hostname]['frr'] |
       json_query('[].settings[].routes[]') }}"
+    frr_vrrp: "{{ hostvars[inventory_hostname]['frr'] |
+      json_query('[].settings[].vrrp[]') }}"
     frr_interfaces: "{{ hostvars[inventory_hostname]['frr'] |
       json_query('[].settings[].interfaces[]') }}"
     frr_router_ospf_settings: "{{ hostvars[inventory_hostname]['frr'] |

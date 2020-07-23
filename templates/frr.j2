@@ -14,6 +14,9 @@
 {% if vars['frr_interfaces'] is defined and vars['frr_interfaces'] != [] %}
 {% include 'frr_interfaces.j2' %}
 {% endif %}
+{% if vars['frr_vrrp'] is defined and vars['frr_vrrp'] != [] %}
+{% include 'frr_vrrp.j2' %}
+{% endif %}
 {% if vars['frr_router_ospf_settings'] is defined and
       vars['frr_router_ospf_settings'] != [] %}
 {% include 'frr_ospf_settings.j2' %}

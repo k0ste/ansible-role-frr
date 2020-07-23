@@ -184,6 +184,13 @@ frr:
     - destination: '10.0.0.1/32'
       next_hop: 'reject'
       tag: '222'
+    vrrp:
+    - vrrp_autoconfigure_version: '3'
+      default:
+      - priority: '243'
+        advertisement_interval: '1500'
+        shutdown: 'true'
+        preempt: 'false'
     interfaces:
     - name: 'lo'
       description: 'Loopback0'
@@ -215,6 +222,24 @@ frr:
       ip:
       - ospf:
         - cost: '10'
+    - name: 'vrrp0'
+      description: 'VRRP0 neighbor'
+      ip:
+      - address: '172.16.222.1/30'
+      vrrp:
+      - router_id: '5'
+        ip: '172.16.222.1/30'
+        ipv6: ''
+        advertisement_interval: '1500'
+        priority: '254'
+    - name: 'vrrp1'
+      description: 'VRRP1 neighbor'
+      vrrp:
+      - router_id: '5'
+        ip: '172.16.223.1/30'
+        priority: '250'
+        preempt: 'false'
+        shutdown: 'true'
     router:
     - ospf:
       - instance_id: '1'
