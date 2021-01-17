@@ -1,6 +1,6 @@
 ---
 - name: frr | Deploy frr daemons
-  template:
+  ansible.builtin.template:
     src: "daemons.j2"
     dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
               'daemons.conf' }}"
@@ -10,7 +10,7 @@
   notify:
   - "Restart frr"
 - name: frr | Deploy frr configuration
-  template:
+  ansible.builtin.template:
     src: "frr.j2"
     dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
               'frr.conf' }}"
@@ -20,15 +20,15 @@
   notify:
   - "Restart frr"
 - name: frr | Enable frr service
-  service:
+  ansible.builtin.systemd:
     name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
     enabled: "yes"
   when:
   - "hostvars[inventory_hostname]['frr'] is defined"
   - "hostvars[inventory_hostname]['frr'] != ''"
   - "hostvars[inventory_hostname]['frr'] |
-     json_query(vars['frr_enable']) is defined"
+     community.general.json_query(vars['frr_enable']) is defined"
   - "hostvars[inventory_hostname]['frr'] |
-     json_query(vars['frr_enable']) == 'true'"
+     community.general.json_query(vars['frr_enable']) == 'true'"
   vars:
     frr_enable: "[] | map(&enable || 'false', @) | [0]"

@@ -1,20 +1,31 @@
 ---
 - name: frr | Install the required packages in Redhat derivatives
-  yum:
-    name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
-    state: "present"
-    update_cache: "yes"
+  block:
+  - name: frr | Install the required packages for RedHat via yum
+    ansible.builtin.yum:
+      name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
+      state: "present"
+      update_cache: "yes"
+    when:
+    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'yum'"
+  - name: frr | Install the required packages for RedHat via dnf
+    ansible.builtin.dnf:
+      name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
+      state: "present"
+      update_cache: "yes"
+    when:
+    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] == 'dnf'"
   when:
   - "hostvars[inventory_hostname]['ansible_os_family'] == 'RedHat'"
 - name: frr | Install the required packages in Debian derivatives
-  apt:
+  ansible.builtin.apt:
     name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
     state: "present"
     update_cache: "yes"
   when:
   - "hostvars[inventory_hostname]['ansible_os_family'] == 'Debian'"
 - name: frr | Install the required packages in ArchLinux derivatives
-  pacman:
+  community.general.pacman:
     name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
     state: "present"
     update_cache: "yes"

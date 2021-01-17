@@ -1,14 +1,15 @@
 {% for r in hostvars[inventory_hostname]['frr_router_ospf_settings'] %}
 {% if r.instance_id is defined and r.instance_id != '' %}
 {{ 'router ospf ' ~ r.instance_id }}
-{% if r.router_id is defined and r.router_id | ipaddr('host') %}
+{% if r.router_id is defined and r.router_id |
+  ansible.netcommon.ipaddr('host') %}
 {{ ' ospf router-id ' + r.router_id }}
 {% endif %}
 {% if r.log_adjacency_changes is defined and
-      r.log_adjacency_changes == 'true' %}
+  r.log_adjacency_changes == 'true' %}
 {{ ' log-adjacency-changes' }}
 {% elif r.log_adjacency_changes is defined and
-        r.log_adjacency_changes == 'detail' %}
+  r.log_adjacency_changes == 'detail' %}
 {{ ' log-adjacency-changes detail' }}
 {% endif %}
 {% if r.default_information_originate is defined and

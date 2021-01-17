@@ -8,11 +8,11 @@
 {{ ' vrrp ' ~ iv.router_id ~ ' advertisement-interval ' ~
   iv.advertisement_interval }}
 {% endif %}
-{% if iv.ip is defined and iv.ip | ipaddr('host') %}
-{{ ' vrrp ' ~ iv.router_id ~ ' ip ' ~ iv.ip }}
+{% if iv.ip is defined and iv.ip | ansible.netcommon.ipaddr('host') %}
+{{ ' vrrp ' ~ iv.router_id ~ ' ip ' + iv.ip }}
 {% endif %}
-{% if iv.ipv6 is defined and iv.ipv6 | ipaddr('host') %}
-{{ ' vrrp ' ~ iv.router_id ~ ' ipv6 ' ~ iv.ipv6 }}
+{% if iv.ipv6 is defined and iv.ipv6 | ansible.netcommon.ipaddr('host') %}
+{{ ' vrrp ' ~ iv.router_id ~ ' ipv6 ' + iv.ipv6 }}
 {% endif %}
 {% if iv.shutdown is defined and iv.shutdown == 'true' %}
 {{ ' vrrp ' ~ iv.router_id ~ ' shutdown' }}

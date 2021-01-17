@@ -1,14 +1,14 @@
 ---
 - name: Restart frr
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
     state: "reloaded"
   when:
   - "hostvars[inventory_hostname]['frr'] is defined"
   - "hostvars[inventory_hostname]['frr'] != ''"
   - "hostvars[inventory_hostname]['frr'] |
-     json_query(vars['frr_restart']) is defined"
+     community.general.json_query(vars['frr_restart']) is defined"
   - "hostvars[inventory_hostname]['frr'] |
-     json_query(vars['frr_restart']) == 'true'"
+     community.general.json_query(vars['frr_restart']) == 'true'"
   vars:
     frr_restart: "[] | map(&restart || 'false', @) | [0]"

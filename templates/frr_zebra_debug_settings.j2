@@ -1,7 +1,7 @@
 {% if vars['frr_zebra_settings'] is defined and vars['frr_zebra_settings'] %}
 {% for z in vars['frr_zebra_settings'] %}
 {% if z.debug_babel is defined and z.debug_babel in ['all', 'common', 'filter',
-      'interface', 'kernel', 'route', 'timeout'] %}
+  'interface', 'kernel', 'route', 'timeout'] %}
 {{ 'debug babel ' + z.debug_babel }}
 {% endif %}
 {% if z.debug_bgp_allow_martians is defined and
@@ -13,11 +13,12 @@
 {{ 'debug bgp as4 segment' }}
 {% endif %}
 {% if z.debug_bgp_bestpath is defined and z.debug_bgp_bestpath != '' %}
-{% if z.debug_bgp_bestpath is string and z.debug_bgp_bestpath | ipaddr('net') %}
+{% if z.debug_bgp_bestpath is string and z.debug_bgp_bestpath |
+  ansible.netcommon.ipaddr('net') %}
 {{ 'debug bgp bestpath ' + z.debug_bgp_bestpath }}
 {% elif z.debug_bgp_bestpath is sequence %}
 {% for zb in z.debug_bgp_bestpath %}
-{% if zb | ipaddr('net') %}
+{% if zb | ansible.netcommon.ipaddr('net') %}
 {{ 'debug bgp bestpath ' + zb }}
 {% endif %}
 {% endfor %}
@@ -27,13 +28,13 @@
 {{ 'debug bgp keepalives' }}
 {% endif %}
 {% if z.debug_bgp_keepalives_peers is defined and
-      z.debug_bgp_keepalives_peers != '' %}
+  z.debug_bgp_keepalives_peers != '' %}
 {% if z.debug_bgp_keepalives_peers is string and
-      z.debug_bgp_keepalives_peers | ipaddr('net') %}
+  z.debug_bgp_keepalives_peers | ansible.netcommon.ipaddr('net') %}
 {{ 'debug bgp keepalives ' + z.debug_bgp_keepalives_peers }}
 {% elif z.debug_bgp_keepalives_peers is sequence %}
 {% for zk in z.debug_bgp_keepalives_peers %}
-{% if zk | ipaddr('host') %}
+{% if zk | ansible.netcommon.ipaddr('host') %}
 {{ 'debug bgp keepalives ' + zk }}
 {% endif %}
 {% endfor %}
@@ -47,13 +48,13 @@
 {{ 'debug bgp neighbor-events' }}
 {% endif %}
 {% if z.debug_bgp_neighbor_events_peers is defined and
-      z.debug_bgp_neighbor_events_peers != '' %}
+  z.debug_bgp_neighbor_events_peers != '' %}
 {% if z.debug_bgp_neighbor_events_peers is string and
-      z.debug_bgp_neighbor_events_peers | ipaddr('net') %}
+z.debug_bgp_neighbor_events_peers | ansible.netcommon.ipaddr('net') %}
 {{ 'debug bgp neighbor-events ' + z.debug_bgp_neighbor_events_peers }}
 {% elif z.debug_bgp_neighbor_events_peers is sequence %}
 {% for zn in z.debug_bgp_neighbor_events_peers %}
-{% if zn | ipaddr('host') %}
+{% if zn | ansible.netcommon.ipaddr('host') %}
 {{ 'debug bgp neighbor-events ' + zn }}
 {% endif %}
 {% endfor %}
@@ -79,20 +80,20 @@
 {{ 'debug bgp zebra' }}
 {% endif %}
 {% if z.debug_bgp_zebra_prefix is defined and
-      z.debug_bgp_zebra_prefix != '' %}
+  z.debug_bgp_zebra_prefix != '' %}
 {% if z.debug_bgp_zebra_prefix is string and
-      z.debug_bgp_zebra_prefix | ipaddr('host/prefix') %}
+  z.debug_bgp_zebra_prefix | ansible.netcommon.ipaddr('host/prefix') %}
 {{ 'debug bgp zebra prefix ' + z.debug_bgp_zebra_prefix }}
 {% elif z.debug_bgp_zebra_prefix is sequence %}
 {% for zz in z.debug_bgp_zebra_prefix %}
-{% if zz | ipaddr('host/prefix') %}
+{% if zz | ansible.netcommon.ipaddr('host/prefix') %}
 {{ 'debug bgp zebra prefix ' + zz }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
 {% if z.debug_memstats_at_exit is defined and
-      z.debug_memstats_at_exit == 'true' %}
+  z.debug_memstats_at_exit == 'true' %}
 {{ 'debug memstats-at-exit' }}
 {% endif %}
 {% if z.debug_ospf_event is defined and z.debug_ospf_event == 'true' %}
@@ -144,7 +145,7 @@
 {{ 'debug vrrp arp' }}
 {% endif %}
 {% if z.debug_vrrp_autoconfigure is defined and
-      z.debug_vrrp_autoconfigure == 'true' %}
+  z.debug_vrrp_autoconfigure == 'true' %}
 {{ 'debug vrrp autoconfigure' }}
 {% endif %}
 {% if z.debug_vrrp_ndisc is defined and z.debug_vrrp_ndisc == 'true' %}
@@ -184,7 +185,7 @@
 {{ 'debug zebra packet' }}
 {% endif %}
 {% if z.debug_zebra_pseudowires is defined and
-      z.debug_zebra_pseudowires == 'true' %}
+  z.debug_zebra_pseudowires == 'true' %}
 {{ 'debug zebra pseudowires' }}
 {% endif %}
 {% if z.debug_zebra_rib is defined and z.debug_zebra_rib == 'true' %}
