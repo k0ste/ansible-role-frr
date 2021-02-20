@@ -8,7 +8,7 @@
     group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
     mode: "0640"
   notify:
-  - "Restart frr"
+    - "Restart frr"
 - name: frr | Deploy frr configuration
   ansible.builtin.template:
     src: "frr.j2"
@@ -18,17 +18,17 @@
     group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
     mode: "0640"
   notify:
-  - "Restart frr"
+    - "Restart frr"
 - name: frr | Enable frr service
   ansible.builtin.systemd:
     name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
     enabled: "yes"
   when:
-  - "hostvars[inventory_hostname]['frr'] is defined"
-  - "hostvars[inventory_hostname]['frr'] != ''"
-  - "hostvars[inventory_hostname]['frr'] |
-     community.general.json_query(vars['frr_enable']) is defined"
-  - "hostvars[inventory_hostname]['frr'] |
-     community.general.json_query(vars['frr_enable']) == 'true'"
+    - "hostvars[inventory_hostname]['frr'] is defined"
+    - "hostvars[inventory_hostname]['frr'] != ''"
+    - "hostvars[inventory_hostname]['frr'] |
+       community.general.json_query(vars['frr_enable']) is defined"
+    - "hostvars[inventory_hostname]['frr'] |
+       community.general.json_query(vars['frr_enable']) == 'true'"
   vars:
     frr_enable: "[] | map(&enable || 'false', @) | [0]"

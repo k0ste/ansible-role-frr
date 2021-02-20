@@ -2,12 +2,12 @@
 - import_tasks: "pre_requisite.yml"
 - include_tasks: "packages.yml"
   when:
-  - "hostvars[inventory_hostname]['frr'] is defined"
-  - "hostvars[inventory_hostname]['frr'] != ''"
-  - "hostvars[inventory_hostname]['frr'] |
-     community.general.json_query(vars['frr_install_package']) is defined"
-  - "hostvars[inventory_hostname]['frr'] |
-     community.general.json_query(vars['frr_install_package']) == 'true'"
+    - "hostvars[inventory_hostname]['frr'] is defined"
+    - "hostvars[inventory_hostname]['frr'] != ''"
+    - "hostvars[inventory_hostname]['frr'] |
+       community.general.json_query(vars['frr_install_package']) is defined"
+    - "hostvars[inventory_hostname]['frr'] |
+       community.general.json_query(vars['frr_install_package']) == 'true'"
   vars:
     frr_install_package: "[] | map(&install_package || 'false', @) | [0]"
 - import_tasks: "deploy_frr.yml"
