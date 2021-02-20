@@ -197,8 +197,10 @@ frr:
       link_detect: 'true'
       multicast: 'true'
       ip:
-      - address: '172.16.255.1/32'
+      - address: '172.16.254.1/32'
         label: 'Router1'
+      - address: '172.16.255.1/32'
+        label: 'Router2'
     - name: 'tap0'
       description: 'openvpn0 description'
       ip:
