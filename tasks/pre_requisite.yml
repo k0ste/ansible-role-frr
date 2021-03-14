@@ -1,7 +1,7 @@
 ---
 - name: frr | Add the OS specific variables
-  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] +
-                    '.yml' }}"
+  ansible.builtin.include_vars:
+    file: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: frr | Set facts about frr role
   ansible.builtin.set_fact:
     frr_daemons_settings: "{{ hostvars[inventory_hostname]['frr'] |

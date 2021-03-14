@@ -5,7 +5,7 @@ configuration.
 
 ## Requirements for usage
 
-* Ansible 2.10+;
+* Ansible 3.0.0+;
 
 ## Example configuration
 
