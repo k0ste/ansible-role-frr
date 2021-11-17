@@ -3,7 +3,7 @@
   ansible.builtin.template:
     src: "daemons.j2"
     dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
-              'daemons.conf' }}"
+      hostvars[inventory_hostname]['frr_daemons_file'] }}"
     owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
     group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
     mode: "0640"
@@ -12,11 +12,11 @@
 - name: frr | Deploy frr configuration
   ansible.builtin.template:
     src: "frr.j2"
-    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/' +
-              'frr.conf' }}"
+    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/frr.conf' }}"
     owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
     group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
     mode: "0640"
+    validate: "vtysh -C -f %s"
   notify:
     - "Restart frr"
 - name: frr | Enable frr service

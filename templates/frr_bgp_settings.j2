@@ -35,7 +35,7 @@
 {{ ' neighbor ' + n.neighbor + ' disable-connected-check ' }}
 {% endif %}
 {% if n.advertisement_interval is defined and
-     (n.advertisement_interval > '0' <= '600') %}
+  (n.advertisement_interval > '0' <= '600') %}
 {{ ' neighbor ' + n.neighbor + ' advertisement-interval ' ~
   n.advertisement_interval }}
 {% endif %}
@@ -44,7 +44,7 @@
 {% endif %}
 {% endif %}
 {% if r.address_family_ipv4_unicast is defined and
-r.address_family_ipv4_unicast != '' %}
+  r.address_family_ipv4_unicast != '' %}
 {% for ipv4u in r.address_family_ipv4_unicast %}
 {% include 'frr_bgp_address_family_ipv4_unicast.j2' %}
 {% endfor %}
