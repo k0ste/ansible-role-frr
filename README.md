@@ -304,19 +304,32 @@ frr:
         neighbors:
         - neighbor: '212.17.15.169'
           remote_as: '25549'
-          description: 'avantel crit'
+          bfd_check_control_plane_failure: 'true'
+          bfd_profile: 'BFD_PROFILE'
+          capability: 'dynamic'
+          description: 'avantel'
+          disable_connected_check: 'true'
+          ebgp_multihop: '255'
+          enforce_first_as: 'true'
+          enforce_multihop: 'true'
+          graceful_restart: 'true'
+          graceful_restart_disable: 'true'
+          graceful_restart_helper: 'true'
+          interface: 'vlan597'
+          maximum_prefix_out: '220'
+          override_capability: 'true'
+          passive: 'false'
+          peer_group: 'PEER_GROUP_NAME'
+          sender_as_path_loop_detection: 'true'
         - neighbor: '95.156.85.193'
           remote_as: '12389'
-          description: 'rostelecom crit'
+          description: 'rostelecom'
+          solo: 'true'
+          tcp_mss: '1400'
         - neighbor: '178.49.129.89'
           remote_as: '31200'
-          description: 'novotelecom crit'
-        - neighbor: '185.1.13.1'
-          remote_as: '60430'
-          description: 'redix1 warn'
-        - neighbor: '185.1.13.2'
-          remote_as: '60430'
-          description: 'redix2 warn'
+          description: 'novotelecom'
+          strict_capability_match: 'true'
         address_family_ipv4_unicast:
         - networks:
           - '193.150.124.0/24'
@@ -349,28 +362,6 @@ frr:
             - in: 'opentech_novotelecom_in'
               out: 'opentech_novotelecom_out'
             soft_reconfiguration_inbound: 'true'
-          - neighbor: '185.1.13.1'
-            distribute_list:
-            - in: '101'
-            prefix_list:
-            - out: 'opentech_bgp_advertise'
-            route_map:
-            - in: 'opentech_krsix_in'
-              out: 'opentech_krsix_out'
-            soft_reconfiguration_inbound: 'true'
-            filter_list:
-            - in: 'ixonly_in'
-          - neighbor: '185.1.13.2'
-            distribute_list:
-            - in: '101'
-            prefix_list:
-            - out: 'opentech_bgp_advertise'
-            route_map:
-            - in: 'opentech_krsix_in'
-              out: 'opentech_krsix_out'
-            soft_reconfiguration_inbound: 'true'
-            filter_list:
-            - in: 'ixonly_in'
       bgp_as_path_access_list:
       - name: 'avantel'
         rules:
@@ -387,12 +378,6 @@ frr:
       - name: 'rostelecom'
         rules:
         - 'permit ^_12389$'
-      - name: 'rtcloud'
-        rules:
-        - 'permit ^_50166$'
-      - name: 'zsttk'
-        rules:
-        - 'permit ^_21127$'
       route_map:
       - name: 'DISTRIBUTE_TO_OSPF'
         actions:
@@ -410,14 +395,6 @@ frr:
           rules:
           - 'match ip address prefix-list FROM_TO'
         - action: 'deny 100'
-      - name: 'opentech_krsix_in'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'set local-preference 200'
-      - name: 'opentech_krsix_out'
-        actions:
-        - action: 'permit 10'
       - name: 'opentech_avantel_in'
         actions:
         - action: 'permit 10'
