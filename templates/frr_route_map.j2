@@ -8,10 +8,12 @@
 {{ ' ' + r }}
 {% endfor %}
 {% if not loop.last %}
+{{ 'exit' }}
 {{ '!' }}
 {% endif %}
 {% endif %}
 {% endfor %}
 {% endif %}
+{{ 'exit' }}
 {{ '!' }}
 {% endfor %}
