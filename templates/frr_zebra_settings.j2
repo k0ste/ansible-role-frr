@@ -1,5 +1,3 @@
-{% if vars['frr_zebra_settings'] is defined and vars['frr_zebra_settings'] %}
-{% for z in vars['frr_zebra_settings'] %}
 {% if z.hostname is defined and z.hostname != '' %}
 {{ 'hostname ' ~ z.hostname }}
 {% endif %}
@@ -50,8 +48,4 @@
 {% endif %}
 {% if z.enable_password is defined and z.enable_password != '' %}
 {{ 'enable password ' + z.enable_password }}
-{% endif %}
-{% endfor %}
-{{ 'exit' }}
-{{ '!' }}
 {% endif %}

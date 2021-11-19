@@ -5,8 +5,13 @@
 {{ '!' }}
 {% if vars['frr_zebra_settings'] is defined and
       vars['frr_zebra_settings'] != [] %}
+{% for z in vars['frr_zebra_settings'] %}
 {% include 'frr_zebra_settings.j2' %}
 {% include 'frr_zebra_debug_settings.j2' %}
+{% if loop.last %}
+{{ '!' }}
+{% endif %}
+{% endfor %}
 {% endif %}
 {% if vars['frr_routes'] is defined and vars['frr_routes'] != [] %}
 {% include 'frr_routes.j2' %}

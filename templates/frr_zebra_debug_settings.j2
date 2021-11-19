@@ -1,5 +1,3 @@
-{% if vars['frr_zebra_settings'] is defined and vars['frr_zebra_settings'] %}
-{% for z in vars['frr_zebra_settings'] %}
 {% if z.debug_babel is defined and z.debug_babel in ['all', 'common', 'filter',
   'interface', 'kernel', 'route', 'timeout'] %}
 {{ 'debug babel ' + z.debug_babel }}
@@ -193,8 +191,4 @@ z.debug_bgp_neighbor_events_peers | ansible.netcommon.ipaddr('net') %}
 {% endif %}
 {% if z.debug_zebra_vxlan is defined and z.debug_zebra_vxlan == 'true' %}
 {{ 'debug zebra vxlan' }}
-{% endif %}
-{% endfor %}
-{{ 'exit' }}
-{{ '!' }}
 {% endif %}
