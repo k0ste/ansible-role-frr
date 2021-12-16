@@ -206,6 +206,7 @@ frr:
       ip:
       - ospf:
         - cost: '100'
+          priority: '255'
         - instance_id: '1'
           area: '0.0.0.2'
         - instance_id: '2'

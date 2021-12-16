@@ -1,6 +1,9 @@
 {% if iio.cost is defined and iio.cost != '' %}
 {{ ' ip ospf cost ' + iio.cost }}
 {% endif %}
+{% if iio.priority is defined and iio.priority >= '0' <= '255' %}
+{{ ' ip ospf priority ' ~ iio.priority }}
+{% endif %}
 {% if iio.instance_id is defined and iio.instance_id != '' %}
 {% if iio.area is defined and iio.area != '' %}
 {{ ' ip ospf ' + iio.instance_id + ' area '  + iio.area }}
