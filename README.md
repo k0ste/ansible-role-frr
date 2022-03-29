@@ -268,6 +268,7 @@ frr:
             route_map: 'DEFAULT_INFORMATION'
             metric: '40'
             metric_type: '2'
+        distance: '100'
         passive_interface:
         - 'Tunnel0'
         - 'Tunnel1'

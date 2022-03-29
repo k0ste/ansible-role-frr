@@ -12,6 +12,10 @@
   r.log_adjacency_changes == 'detail' %}
 {{ ' log-adjacency-changes detail' }}
 {% endif %}
+{% if (r.distance is defined) and (r.distance | int() > 1 and
+  r.distance | int() <= 255) %}
+{{ ' distance ' ~ r.distance }}
+{% endif %}
 {% if r.default_information_originate is defined and
       r.default_information_originate != '' %}
 {% for di in r.default_information_originate %}
