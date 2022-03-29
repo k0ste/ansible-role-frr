@@ -278,6 +278,7 @@ frr:
           filter_list_out: 'FILTER_PREFIX_OUT'
           import_list: 'ACCESS_LIST_IMPORT'
           export_list: 'ACCESS_LIST_EXPORT'
+        distance: '111'
         redistribute:
         - connected:
           - route_map: 'TO_OSPF_CONNECTED'

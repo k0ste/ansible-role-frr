@@ -55,6 +55,9 @@
 {% endif %}
 {% endfor %}
 {% endif %}
+{% if r.distance is defined and (r.distance >= 1 or  r.distance <= 255 %}
+{{ ' distance ' + r.distance -}}
+{% endif %}
 {% if r.redistribute is defined and r.redistribute != '' %}
 {% for rr in r.redistribute %}
 {% if rr.connected is defined and rr.connected != '' %}
