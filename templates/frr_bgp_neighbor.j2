@@ -1,3 +1,6 @@
+{% if n.remote_as is defined and n.remote_as != '' %}
+{{ ' neighbor ' + n.neighbor + ' remote-as ' ~ n.remote_as }}
+{% endif %}
 {% if n.advertisement_interval is defined and
   (n.advertisement_interval > '0' <= '600') %}
 {{ ' neighbor ' + n.neighbor + ' advertisement-interval ' ~
@@ -61,9 +64,6 @@
 {% endif %}
 {% if n.port is defined and n.port != '' %}
 {{ ' neighbor ' + n.neighbor + ' port ' ~ n.port }}
-{% endif %}
-{% if n.remote_as is defined and n.remote_as != '' %}
-{{ ' neighbor ' + n.neighbor + ' remote-as ' ~ n.remote_as }}
 {% endif %}
 {% if n.sender_as_path_loop_detection is defined and
   n.sender_as_path_loop_detection == 'true' %}
