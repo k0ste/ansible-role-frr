@@ -12,11 +12,11 @@
 {% endif %}
 {% if z.debug_bgp_bestpath is defined and z.debug_bgp_bestpath != '' %}
 {% if z.debug_bgp_bestpath is string and z.debug_bgp_bestpath |
-  ansible.netcommon.ipaddr('net') %}
+  ansible.utils.ipaddr('net') %}
 {{ 'debug bgp bestpath ' + z.debug_bgp_bestpath }}
 {% elif z.debug_bgp_bestpath is sequence %}
 {% for zb in z.debug_bgp_bestpath %}
-{% if zb | ansible.netcommon.ipaddr('net') %}
+{% if zb | ansible.utils.ipaddr('net') %}
 {{ 'debug bgp bestpath ' + zb }}
 {% endif %}
 {% endfor %}
@@ -28,11 +28,11 @@
 {% if z.debug_bgp_keepalives_peers is defined and
   z.debug_bgp_keepalives_peers != '' %}
 {% if z.debug_bgp_keepalives_peers is string and
-  z.debug_bgp_keepalives_peers | ansible.netcommon.ipaddr('net') %}
+  z.debug_bgp_keepalives_peers | ansible.utils.ipaddr('net') %}
 {{ 'debug bgp keepalives ' + z.debug_bgp_keepalives_peers }}
 {% elif z.debug_bgp_keepalives_peers is sequence %}
 {% for zk in z.debug_bgp_keepalives_peers %}
-{% if zk | ansible.netcommon.ipaddr('host') %}
+{% if zk | ansible.utils.ipaddr('host') %}
 {{ 'debug bgp keepalives ' + zk }}
 {% endif %}
 {% endfor %}
@@ -48,11 +48,11 @@
 {% if z.debug_bgp_neighbor_events_peers is defined and
   z.debug_bgp_neighbor_events_peers != '' %}
 {% if z.debug_bgp_neighbor_events_peers is string and
-z.debug_bgp_neighbor_events_peers | ansible.netcommon.ipaddr('net') %}
+z.debug_bgp_neighbor_events_peers | ansible.utils.ipaddr('net') %}
 {{ 'debug bgp neighbor-events ' + z.debug_bgp_neighbor_events_peers }}
 {% elif z.debug_bgp_neighbor_events_peers is sequence %}
 {% for zn in z.debug_bgp_neighbor_events_peers %}
-{% if zn | ansible.netcommon.ipaddr('host') %}
+{% if zn | ansible.utils.ipaddr('host') %}
 {{ 'debug bgp neighbor-events ' + zn }}
 {% endif %}
 {% endfor %}
@@ -80,11 +80,11 @@ z.debug_bgp_neighbor_events_peers | ansible.netcommon.ipaddr('net') %}
 {% if z.debug_bgp_zebra_prefix is defined and
   z.debug_bgp_zebra_prefix != '' %}
 {% if z.debug_bgp_zebra_prefix is string and
-  z.debug_bgp_zebra_prefix | ansible.netcommon.ipaddr('host/prefix') %}
+  z.debug_bgp_zebra_prefix | ansible.utils.ipaddr('host/prefix') %}
 {{ 'debug bgp zebra prefix ' + z.debug_bgp_zebra_prefix }}
 {% elif z.debug_bgp_zebra_prefix is sequence %}
 {% for zz in z.debug_bgp_zebra_prefix %}
-{% if zz | ansible.netcommon.ipaddr('host/prefix') %}
+{% if zz | ansible.utils.ipaddr('host/prefix') %}
 {{ 'debug bgp zebra prefix ' + zz }}
 {% endif %}
 {% endfor %}

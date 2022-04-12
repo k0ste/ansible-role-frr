@@ -2,7 +2,7 @@
 {% if r.instance_id is defined and r.instance_id != '' %}
 {{ 'router ospf ' ~ r.instance_id }}
 {% if r.router_id is defined and r.router_id |
-  ansible.netcommon.ipaddr('host') %}
+  ansible.utils.ipaddr('host') %}
 {{ ' ospf router-id ' + r.router_id }}
 {% endif %}
 {% if r.log_adjacency_changes is defined and

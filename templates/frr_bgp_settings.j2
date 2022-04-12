@@ -2,7 +2,7 @@
 {% if r.as_num is defined and r.as_num != '' %}
 {{ 'router bgp ' ~ r.as_num }}
 {% if r.router_id is defined and r.router_id |
-  ansible.netcommon.ipaddr('host') %}
+  ansible.utils.ipaddr('host') %}
 {{ ' bgp router-id ' + r.router_id }}
 {% endif %}
 {% if r.bgp_graceful_restart is defined and r.bgp_graceful_restart == 'true' %}
@@ -11,7 +11,7 @@
 {% if r.neighbors is defined and r.neighbors != '' %}
 {% for n in r.neighbors %}
 {% if n.neighbor is defined and n.neighbor |
-  ansible.netcommon.ipaddr('host') %}
+  ansible.utils.ipaddr('host') %}
 {% include 'frr_bgp_neighbor.j2' %}
 {% endif %}
 {% endfor %}

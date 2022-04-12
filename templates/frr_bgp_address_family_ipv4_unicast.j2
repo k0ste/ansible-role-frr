@@ -2,7 +2,7 @@
 {{ ' address-family ipv4 unicast' }}
 {% if ipv4u.networks is defined and ipv4u.networks != '' %}
 {% for net in ipv4u.networks %}
-{% if net is defined and net | ansible.netcommon.ipaddr('net') %}
+{% if net is defined and net | ansible.utils.ipaddr('net') %}
 {{ '  network ' + net }}
 {% endif %}
 {% endfor %}
@@ -10,7 +10,7 @@
 {% if ipv4u.neighbors is defined and ipv4u.neighbors != '' %}
 {% for nipv4 in ipv4u.neighbors %}
 {% if nipv4.neighbor is defined and nipv4.neighbor |
-  ansible.netcommon.ipaddr('host') %}
+  ansible.utils.ipaddr('host') %}
 {% if nipv4.soft_reconfiguration_inbound is defined and
       nipv4.soft_reconfiguration_inbound == 'true' %}
 {{ '  neighbor ' ~ nipv4.neighbor ~ ' soft-reconfiguration inbound' }}

@@ -12,7 +12,7 @@
 {% endif %}
 {% if i.ip is defined and i.ip != '' %}
 {% for ii in i.ip %}
-{% if ii.address is defined and ii.address | ansible.netcommon.ipaddr() %}
+{% if ii.address is defined and ii.address | ansible.utils.ipaddr() %}
 {{ ' ip address ' + ii.address -}}
 {% if ii.label is defined and ii.label != '' %}
 {{ ' label ' + ii.label -}}
