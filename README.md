@@ -225,6 +225,14 @@ frr:
       ip:
       - ospf:
         - cost: '10'
+    - name: 'tap3'
+      description: 'openvpn3 description'
+      ip:
+      - ospf:
+        - cost: '100'
+        - instance_id: '1'
+          area: '0.0.0.2'
+        - network: 'point-to-multipoint'
     - name: 'vrrp0'
       description: 'VRRP0 neighbor'
       ip:

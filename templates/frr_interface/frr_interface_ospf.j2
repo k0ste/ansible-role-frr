@@ -1,6 +1,9 @@
 {% if iio.cost is defined and iio.cost != '' %}
 {{ ' ip ospf cost ' + iio.cost }}
 {% endif %}
+{% if iio.network is defined and iio.network in ['broadcast', 'non-broadcast', 'point-to-multipoint', 'point-to-point'] %}
+{{ ' ip ospf network ' + iio.network }}
+{% endif %}
 {% if iio.priority is defined and iio.priority >= '0' <= '255' %}
 {{ ' ip ospf priority ' ~ iio.priority }}
 {% endif %}
