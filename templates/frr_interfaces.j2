@@ -1,34 +1,37 @@
 {% for i in vars['frr_interfaces'] %}
-{% if i.name is defined and i.name != '' %}
-{{ 'interface ' + i.name }}
-{% if i.description is defined and i.description != '' %}
-{{ ' description ' + i.description }}
+{% if i['name'] is defined and i['name'] != '' %}
+{{ 'interface ' + i['name'] }}
+{% if i['description'] is defined and i['description'] != '' %}
+{{ ' description ' + i['description'] }}
 {% endif %}
-{% if i.link_detect is defined and i.link_detect == 'true' %}
+{% if i['link_detect'] is defined and i['link_detect'] == 'true' %}
 {{ ' link-detect' }}
 {% endif %}
-{% if i.multicast is defined and i.multicast == 'true' %}
-{{ ' multicast' }}
-{% endif %}
-{% if i.ip is defined and i.ip != '' %}
-{% for ii in i.ip %}
-{% if ii.address is defined and ii.address | ansible.utils.ipaddr() %}
-{{ ' ip address ' + ii.address -}}
-{% if ii.label is defined and ii.label != '' %}
-{{ ' label ' + ii.label -}}
+{% if i['ip'] is defined and i['ip'] != '' %}
+{% for ii in i['ip'] %}
+{% if ii['address'] is defined and ii['address'] | ansible.utils.ipaddr() %}
+{{ ' ip address ' + ii['address'] -}}
+{% if ii['label'] is defined and ii['label'] != '' %}
+{{ ' label ' + ii['label'] -}}
 {% endif %}
 {{ '' }}
 {% endif %}
-{% if ii.ospf is defined and ii.ospf != '' %}
-{% for iio in ii.ospf %}
+{% if ii['ospf'] is defined and ii['ospf'] != '' %}
+{% for iio in ii['ospf'] %}
 {% include 'frr_interface/frr_interface_ospf.j2' %}
 {% endfor %}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if i.vrrp is defined and i.vrrp != '' %}
-{% for iv in i.vrrp %}
+{% if i['pbr_policy'] is defined and i['pbr_policy'] != '' %}
+{{ ' pbr-policy ' ~ i['pbr_policy'] }}
+{% endif %}
+{% if i['multicast'] is defined and i['multicast'] == 'true' %}
+{{ ' multicast' }}
+{% endif %}
+{% if i['vrrp'] is defined and i['vrrp'] != '' %}
+{% for iv in i['vrrp'] %}
 {% include 'frr_interface/frr_interface_vrrp.j2' %}
 {% endfor %}
 {% endif %}

@@ -1,13 +1,13 @@
 {% for rm in vars['frr_router_route_maps'] %}
-{% if (rm.name is defined and rm.name != '') and
-      (rm.actions is defined and rm.actions != '') %}
-{% for rma in rm.actions %}
-{{ 'route-map ' + rm.name + ' ' + rma.action }}
-{% if rma.rules is defined and rma.rules != '' %}
-{% for r in rma.rules %}
+{% if (rm['name'] is defined and rm['name'] != '') and
+  (rm['actions'] is defined and rm['actions'] != '') %}
+{% for rma in rm['actions'] %}
+{{ 'route-map ' + rm['name'] + ' ' + rma['action'] }}
+{% if rma['rules'] is defined and rma['rules'] != '' %}
+{% for r in rma['rules'] %}
 {{ ' ' + r }}
 {% endfor %}
-{% if not loop.last %}
+{% if not loop['last'] %}
 {{ 'exit' }}
 {{ '!' }}
 {% endif %}

@@ -1,9 +1,9 @@
-{% if r.route_map is defined and r.route_map != '' %}
-{{ ' route-map ' ~ r.route_map -}}
+{% if r['route_map'] is defined and r['route_map'] != '' %}
+{{ ' route-map ' ~ r['route_map'] -}}
 {% endif %}
-{% if r.metric is defined and r.metric != '' %}
-{{ ' metric ' ~ r.metric -}}
+{% if r['metric'] is defined and r['metric'] != '' %}
+{{ ' metric ' ~ r['metric'] -}}
 {% endif %}
-{% if r.metric_type is defined and r.metric_type != '' %}
-{{ ' metric-type ' ~ r.metric_type -}}
+{% if r['metric_type'] is defined and r['metric_type'] != '' %}
+{{ ' metric-type ' ~ r['metric_type'] -}}
 {% endif %}

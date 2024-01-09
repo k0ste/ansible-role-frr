@@ -1,194 +1,217 @@
-{% if z.debug_babel is defined and z.debug_babel in ['all', 'common', 'filter',
-  'interface', 'kernel', 'route', 'timeout'] %}
-{{ 'debug babel ' + z.debug_babel }}
+{% if z['debug_babel'] is defined and z['debug_babel'] in ['all', 'common',
+  'filter', 'interface', 'kernel', 'route', 'timeout'] %}
+{{ 'debug babel ' + z['debug_babel'] }}
 {% endif %}
-{% if z.debug_bgp_allow_martians is defined and
-      z.debug_bgp_allow_martians == 'true' %}
-{{ 'debug bgp allow-martians' }}
+{% if z['debug_bfd'] is defined and z['debug_bfd'] in ['distributed', 'network',
+  'peer', 'zebra'] %}
+{{ 'debug bfd ' + z['debug_babel'] }}
 {% endif %}
-{% if z.debug_bgp_as4_segment is defined and
-      z.debug_bgp_as4_segment == 'true' %}
+{% if z['debug_bgp_as4_segment'] is defined and
+  z['debug_bgp_as4_segment'] == 'true' %}
 {{ 'debug bgp as4 segment' }}
 {% endif %}
-{% if z.debug_bgp_bestpath is defined and z.debug_bgp_bestpath != '' %}
-{% if z.debug_bgp_bestpath is string and z.debug_bgp_bestpath |
+{% if z['debug_bgp_bestpath'] is defined and z['debug_bgp_bestpath'] != '' %}
+{% if z['debug_bgp_bestpath'] is string and z['debug_bgp_bestpath'] |
   ansible.utils.ipaddr('net') %}
-{{ 'debug bgp bestpath ' + z.debug_bgp_bestpath }}
-{% elif z.debug_bgp_bestpath is sequence %}
-{% for zb in z.debug_bgp_bestpath %}
+{{ 'debug bgp bestpath ' + z['debug_bgp_bestpath'] }}
+{% elif z['debug_bgp_bestpath'] is sequence %}
+{% for zb in z['debug_bgp_bestpath'] %}
 {% if zb | ansible.utils.ipaddr('net') %}
 {{ 'debug bgp bestpath ' + zb }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z.debug_bgp_keepalives is defined and z.debug_bgp_keepalives == 'true' %}
+{% if z['debug_bgp_keepalives'] is defined and
+  z['debug_bgp_keepalives'] == 'true' %}
 {{ 'debug bgp keepalives' }}
 {% endif %}
-{% if z.debug_bgp_keepalives_peers is defined and
-  z.debug_bgp_keepalives_peers != '' %}
-{% if z.debug_bgp_keepalives_peers is string and
-  z.debug_bgp_keepalives_peers | ansible.utils.ipaddr('net') %}
-{{ 'debug bgp keepalives ' + z.debug_bgp_keepalives_peers }}
-{% elif z.debug_bgp_keepalives_peers is sequence %}
-{% for zk in z.debug_bgp_keepalives_peers %}
+{% if z['debug_bgp_keepalives_peers'] is defined and
+  z['debug_bgp_keepalives_peers'] != '' %}
+{% if z['debug_bgp_keepalives_peers'] is string and
+  z['debug_bgp_keepalives_peers'] | ansible.utils.ipaddr('net') %}
+{{ 'debug bgp keepalives ' + z['debug_bgp_keepalives_peers'] }}
+{% elif z['debug_bgp_keepalives_peers'] is sequence %}
+{% for zk in z['debug_bgp_keepalives_peers'] %}
 {% if zk | ansible.utils.ipaddr('host') %}
 {{ 'debug bgp keepalives ' + zk }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z.debug_bgp_labelpool is defined and z.debug_bgp_labelpool == 'true' %}
+{% if z['debug_bgp_labelpool'] is defined and
+  z['debug_bgp_labelpool'] == 'true' %}
 {{ 'debug bgp labelpool' }}
 {% endif %}
-{% if z.debug_bgp_neighbor_events is defined and
-      z.debug_bgp_neighbor_events == 'true' %}
+{% if z['debug_bgp_neighbor_events'] is defined and
+  z['debug_bgp_neighbor_events'] == 'true' %}
 {{ 'debug bgp neighbor-events' }}
 {% endif %}
-{% if z.debug_bgp_neighbor_events_peers is defined and
-  z.debug_bgp_neighbor_events_peers != '' %}
-{% if z.debug_bgp_neighbor_events_peers is string and
+{% if z['debug_bgp_neighbor_events_peers'] is defined and
+  z['debug_bgp_neighbor_events_peers'] != '' %}
+{% if z['debug_bgp_neighbor_events_peers'] is string and
 z.debug_bgp_neighbor_events_peers | ansible.utils.ipaddr('net') %}
-{{ 'debug bgp neighbor-events ' + z.debug_bgp_neighbor_events_peers }}
-{% elif z.debug_bgp_neighbor_events_peers is sequence %}
-{% for zn in z.debug_bgp_neighbor_events_peers %}
+{{ 'debug bgp neighbor-events ' + z['debug_bgp_neighbor_events_peers'] }}
+{% elif z['debug_bgp_neighbor_events_peers'] is sequence %}
+{% for zn in z['debug_bgp_neighbor_events_peers'] %}
 {% if zn | ansible.utils.ipaddr('host') %}
 {{ 'debug bgp neighbor-events ' + zn }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z.debug_bgp_nht is defined and z.debug_bgp_nht == 'true' %}
+{% if z['debug_bgp_nht'] is defined and z['debug_bgp_nht'] == 'true' %}
 {{ 'debug bgp nht' }}
 {% endif %}
-{% if z.debug_bgp_pbr is defined and z.debug_bgp_pbr == 'true' %}
+{% if z['debug_bgp_pbr'] is defined and z['debug_bgp_pbr'] == 'true' %}
 {{ 'debug bgp pbr' }}
 {% endif %}
-{% if z.debug_bgp_pbr_error is defined and z.debug_bgp_pbr_error == 'true' %}
+{% if z['debug_bgp_pbr_error'] is defined and
+  z['debug_bgp_pbr_error'] == 'true' %}
 {{ 'debug bgp pbr error' }}
 {% endif %}
-{% if z.debug_bgp_update_groups is defined and
-      z.debug_bgp_update_groups == 'true' %}
+{% if z['debug_bgp_update_groups'] is defined and
+  z['debug_bgp_update_groups'] == 'true' %}
 {{ 'debug bgp update-groups' }}
 {% endif %}
-{% if z.debug_bgp_updates is defined and z.debug_bgp_updates == 'true' %}
+{% if z['debug_bgp_updates'] is defined and z['debug_bgp_updates'] == 'true' %}
 {{ 'debug bgp updates' }}
 {% endif %}
-{% if z.debug_bgp_zebra is defined and z.debug_bgp_zebra == 'true' %}
+{% if z['debug_bgp_zebra'] is defined and z['debug_bgp_zebra'] == 'true' %}
 {{ 'debug bgp zebra' }}
 {% endif %}
-{% if z.debug_bgp_zebra_prefix is defined and
-  z.debug_bgp_zebra_prefix != '' %}
-{% if z.debug_bgp_zebra_prefix is string and
-  z.debug_bgp_zebra_prefix | ansible.utils.ipaddr('host/prefix') %}
-{{ 'debug bgp zebra prefix ' + z.debug_bgp_zebra_prefix }}
-{% elif z.debug_bgp_zebra_prefix is sequence %}
-{% for zz in z.debug_bgp_zebra_prefix %}
+{% if z['debug_bgp_zebra_prefix'] is defined and
+  z['debug_bgp_zebra_prefix'] != '' %}
+{% if z['debug_bgp_zebra_prefix'] is string and
+  z['debug_bgp_zebra_prefix'] | ansible.utils.ipaddr('host/prefix') %}
+{{ 'debug bgp zebra prefix ' + z['debug_bgp_zebra_prefix'] }}
+{% elif z['debug_bgp_zebra_prefix'] is sequence %}
+{% for zz in z['debug_bgp_zebra_prefix'] %}
 {% if zz | ansible.utils.ipaddr('host/prefix') %}
 {{ 'debug bgp zebra prefix ' + zz }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z.debug_memstats_at_exit is defined and
-  z.debug_memstats_at_exit == 'true' %}
+{% if z['debug_memstats_at_exit'] is defined and
+  z['debug_memstats_at_exit'] == 'true' %}
 {{ 'debug memstats-at-exit' }}
 {% endif %}
-{% if z.debug_ospf_event is defined and z.debug_ospf_event == 'true' %}
+{% if z['debug_ospf_event'] is defined and z['debug_ospf_event'] == 'true' %}
 {{ 'debug ospf event' }}
 {% endif %}
-{% if z.debug_ospf_ism is defined and z.debug_ospf_ism == 'true' %}
+{% if z['debug_ospf_ism'] is defined and z['debug_ospf_ism'] == 'true' %}
 {{ 'debug ospf ism' }}
 {% endif %}
-{% if z.debug_ospf_nsm is defined and z.debug_ospf_nsm == 'true' %}
+{% if z['debug_ospf_nsm'] is defined and z['debug_ospf_nsm'] == 'true' %}
 {{ 'debug ospf nsm' }}
 {% endif %}
-{% if z.debug_ospf_nssa is defined and z.debug_ospf_nssa == 'true' %}
+{% if z['debug_ospf_nssa'] is defined and z['debug_ospf_nssa'] == 'true' %}
 {{ 'debug ospf nssa' }}
 {% endif %}
-{% if z.debug_ospf_sr is defined and z.debug_ospf_sr == 'true' %}
+{% if z['debug_ospf_sr'] is defined and z['debug_ospf_sr'] == 'true' %}
 {{ 'debug ospf sr' }}
 {% endif %}
-{% if z.debug_ospf_te is defined and z.debug_ospf_te == 'true' %}
+{% if z['debug_ospf_te'] is defined and z['debug_ospf_te'] == 'true' %}
 {{ 'debug ospf te' }}
 {% endif %}
-{% if z.debug_ospf_zebra is defined and z.debug_ospf_zebra == 'true' %}
+{% if z['debug_ospf_zebra'] is defined and z['debug_ospf_zebra'] == 'true' %}
 {{ 'debug ospf zebra' }}
 {% endif %}
-{% if z.debug_pbr_events is defined and z.debug_pbr_events == 'true' %}
+{% if z['debug_pbr_events'] is defined and z['debug_pbr_events'] == 'true' %}
 {{ 'debug pbr events' }}
 {% endif %}
-{% if z.debug_pbr_map is defined and z.debug_pbr_map == 'true' %}
+{% if z['debug_pbr_map'] is defined and z['debug_pbr_map'] == 'true' %}
 {{ 'debug pbr map' }}
 {% endif %}
-{% if z.debug_pbr_nht is defined and z.debug_pbr_nht == 'true' %}
+{% if z['debug_pbr_nht'] is defined and z['debug_pbr_nht'] == 'true' %}
 {{ 'debug pbr nht' }}
 {% endif %}
-{% if z.debug_pbr_zebra is defined and z.debug_pbr_zebra == 'true' %}
+{% if z['debug_pbr_zebra'] is defined and z['debug_pbr_zebra'] == 'true' %}
 {{ 'debug pbr zebra' }}
 {% endif %}
-{% if z.debug_route_map is defined and z.debug_route_map == 'true' %}
+{% if z['debug_route_map'] is defined and z['debug_route_map'] == 'true' %}
 {{ 'debug route-map' }}
 {% endif %}
-{% if z.debug_rpki is defined and z.debug_rpki == 'true' %}
+{% if z['debug_rpki'] is defined and z['debug_rpki'] == 'true' %}
 {{ 'debug rpki' }}
 {% endif %}
-{% if z.debug_vrf is defined and z.debug_vrf == 'true' %}
+{% if z['debug_vrf'] is defined and z['debug_vrf'] == 'true' %}
 {{ 'debug vrf' }}
 {% endif %}
-{% if z.debug_vrrp is defined and z.debug_vrrp == 'true' %}
+{% if z['debug_vrrp'] is defined and z['debug_vrrp'] == 'true' %}
 {{ 'debug vrrp' }}
 {% endif %}
-{% if z.debug_vrrp_arp is defined and z.debug_vrrp_arp == 'true' %}
+{% if z['debug_vrrp_arp'] is defined and z['debug_vrrp_arp'] == 'true' %}
 {{ 'debug vrrp arp' }}
 {% endif %}
-{% if z.debug_vrrp_autoconfigure is defined and
-  z.debug_vrrp_autoconfigure == 'true' %}
+{% if z['debug_vrrp_autoconfigure'] is defined and
+  z['debug_vrrp_autoconfigure'] == 'true' %}
 {{ 'debug vrrp autoconfigure' }}
 {% endif %}
-{% if z.debug_vrrp_ndisc is defined and z.debug_vrrp_ndisc == 'true' %}
+{% if z['debug_vrrp_ndisc'] is defined and z['debug_vrrp_ndisc'] == 'true' %}
 {{ 'debug vrrp ndisc' }}
 {% endif %}
-{% if z.debug_vrrp_packets is defined and z.debug_vrrp_packets == 'true' %}
+{% if z['debug_vrrp_packets'] is defined and
+  z['debug_vrrp_packets'] == 'true' %}
 {{ 'debug vrrp packets' }}
 {% endif %}
-{% if z.debug_vrrp_protocol is defined and z.debug_vrrp_protocol == 'true' %}
+{% if z['debug_vrrp_protocol'] is defined and
+  z['debug_vrrp_protocol'] == 'true' %}
 {{ 'debug vrrp protocol' }}
 {% endif %}
-{% if z.debug_vrrp_sockets is defined and z.debug_vrrp_sockets == 'true' %}
+{% if z['debug_vrrp_sockets'] is defined and
+  z['debug_vrrp_sockets'] == 'true' %}
 {{ 'debug vrrp sockets' }}
 {% endif %}
-{% if z.debug_vrrp_zebra is defined and z.debug_vrrp_zebra == 'true' %}
+{% if z['debug_vrrp_zebra'] is defined and z['debug_vrrp_zebra'] == 'true' %}
 {{ 'debug vrrp zebra' }}
 {% endif %}
-{% if z.debug_zebra_dplane is defined and z.debug_zebra_dplane == 'true' %}
+{% if z['debug_zebra_dplane'] is defined and
+  z['debug_zebra_dplane'] == 'true' %}
 {{ 'debug zebra dplane' }}
 {% endif %}
-{% if z.debug_zebra_events is defined and z.debug_zebra_events == 'true' %}
+{% if z['debug_zebra_events'] is defined and
+  z['debug_zebra_events'] == 'true' %}
 {{ 'debug zebra events' }}
 {% endif %}
-{% if z.debug_zebra_fpm is defined and z.debug_zebra_fpm == 'true' %}
+{% if z['debug_zebra_fpm'] is defined and z['debug_zebra_fpm'] == 'true' %}
 {{ 'debug zebra fpm' }}
 {% endif %}
-{% if z.debug_zebra_kernel is defined and z.debug_zebra_kernel == 'true' %}
+{% if z['debug_zebra_kernel'] is defined and
+  z['debug_zebra_kernel'] == 'true' %}
 {{ 'debug zebra kernel' }}
 {% endif %}
-{% if z.debug_zebra_mpls is defined and z.debug_zebra_mpls == 'true' %}
+{% if z['debug_zebra_mlag'] is defined and z['debug_zebra_mlag'] == 'true' %}
+{{ 'debug zebra mlag' }}
+{% endif %}
+{% if z['debug_zebra_mpls'] is defined and z['debug_zebra_mpls'] == 'true' %}
 {{ 'debug zebra mpls' }}
 {% endif %}
-{% if z.debug_zebra_nht is defined and z.debug_zebra_nht == 'true' %}
+{% if z['debug_zebra_neigh'] is defined and z['debug_zebra_neigh'] == 'true' %}
+{{ 'debug zebra neigh' }}
+{% endif %}
+{% if z['debug_zebra_nexthop'] is defined and
+  z['debug_zebra_nexthop'] == 'true' %}
+{{ 'debug zebra nexthop' }}
+{% endif %}
+{% if z['debug_zebra_nht'] is defined and z['debug_zebra_nht'] == 'true' %}
 {{ 'debug zebra nht' }}
 {% endif %}
-{% if z.debug_zebra_packet is defined and z.debug_zebra_packet == 'true' %}
+{% if z['debug_zebra_packet'] is defined and
+  z['debug_zebra_packet'] == 'true' %}
 {{ 'debug zebra packet' }}
 {% endif %}
-{% if z.debug_zebra_pseudowires is defined and
-  z.debug_zebra_pseudowires == 'true' %}
+{% if z['debug_zebra_pbr'] is defined and z['debug_zebra_pbr'] == 'true' %}
+{{ 'debug zebra pbr' }}
+{% endif %}
+{% if z['debug_zebra_pseudowires'] is defined and
+  z['debug_zebra_pseudowires'] == 'true' %}
 {{ 'debug zebra pseudowires' }}
 {% endif %}
-{% if z.debug_zebra_rib is defined and z.debug_zebra_rib == 'true' %}
+{% if z['debug_zebra_rib'] is defined and z['debug_zebra_rib'] == 'true' %}
 {{ 'debug zebra rib' }}
 {% endif %}
-{% if z.debug_zebra_vxlan is defined and z.debug_zebra_vxlan == 'true' %}
+{% if z['debug_zebra_vxlan'] is defined and z['debug_zebra_vxlan'] == 'true' %}
 {{ 'debug zebra vxlan' }}
 {% endif %}

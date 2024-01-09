@@ -12,12 +12,12 @@ configuration.
 ```yaml
 ---
 frr:
-# Enable frr service or not.
+# Enable frr service or not
 - enable: 'true'
 # Restart frr service after deploy or not. Actually restart is not performed,
-# only 'reload' (merge current configuration in RAM with 'frr.conf').
+# only 'reload' (merge current configuration in RAM with 'frr.conf')
   restart: 'true'
-# Install frr package or not.
+# Install frr package or not
   install_package: 'true'
   daemons:
   - bgpd: 'yes'
@@ -59,6 +59,7 @@ frr:
     vrrpd_options: '-A 127.0.0.1 -d'
   init_options:
   - max_fds: '1024'
+    frr_profile: 'traditional'
     watchfrr_enable: 'yes'
     watchfrr_options: "-d -r '/usr/bin/frr restart %s' -s '/usr/bin/frr start %s' -k '/usr/bin/frr stop %s'"
   settings:
@@ -67,7 +68,6 @@ frr:
       log_commands: 'true'
       log_facility: 'local7'
       log_file: 'vtysh.log'
-      log_monitor: 'informational'
       log_record_priority: 'true'
       log_stdout: 'informational'
       log_syslog: 'informational'
@@ -78,15 +78,16 @@ frr:
       service_password_encryption: 'true'
 # debug: 'all', 'common', 'filter', 'interface', 'kernel', 'route', 'timeout'
       debug_babel: 'all'
-      debug_bgp_allow_martians: 'true'
+# debug: 'distributed', 'network', 'peer', 'zebra'
+      debug_bfd: 'peer'
       debug_bgp_as4_segment: 'true'
-# Enable or disable debugging for bestpath selection on the specified prefix.
+# Enable or disable debugging for bestpath selection on the specified prefix
       debug_bgp_bestpath:
       - '100.100.100.0/24'
       - '100.100.101.0/24'
 # Enable or disable debugging for BGP keepalives. This provides information on
 # BGP KEEPALIVE messages transmitted and received between local and remote
-# instances.
+# instances
       debug_bgp_keepalives: 'true'
       debug_bgp_keepalives_peers:
       - '100.100.100.0/24'
@@ -94,74 +95,78 @@ frr:
       debug_bgp_labelpool: 'true'
 # Enable or disable debugging for neighbor events. This provides general
 # information on BGP events such as peer connection/disconnection, session
-# establishment/teardown, and capability negotiation.
+# establishment/teardown, and capability negotiation
       debug_bgp_neighbor_events: 'true'
       debug_bgp_neighbor_events_peers:
       - '100.100.100.0/24'
       - '100.100.101.0/24'
-# Enable or disable debugging of BGP nexthop tracking.
+# Enable or disable debugging of BGP nexthop tracking
       debug_bgp_nht: 'true'
       debug_bgp_pbr: 'true'
       debug_bgp_pbr_error: 'true'
 # Enable or disable debugging of dynamic update groups. This provides general
-# information on group creation, deletion, join and prune events.
+# information on group creation, deletion, join and prune events
       debug_bgp_update_groups: 'true'
 # Enable or disable debugging for BGP updates. This provides information on
 # BGP UPDATE messages transmitted and received between local and remote
-# instances.
+# instances
       debug_bgp_updates: 'true'
-# Enable or disable debugging of communications between bgpd and zebra.
+# Enable or disable debugging of communications between bgpd and zebra
       debug_bgp_zebra: 'true'
       debug_bgp_zebra_prefix:
       - '100.100.100.0/24'
       - '100.100.101.0/24'
       debug_memstats_at_exit: 'true'
-# Show debug information of OSPF event.
+# Show debug information of OSPF event
       debug_ospf_event: 'true'
-# Show debug information of Interface State Machine.
+# Show debug information of Interface State Machine
       debug_ospf_ism: 'true'
-# Show debug information of Network State Machine.
+# Show debug information of Network State Machine
       debug_ospf_nsm: 'true'
-# Show debug information about Not So Stub Area.
+# Show debug information about Not So Stub Area
       debug_ospf_nssa: 'true'
       debug_ospf_sr: 'true'
-# Show debug information about Traffic Engineering LSA.
+# Show debug information about Traffic Engineering LSA
       debug_ospf_te: 'true'
-# Show debug information of ZEBRA API.
+# Show debug information of ZEBRA API
       debug_ospf_zebra: 'true'
       debug_pbr_events: 'true'
       debug_pbr_map: 'true'
       debug_pbr_nht: 'true'
       debug_pbr_zebra: 'true'
       debug_route_map: 'true'
-# Enable or disable debugging output for RPKI.
+# Enable or disable debugging output for RPKI
       debug_rpki: 'true'
       debug_vrf: 'true'
-# Toggle debugging logs for all VRRP components.
+# Toggle debugging logs for all VRRP components
       debug_vrrp: 'true'
-# VRRP logs actions taken by the ARP component of VRRP.
+# VRRP logs actions taken by the ARP component of VRRP
       debug_vrrp_arp: 'true'
-# VRRP logs actions taken by the autoconfiguration procedures.
+# VRRP logs actions taken by the autoconfiguration procedures
       debug_vrrp_autoconfigure: 'true'
-# VRRP logs actions taken by the Neighbor Discovery component of VRRP.
+# VRRP logs actions taken by the Neighbor Discovery component of VRRP
       debug_vrrp_ndisc: 'true'
 # VRRP logs details of ingress and egress packets. Includes packet decodes and
-# hex dumps.
+# hex dumps
       debug_vrrp_packets: 'true'
 # VRRP logs state changes, election protocol decisions, and interface status
-# changes.
+# changes
       debug_vrrp_protocol: 'true'
-# VRRP logs details of socket configuration and initialization.
+# VRRP logs details of socket configuration and initialization
       debug_vrrp_sockets: 'true'
-# VRRP logs communications with Zebra.
+# VRRP logs communications with Zebra
       debug_vrrp_zebra: 'true'
       debug_zebra_dplane: 'true'
       debug_zebra_events: 'true'
       debug_zebra_fpm: 'true'
       debug_zebra_kernel: 'true'
+      debug_zebra_mlag: 'true'
       debug_zebra_mpls: 'true'
+      debug_zebra_neigh: 'true'
+      debug_zebra_nexthop: 'true'
       debug_zebra_nht: 'true'
       debug_zebra_packet: 'true'
+      debug_zebra_pbr: 'true'
       debug_zebra_pseudowires: 'true'
       debug_zebra_rib: 'true'
       debug_zebra_vxlan: 'true'
@@ -251,6 +256,9 @@ frr:
         priority: '250'
         preempt: 'false'
         shutdown: 'true'
+    - name: 'vlan252'
+      description: 'PBR policy for iface'
+      pbr_policy: 'vlan252'
     router:
     - ospf:
       - instance_id: '1'

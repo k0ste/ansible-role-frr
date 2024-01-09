@@ -4,11 +4,11 @@
 
 {{ '!' }}
 {% if vars['frr_zebra_settings'] is defined and
-      vars['frr_zebra_settings'] != [] %}
+  vars['frr_zebra_settings'] != [] %}
 {% for z in vars['frr_zebra_settings'] %}
 {% include 'frr_zebra_settings.j2' %}
 {% include 'frr_zebra_debug_settings.j2' %}
-{% if loop.last %}
+{% if loop['last'] %}
 {{ '!' }}
 {% endif %}
 {% endfor %}
@@ -23,27 +23,27 @@
 {% include 'frr_vrrp.j2' %}
 {% endif %}
 {% if vars['frr_router_ospf_settings'] is defined and
-      vars['frr_router_ospf_settings'] != [] %}
+  vars['frr_router_ospf_settings'] != [] %}
 {% include 'frr_ospf_settings.j2' %}
 {% endif %}
 {% if vars['frr_router_bgp_settings'] is defined and
-      vars['frr_router_bgp_settings'] != [] %}
+  vars['frr_router_bgp_settings'] != [] %}
 {% include 'frr_bgp_settings.j2' %}
 {% endif %}
 {% if vars['frr_router_access_lists'] is defined and
-      vars['frr_router_access_lists'] != [] %}
+  vars['frr_router_access_lists'] != [] %}
 {% include 'frr_access_lists.j2' %}
 {% endif %}
 {% if vars['frr_router_prefix_lists'] is defined and
-      vars['frr_router_prefix_lists'] != [] %}
+  vars['frr_router_prefix_lists'] != [] %}
 {% include 'frr_prefix_list.j2' %}
 {% endif %}
 {% if vars['frr_router_bgp_access_lists'] is defined and
-      vars['frr_router_bgp_access_lists'] != [] %}
+  vars['frr_router_bgp_access_lists'] != [] %}
 {% include 'frr_bgp_access_lists.j2' %}
 {% endif %}
 {% if vars['frr_router_route_maps'] is defined and
-      vars['frr_router_route_maps'] != [] %}
+  vars['frr_router_route_maps'] != [] %}
 {% include 'frr_route_map.j2' %}
 {% endif %}
 {% if vars['frr_vty_settings'] is defined and vars['frr_vty_settings'] != [] %}

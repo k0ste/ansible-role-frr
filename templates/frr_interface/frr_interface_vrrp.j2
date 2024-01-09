@@ -1,23 +1,26 @@
-{% if iv.router_id is defined and iv.router_id >= '1' <= '255' %}
-{{ ' vrrp ' ~ iv.router_id }}
-{% if iv.priority is defined and iv.priority >= '1' <= '254' %}
-{{ ' vrrp ' ~ iv.router_id ~ ' priority ' ~ iv.priority }}
+{% if iv['router_id'] is defined and (iv['router_id'] | int() >= 1 and
+  iv['router_id'] | int() <= 255) %}
+{{ ' vrrp ' ~ iv['router_id'] }}
+{% if iv['priority'] is defined and (iv['priority'] | int() >= 1 and
+  iv['priority'] | int() <= 254) %}
+{{ ' vrrp ' ~ iv['router_id'] ~ ' priority ' ~ iv['priority'] }}
 {% endif %}
-{% if iv.advertisement_interval is defined and
-      iv.advertisement_interval >= '10' <= '40950' %}
-{{ ' vrrp ' ~ iv.router_id ~ ' advertisement-interval ' ~
-  iv.advertisement_interval }}
+{% if iv['advertisement_interval'] is defined and
+  (iv['advertisement_interval'] | int() >= 10 and
+  iv['advertisement_interval'] | int() <= 40950) %}
+{{ ' vrrp ' ~ iv['router_id'] ~ ' advertisement-interval ' ~
+  iv['advertisement_interval'] }}
 {% endif %}
-{% if iv.ip is defined and iv.ip | ansible.utils.ipaddr('host') %}
-{{ ' vrrp ' ~ iv.router_id ~ ' ip ' + iv.ip }}
+{% if iv['ip'] is defined and iv['ip'] | ansible.utils.ipaddr('host') %}
+{{ ' vrrp ' ~ iv['router_id'] ~ ' ip ' + iv['ip'] }}
 {% endif %}
-{% if iv.ipv6 is defined and iv.ipv6 | ansible.utils.ipaddr('host') %}
-{{ ' vrrp ' ~ iv.router_id ~ ' ipv6 ' + iv.ipv6 }}
+{% if iv['ipv6'] is defined and iv['ipv6'] | ansible.utils.ipaddr('host') %}
+{{ ' vrrp ' ~ iv['router_id'] ~ ' ipv6 ' + iv['ipv6'] }}
 {% endif %}
-{% if iv.shutdown is defined and iv.shutdown == 'true' %}
-{{ ' vrrp ' ~ iv.router_id ~ ' shutdown' }}
+{% if iv['shutdown'] is defined and iv['shutdown'] == 'true' %}
+{{ ' vrrp ' ~ iv['router_id'] ~ ' shutdown' }}
 {% endif %}
-{% if iv.preempt is defined and iv.preempt == 'false' %}
-{{ ' no vrrp' ~ iv.router_id ~ ' preempt' }}
+{% if iv['preempt'] is defined and iv['preempt'] == 'false' %}
+{{ ' no vrrp' ~ iv['router_id'] ~ ' preempt' }}
 {% endif %}
 {% endif %}

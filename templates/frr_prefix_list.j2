@@ -1,15 +1,15 @@
 {% for p in vars['frr_router_prefix_lists'] %}
-{% if p.name is defined and p.name != '' %}
-{% if p.description is defined and p.description != '' %}
-{{ 'ip prefix-list ' + p.name + ' description ' + p.description }}
+{% if p['name'] is defined and p['name'] != '' %}
+{% if p['description'] is defined and p['description'] != '' %}
+{{ 'ip prefix-list ' + p['name'] + ' description ' + p['description'] }}
 {% endif %}
-{% if p.rules is defined and p.rules != '' %}
-{% for list in p.rules %}
-{{ 'ip prefix-list ' ~ p.name ~ ' ' ~ 'seq ' ~ (loop.index * 5) ~ ' ' ~ list }}
+{% if p['rules'] is defined and p['rules'] != '' %}
+{% for list in p['rules'] %}
+{{ 'ip prefix-list ' ~ p['name'] ~ ' seq ' ~ (loop['index'] * 5) ~ ' ' ~ list }}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if loop.last %}
+{% if loop['last'] %}
 {{ '!' }}
 {% endif %}
 {% endfor %}

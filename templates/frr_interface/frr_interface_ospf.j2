@@ -1,14 +1,16 @@
-{% if iio.cost is defined and iio.cost != '' %}
-{{ ' ip ospf cost ' + iio.cost }}
+{% if iio['cost'] is defined and iio['cost'] != '' %}
+{{ ' ip ospf cost ' + iio['cost'] }}
 {% endif %}
-{% if iio.network is defined and iio.network in ['broadcast', 'non-broadcast', 'point-to-multipoint', 'point-to-point'] %}
-{{ ' ip ospf network ' + iio.network }}
+{% if iio['network'] is defined and iio['network'] in ['broadcast',
+  'non-broadcast', 'point-to-multipoint', 'point-to-point'] %}
+{{ ' ip ospf network ' + iio['network'] }}
 {% endif %}
-{% if iio.priority is defined and iio.priority >= '0' <= '255' %}
-{{ ' ip ospf priority ' ~ iio.priority }}
+{% if iio['priority'] is defined and (iio['priority'] | int() >= 0 and
+  iio['priority'] | int() <= 255) %}
+{{ ' ip ospf priority ' ~ iio['priority'] }}
 {% endif %}
-{% if iio.instance_id is defined and iio.instance_id != '' %}
-{% if iio.area is defined and iio.area != '' %}
-{{ ' ip ospf ' + iio.instance_id + ' area '  + iio.area }}
+{% if iio['instance_id'] is defined and iio['instance_id'] != '' %}
+{% if iio['area'] is defined and iio['area'] != '' %}
+{{ ' ip ospf ' + iio['instance_id'] + ' area ' + iio['area'] }}
 {% endif %}
 {% endif %}

@@ -1,51 +1,54 @@
-{% if z.hostname is defined and z.hostname != '' %}
-{{ 'hostname ' ~ z.hostname }}
+{% if z['hostname'] is defined and z['hostname'] != '' %}
+{{ 'hostname ' ~ z['hostname'] }}
 {% endif %}
-{% if z.log_commands is defined and z.log_commands == 'true' %}
+{% if z['error_category'] is defined and z['error_category'] == 'false' %}
+{{ 'no log error-category' }}
+{% endif %}
+{% if z['log_commands'] is defined and z['log_commands'] == 'true' %}
 {{ 'log commands' }}
 {% endif %}
-{% if z.log_facility is defined and z.log_facility == 'true' %}
-{{ 'log facility' }}
+{% if z['log_facility'] is defined and z['log_facility'] in ['auth', 'cron',
+  'daemon', 'kern', 'local0', 'local1', 'local2', 'local3', 'local4', 'local5',
+  'local6', 'local7', 'lpr', 'mail', 'news', 'syslog', 'user', 'uucp'] %}
+{{ 'log facility ' + z['log_facility'] }}
 {% endif %}
-{% if z.log_file is defined and z.log_file != '' %}
-{{ 'log file ' + z.log_file }}
+{% if z['log_file'] is defined and z['log_file'] != '' %}
+{{ 'log file ' + z['log_file'] }}
 {% endif %}
-{% if z.log_monitor is defined and z.log_monitor in ['alerts', 'critical',
-   'debugging', 'emergencies', 'errors', 'informational', 'notifications',
-   'warnings'] %}
-{{ 'log monitor ' + z.log_monitor }}
-{% endif %}
-{% if z.log_record_priority is defined and z.log_record_priority == 'true' %}
+{% if z['log_record_priority'] is defined and
+  z['log_record_priority'] == 'true' %}
 {{ 'log record-priority' }}
 {% endif %}
-{% if z.log_stdout is defined and z.log_stdout in ['alerts', 'critical',
-   'debugging', 'emergencies', 'errors', 'informational', 'notifications',
-   'warnings'] %}
-{{ 'log stdout ' + z.log_stdout }}
+{% if z['log_stdout'] is defined and z['log_stdout'] in ['alerts', 'critical',
+  'debugging', 'emergencies', 'errors', 'informational', 'notifications',
+  'warnings'] %}
+{{ 'log stdout ' + z['log_stdout'] }}
 {% endif %}
-{% if z.log_syslog is defined and z.log_syslog in ['alerts', 'critical',
-      'debugging', 'emergencies', 'errors', 'informational', 'notifications',
-      'warnings'] %}
-{{ 'log syslog ' + z.log_syslog }}
+{% if z['log_syslog'] is defined and z['log_syslog'] in ['alerts', 'critical',
+  'debugging', 'emergencies', 'errors', 'informational', 'notifications',
+  'warnings'] %}
+{{ 'log syslog ' + z['log_syslog'] }}
 {% endif %}
-{% if z.log_timestamp_precision is defined and
-      (z.log_timestamp_precision > '0' <= '6') %}
-{{ 'log timestamp precision ' + z.log_timestamp_precision }}
+{% if z['log_timestamp_precision'] is defined and
+  (z['log_timestamp_precision'] | int() > 0 and
+  z['log_timestamp_precision'] | int() <= 6) %}
+{{ 'log timestamp precision ' + z['log_timestamp_precision'] }}
 {% endif %}
-{% if z.service_integrated_vtysh_config is defined and
-      z.service_integrated_vtysh_config == 'true' %}
+{% if z['service_integrated_vtysh_config'] is defined and
+  z['service_integrated_vtysh_config'] == 'true' %}
 {{ 'service integrated-vtysh-config' }}
 {% endif %}
-{% if z.service_advanced_vty is defined and z.service_advanced_vty == 'true' %}
+{% if z['service_advanced_vty'] is defined and
+  z['service_advanced_vty'] == 'true' %}
 {{ 'service advanced-vty' }}
 {% endif %}
-{% if z.service_password_encryption is defined and
-      z.service_password_encryption == 'true' %}
+{% if z['service_password_encryption'] is defined and
+  z['service_password_encryption'] == 'true' %}
 {{ 'service password-encryption' }}
 {% endif %}
-{% if z.password is defined and z.password != '' %}
-{{ 'password ' + z.password }}
+{% if z['password'] is defined and z['password'] != '' %}
+{{ 'password ' + z['password'] }}
 {% endif %}
-{% if z.enable_password is defined and z.enable_password != '' %}
-{{ 'enable password ' + z.enable_password }}
+{% if z['enable_password'] is defined and z['enable_password'] != '' %}
+{{ 'enable password ' + z['enable_password'] }}
 {% endif %}

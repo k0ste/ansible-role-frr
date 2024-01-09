@@ -1,71 +1,77 @@
-{{ '## ' + 'daemons.conf' }}
+{{ '## ' + 'daemons' }}
 {{ '# ' + ansible_managed }}
 {{ '# ' + 'Do not edit manually' }}
 
 {% if vars['frr_daemons_settings'] is defined and
-      vars['frr_daemons_settings'] != [] %}
+  vars['frr_daemons_settings'] != [] %}
 {% for d in vars['frr_daemons_settings'] %}
-{% if d.bgpd is defined and d.bgpd in ['yes', 'no'] %}
-{{ 'bgpd=' + d.bgpd }}
+{% if d['bgpd'] is defined and d['bgpd'] in ['yes', 'no'] %}
+{{ 'bgpd=' + d['bgpd'] }}
 {% endif %}
-{% if d.ospfd is defined and d.ospfd in ['yes', 'no'] %}
-{{ 'ospfd=' + d.ospfd }}
+{% if d['ospfd'] is defined and d['ospfd'] in ['yes', 'no'] %}
+{{ 'ospfd=' + d['ospfd'] }}
 {% endif %}
-{% if d.ospf6d is defined and d.ospf6d in ['yes', 'no'] %}
-{{ 'ospf6d=' + d.ospf6d }}
+{% if d['ospf6d'] is defined and d['ospf6d'] in ['yes', 'no'] %}
+{{ 'ospf6d=' + d['ospf6d'] }}
 {% endif %}
-{% if d.ripd is defined and d.ripd in ['yes', 'no'] %}
-{{ 'ripd=' + d.ripd }}
+{% if d['ripd'] is defined and d['ripd'] in ['yes', 'no'] %}
+{{ 'ripd=' + d['ripd'] }}
 {% endif %}
-{% if d.ripngd is defined and d.ripngd in ['yes', 'no'] %}
-{{ 'ripngd=' + d.ripngd }}
+{% if d['ripngd'] is defined and d['ripngd'] in ['yes', 'no'] %}
+{{ 'ripngd=' + d['ripngd'] }}
 {% endif %}
-{% if d.isisd is defined and d.isisd in ['yes', 'no'] %}
-{{ 'isisd=' + d.isisd }}
+{% if d['isisd'] is defined and d['isisd'] in ['yes', 'no'] %}
+{{ 'isisd=' + d['isisd'] }}
 {% endif %}
-{% if d.pimd is defined and d.pimd in ['yes', 'no'] %}
-{{ 'pimd=' + d.pimd }}
+{% if d['pimd'] is defined and d['pimd'] in ['yes', 'no'] %}
+{{ 'pimd=' + d['pimd'] }}
 {% endif %}
-{% if d.ldpd is defined and d.ldpd in ['yes', 'no'] %}
-{{ 'ldpd=' + d.ldpd }}
+{% if d['pimd6d'] is defined and d['pimd6d'] in ['yes', 'no'] %}
+{{ 'pimd6d=' + d['pimd6d'] }}
 {% endif %}
-{% if d.nhrpd is defined and d.nhrpd in ['yes', 'no'] %}
-{{ 'nhrpd=' + d.nhrpd }}
+{% if d['ldpd'] is defined and d['ldpd'] in ['yes', 'no'] %}
+{{ 'ldpd=' + d['ldpd'] }}
 {% endif %}
-{% if d.eigrpd is defined and d.eigrpd in ['yes', 'no'] %}
-{{ 'eigrpd=' + d.eigrpd }}
+{% if d['nhrpd'] is defined and d['nhrpd'] in ['yes', 'no'] %}
+{{ 'nhrpd=' + d['nhrpd'] }}
 {% endif %}
-{% if d.babeld is defined and d.babeld in ['yes', 'no'] %}
-{{ 'babeld=' + d.babeld }}
+{% if d['eigrpd'] is defined and d['eigrpd'] in ['yes', 'no'] %}
+{{ 'eigrpd=' + d['eigrpd'] }}
 {% endif %}
-{% if d.sharpd is defined and d.sharpd in ['yes', 'no'] %}
-{{ 'sharpd=' + d.sharpd }}
+{% if d['babeld'] is defined and d['babeld'] in ['yes', 'no'] %}
+{{ 'babeld=' + d['babeld'] }}
 {% endif %}
-{% if d.pbrd is defined and d.pbrd in ['yes', 'no'] %}
-{{ 'pbrd=' + d.pbrd }}
+{% if d['sharpd'] is defined and d['sharpd'] in ['yes', 'no'] %}
+{{ 'sharpd=' + d['sharpd'] }}
 {% endif %}
-{% if d.bfdd is defined and d.bfdd in ['yes', 'no'] %}
-{{ 'bfdd=' + d.bfdd }}
+{% if d['pbrd'] is defined and d['pbrd'] in ['yes', 'no'] %}
+{{ 'pbrd=' + d['pbrd'] }}
 {% endif %}
-{% if d.fabricd is defined and d.fabricd in ['yes', 'no'] %}
-{{ 'fabricd=' + d.fabricd }}
+{% if d['bfdd'] is defined and d['bfdd'] in ['yes', 'no'] %}
+{{ 'bfdd=' + d['bfdd'] }}
 {% endif %}
-{% if d.vrrpd is defined and d.vrrpd in ['yes', 'no'] %}
-{{ 'vrrpd=' + d.vrrpd }}
+{% if d['fabricd'] is defined and d['fabricd'] in ['yes', 'no'] %}
+{{ 'fabricd=' + d['fabricd'] }}
 {% endif %}
-{% if d.zebra is defined and d.zebra in ['yes', 'no'] %}
-{{ 'zebra=' + d.zebra }}
+{% if d['vrrpd'] is defined and d['vrrpd'] in ['yes', 'no'] %}
+{{ 'vrrpd=' + d['vrrpd'] }}
+{% endif %}
+{% if d['zebra'] is defined and d['zebra'] in ['yes', 'no'] %}
+{{ 'zebra=' + d['zebra'] }}
+{% endif %}
+{% if d['pathd'] is defined and d['pathd'] in ['yes', 'no'] %}
+{{ 'pathd=' + d['pathd'] }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% if vars['frr_router_ospf_settings'] is defined and
-      vars['frr_router_ospf_settings'] != [] %}
+  vars['frr_router_ospf_settings'] != [] %}
 {% for o in vars['frr_router_ospf_settings'] %}
-{% if loop.first %}
+{% if loop['first'] %}
 {{ 'ospfd_instances=\"' -}}
 {% endif %}
-{{ o.instance_id -}}
-{% if loop.last %}
+{{ o['instance_id'] -}}
+{% if loop['last'] %}
 {{ '\"' }}
 {% else %}
 {{ ',' -}}
@@ -73,78 +79,83 @@
 {% endfor %}
 {% endif %}
 {% if vars['frr_vtysh_settings'] is defined and
-      vars['frr_vtysh_settings'] != [] %}
+  vars['frr_vtysh_settings'] != [] %}
 {% for v in vars['frr_vtysh_settings'] %}
-{% if v.vtysh_enable is defined and v.vtysh_enable in ['yes', 'no'] %}
-{{ 'vtysh_enable=' + v.vtysh_enable }}
+{% if v['vtysh_enable'] is defined and v['vtysh_enable'] in ['yes', 'no'] %}
+{{ 'vtysh_enable=' + v['vtysh_enable'] }}
 {% endif %}
-{% if v.zebra_options is defined and v.zebra_options != '' %}
-{{ 'zebra_options=\"' + v.zebra_options + '\"' }}
+{% if v['zebra_options'] is defined and v['zebra_options'] != '' %}
+{{ 'zebra_options=\"' + v['zebra_options'] + '\"' }}
 {% endif %}
-{% if v.bgpd_options is defined and v.bgpd_options != '' %}
-{{ 'bgpd_options=\"' + v.bgpd_options + '\"' }}
+{% if v['bgpd_options'] is defined and v['bgpd_options'] != '' %}
+{{ 'bgpd_options=\"' + v['bgpd_options'] + '\"' }}
 {% endif %}
-{% if v.ospfd_options is defined and v.ospfd_options != '' %}
-{{ 'ospfd_options=\"' + v.ospfd_options + '\"' }}
+{% if v['ospfd_options'] is defined and v['ospfd_options'] != '' %}
+{{ 'ospfd_options=\"' + v['ospfd_options'] + '\"' }}
 {% endif %}
-{% if v.ospf6d_options is defined and v.ospf6d_options != '' %}
-{{ 'ospf6d_options=\"' + v.ospf6d_options + '\"' }}
+{% if v['ospf6d_options'] is defined and v['ospf6d_options'] != '' %}
+{{ 'ospf6d_options=\"' + v['ospf6d_options'] + '\"' }}
 {% endif %}
-{% if v.ripd_options is defined and v.ripd_options != '' %}
-{{ 'ripd_options=\"' + v.ripd_options + '\"' }}
+{% if v['ripd_options'] is defined and v['ripd_options'] != '' %}
+{{ 'ripd_options=\"' + v['ripd_options'] + '\"' }}
 {% endif %}
-{% if v.ripngd_options is defined and v.ripngd_options != '' %}
-{{ 'ripngd_options=\"' + v.ripngd_options + '\"' }}
+{% if v['ripngd_options'] is defined and v['ripngd_options'] != '' %}
+{{ 'ripngd_options=\"' + v['ripngd_options'] + '\"' }}
 {% endif %}
-{% if v.isisd_options is defined and v.isisd_options != '' %}
-{{ 'isisd_options=\"' + v.isisd_options + '\"' }}
+{% if v['isisd_options'] is defined and v['isisd_options'] != '' %}
+{{ 'isisd_options=\"' + v['isisd_options'] + '\"' }}
 {% endif %}
-{% if v.pimd_options is defined and v.pimd_options != '' %}
-{{ 'pimd_options=\"' + v.pimd_options + '\"' }}
+{% if v['pimd_options'] is defined and v['pimd_options'] != '' %}
+{{ 'pimd_options=\"' + v['pimd_options'] + '\"' }}
 {% endif %}
-{% if v.ldpd_options is defined and v.ldpd_options != '' %}
-{{ 'ldpd_options=\"' + v.ldpd_options + '\"' }}
+{% if v['ldpd_options'] is defined and v['ldpd_options'] != '' %}
+{{ 'ldpd_options=\"' + v['ldpd_options'] + '\"' }}
 {% endif %}
-{% if v.nhrpd_options is defined and v.nhrpd_options != '' %}
-{{ 'nhrpd_options=\"' + v.nhrpd_options + '\"' }}
+{% if v['nhrpd_options'] is defined and v['nhrpd_options'] != '' %}
+{{ 'nhrpd_options=\"' + v['nhrpd_options'] + '\"' }}
 {% endif %}
-{% if v.eigrpd_options is defined and v.eigrpd_options != '' %}
-{{ 'eigrpd_options=\"' + v.eigrpd_options + '\"' }}
+{% if v['eigrpd_options'] is defined and v['eigrpd_options'] != '' %}
+{{ 'eigrpd_options=\"' + v['eigrpd_options'] + '\"' }}
 {% endif %}
-{% if v.babeld_options is defined and v.babeld_options != '' %}
-{{ 'babeld_options=\"' + v.babeld_options + '\"' }}
+{% if v['babeld_options'] is defined and v['babeld_options'] != '' %}
+{{ 'babeld_options=\"' + v['babeld_options'] + '\"' }}
 {% endif %}
-{% if v.sharpd_options is defined and v.sharpd_options != '' %}
-{{ 'sharpd_options=\"' + v.sharpd_options + '\"' }}
+{% if v['sharpd_options'] is defined and v['sharpd_options'] != '' %}
+{{ 'sharpd_options=\"' + v['sharpd_options'] + '\"' }}
 {% endif %}
-{% if v.pbrd_options is defined and v.pbrd_options != '' %}
-{{ 'pbrd_options=\"' + v.pbrd_options + '\"' }}
+{% if v['pbrd_options'] is defined and v['pbrd_options'] != '' %}
+{{ 'pbrd_options=\"' + v['pbrd_options'] + '\"' }}
 {% endif %}
-{% if v.staticd_options is defined and v.staticd_options != '' %}
-{{ 'staticd_options=\"' + v.staticd_options + '\"' }}
+{% if v['staticd_options'] is defined and v['staticd_options'] != '' %}
+{{ 'staticd_options=\"' + v['staticd_options'] + '\"' }}
 {% endif %}
-{% if v.bfdd_options is defined and v.bfdd_options != '' %}
-{{ 'bfdd_options=\"' + v.bfdd_options + '\"' }}
+{% if v['bfdd_options'] is defined and v['bfdd_options'] != '' %}
+{{ 'bfdd_options=\"' + v['bfdd_options'] + '\"' }}
 {% endif %}
-{% if v.fabricd_options is defined and v.fabricd_options != '' %}
-{{ 'fabricd_options=\"' + v.fabricd_options + '\"' }}
+{% if v['fabricd_options'] is defined and v['fabricd_options'] != '' %}
+{{ 'fabricd_options=\"' + v['fabricd_options'] + '\"' }}
 {% endif %}
-{% if v.vrrpd_options is defined and v.vrrpd_options != '' %}
-{{ 'vrrpd_options=\"' + v.vrrpd_options + '\"' }}
+{% if v['vrrpd_options'] is defined and v['vrrpd_options'] != '' %}
+{{ 'vrrpd_options=\"' + v['vrrpd_options'] + '\"' }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% if vars['frr_init_settings'] is defined and
-      vars['frr_init_settings'] != [] %}
+  vars['frr_init_settings'] != [] %}
 {% for i in vars['frr_init_settings'] %}
-{% if i.max_fds is defined and i.max_fds != '' %}
-{{ 'MAX_FDS=' ~ i.max_fds }}
+{% if i['frr_profile'] is defined and i['frr_profile'] in ['traditional',
+  'datacenter'] %}
+{{ 'frr_profile=' + i['frr_profile'] }}
 {% endif %}
-{% if i.watchfrr_enable is defined and i.watchfrr_enable in ['yes', 'no'] %}
-{{ 'watchfrr_enable=' + i.watchfrr_enable }}
+{% if i['max_fds'] is defined and i['max_fds'] != '' %}
+{{ 'MAX_FDS=' ~ i['max_fds'] }}
 {% endif %}
-{% if i.watchfrr_options is defined and i.watchfrr_options != '' %}
-{{ 'watchfrr_options=\"' + i.watchfrr_options + '\"' }}
+{% if i['watchfrr_enable'] is defined and i['watchfrr_enable'] in ['yes',
+  'no'] %}
+{{ 'watchfrr_enable=' + i['watchfrr_enable'] }}
+{% endif %}
+{% if i['watchfrr_options'] is defined and i['watchfrr_options'] != '' %}
+{{ 'watchfrr_options=\"' + i['watchfrr_options'] + '\"' }}
 {% endif %}
 {% endfor %}
 {% endif %}

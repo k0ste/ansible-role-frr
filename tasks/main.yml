@@ -1,7 +1,9 @@
 ---
-- ansible.builtin.import_tasks:
+- name: "frr | Include pre requisite tasks"
+  ansible.builtin.import_tasks:
     file: "pre_requisite.yml"
-- ansible.builtin.include_tasks:
+- name: "frr | Include packages tasks"
+  ansible.builtin.include_tasks:
     file: "packages.yml"
   when:
     - "hostvars[inventory_hostname]['frr'] is defined"
@@ -12,5 +14,6 @@
        community.general.json_query(vars['frr_install_package']) == 'true'"
   vars:
     frr_install_package: "[] | map(&install_package || 'false', @) | [0]"
-- ansible.builtin.import_tasks:
+- name: "frr | Include deployment tasks"
+  ansible.builtin.import_tasks:
     file: "deploy_frr.yml"

@@ -1,21 +1,23 @@
 {% for v in vars['frr_vrrp'] %}
-{% if v.vrrp_autoconfigure_version is defined and
-      v.vrrp_autoconfigure_version == '2' %}
-{{ 'vrrp autoconfigure version ' ~ v.vrrp_autoconfigure_version }}
+{% if v['vrrp_autoconfigure_version'] is defined and
+  v['vrrp_autoconfigure_version'] == '2' %}
+{{ 'vrrp autoconfigure version ' ~ v['vrrp_autoconfigure_version'] }}
 {% endif %}
-{% if v.default is defined and v.default != [] %}
-{% for vd in v.default %}
-{% if vd.priority is defined and vd.priority >= '1' <= '254' %}
-{{ 'vrrp default priority ' ~ vd.priority }}
+{% if v['default'] is defined and v['default'] != [] %}
+{% for vd in v['default'] %}
+{% if vd['priority'] is defined and (vd['priority'] | int() >= 1 and
+  vd['priority'] | int() <= 254) %}
+{{ 'vrrp default priority ' ~ vd['priority'] }}
 {% endif %}
-{% if vd.advertisement_interval is defined and
-      vd.advertisement_interval >= '10' <= '40950' %}
-{{ 'vrrp default advertisement-interval ' ~ vd.advertisement_interval }}
+{% if vd['advertisement_interval'] is defined and
+  (vd['advertisement_interval'] | int() >= 10 and
+  vd['advertisement_interval'] | int() <= 40950) %}
+{{ 'vrrp default advertisement-interval ' ~ vd['advertisement_interval'] }}
 {% endif %}
-{% if vd.shutdown is defined and vd.shutdown == 'true' %}
+{% if vd['shutdown'] is defined and vd['shutdown'] == 'true' %}
 {{ 'vrrp default shutdown' }}
 {% endif %}
-{% if vd.preempt is defined and vd.preempt == 'false' %}
+{% if vd['preempt'] is defined and vd['preempt'] == 'false' %}
 {{ 'no vrrp default preempt' }}
 {% endif %}
 {% endfor %}

@@ -1,5 +1,5 @@
 ---
-- name: Restart frr
+- name: "Restart frr"
   ansible.builtin.systemd:
     name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
     state: "reloaded"
