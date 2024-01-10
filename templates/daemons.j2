@@ -84,6 +84,9 @@
 {% if v['vtysh_enable'] is defined and v['vtysh_enable'] in ['yes', 'no'] %}
 {{ 'vtysh_enable=' + v['vtysh_enable'] }}
 {% endif %}
+{% if v['mgmtd_options'] is defined and v['mgmtd_options'] != '' %}
+{{ 'mgmtd_options=\"' + v['mgmtd_options'] + '\"' }}
+{% endif %}
 {% if v['zebra_options'] is defined and v['zebra_options'] != '' %}
 {{ 'zebra_options=\"' + v['zebra_options'] + '\"' }}
 {% endif %}
@@ -149,10 +152,6 @@
 {% endif %}
 {% if i['max_fds'] is defined and i['max_fds'] != '' %}
 {{ 'MAX_FDS=' ~ i['max_fds'] }}
-{% endif %}
-{% if i['watchfrr_enable'] is defined and i['watchfrr_enable'] in ['yes',
-  'no'] %}
-{{ 'watchfrr_enable=' + i['watchfrr_enable'] }}
 {% endif %}
 {% if i['watchfrr_options'] is defined and i['watchfrr_options'] != '' %}
 {{ 'watchfrr_options=\"' + i['watchfrr_options'] + '\"' }}

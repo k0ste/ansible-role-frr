@@ -1,0 +1,20 @@
+{% for pm in vars['frr_pbr_maps'] %}
+{% if (pm['name'] is defined and pm['name'] != '') and
+  (pm['rules'] is defined and pm['rules'] != '') %}
+{% for pmr in pm['rules'] %}
+{{ 'pbr-map ' ~ pm['name'] ~ ' seq ' ~ (loop['index'] * 5) }}
+{% if pmr['matchers'] is defined and pmr['matchers'] != '' %}
+{% for m in pmr['matchers'] %}
+{{ ' match ' + m['type'] + ' ' ~ m['value'] }}
+{% endfor %}
+{% if pmr['actions'] is defined and pmr['actions'] != '' %}
+{% for a in pmr['actions'] %}
+{{ ' set ' + a['type'] + ' ' ~ a['value'] }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{{ 'exit' }}
+{{ '!' }}
+{% endfor %}
+{% endif %}
+{% endfor %}

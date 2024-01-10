@@ -17,8 +17,11 @@ frr:
 # Restart frr service after deploy or not. Actually restart is not performed,
 # only 'reload' (merge current configuration in RAM with 'frr.conf')
   restart: 'true'
-# Install frr package or not
+# Install/upgrade frr package or not
   install_package: 'true'
+# 'present' (do nothing if package is already installed) or 'latest' (always
+# upgrade to last version)
+  package_state: 'latest'
   daemons:
   - bgpd: 'yes'
     ospfd: 'yes'
@@ -39,28 +42,28 @@ frr:
     zebra: 'yes'
   vtysh_options:
   - vtysh_enable: 'yes'
-    zebra_options: '-A 127.0.0.1 -s 90000000 -d'
-    bgpd_options: '-A 127.0.0.1 -M rpki -d'
-    ospfd_options: '-A 127.0.0.1 -d'
-    ospf6d_options: '-A ::1 -d'
-    ripd_options: '-A 127.0.0.1 -d'
-    ripngd_options: '-A ::1 -d'
-    isisd_options: '-A 127.0.0.1 -d'
-    pimd_options: '-A 127.0.0.1 -d'
-    ldpd_options: '-A 127.0.0.1 -d'
-    nhrpd_options: '-A 127.0.0.1 -d'
-    eigrpd_options: '-A 127.0.0.1 -d'
-    babeld_options: '-A 127.0.0.1 -d'
-    sharpd_options: '-A 127.0.0.1 -d'
-    pbrd_options: '-A 127.0.0.1 -d'
-    staticd_options: '-A 127.0.0.1 -d'
-    bfdd_options: '-A 127.0.0.1 -d'
-    fabricd_options: '-A 127.0.0.1 -d'
-    vrrpd_options: '-A 127.0.0.1 -d'
+    zebra_options: '-A 127.0.0.1 -s 90000000'
+    mgmtd_options: '-A 127.0.0.1'
+    bgpd_options: '-A 127.0.0.1 -M rpki'
+    ospfd_options: '-A 127.0.0.1'
+    ospf6d_options: '-A ::1'
+    ripd_options: '-A 127.0.0.1'
+    ripngd_options: '-A ::1'
+    isisd_options: '-A 127.0.0.1'
+    pimd_options: '-A 127.0.0.1'
+    ldpd_options: '-A 127.0.0.1'
+    nhrpd_options: '-A 127.0.0.1'
+    eigrpd_options: '-A 127.0.0.1'
+    babeld_options: '-A 127.0.0.1'
+    sharpd_options: '-A 127.0.0.1'
+    pbrd_options: '-A 127.0.0.1'
+    staticd_options: '-A 127.0.0.1'
+    bfdd_options: '-A 127.0.0.1'
+    fabricd_options: '-A 127.0.0.1'
+    vrrpd_options: '-A 127.0.0.1'
   init_options:
   - max_fds: '1024'
     frr_profile: 'traditional'
-    watchfrr_enable: 'yes'
     watchfrr_options: "-d -r '/usr/bin/frr restart %s' -s '/usr/bin/frr start %s' -k '/usr/bin/frr stop %s'"
   settings:
   - zebra:
@@ -197,68 +200,91 @@ frr:
         shutdown: 'true'
         preempt: 'false'
     interfaces:
-    - name: 'lo'
-      description: 'Loopback0'
-      link_detect: 'true'
-      multicast: 'true'
-      ip:
-      - address: '172.16.254.1/32'
-        label: 'Router1'
-      - address: '172.16.255.1/32'
-        label: 'Router2'
-    - name: 'tap0'
-      description: 'openvpn0 description'
-      ip:
-      - ospf:
-        - cost: '100'
-          priority: '255'
-        - instance_id: '1'
-          area: '0.0.0.2'
-        - instance_id: '2'
-          area: '0.0.0.3'
-    - name: 'tap1'
-      description: 'openvpn1 description'
-      ip:
-      - ospf:
-        - cost: '10'
-        - instance_id: '1'
-          area: '0.0.0.3'
-        - instance_id: '2'
-          area: '0.0.0.3'
-    - name: 'tap2'
-      description: 'openvpn2 description'
-      ip:
-      - ospf:
-        - cost: '10'
-    - name: 'tap3'
-      description: 'openvpn3 description'
-      ip:
-      - ospf:
-        - cost: '100'
-        - instance_id: '1'
-          area: '0.0.0.2'
-        - network: 'point-to-multipoint'
-    - name: 'vrrp0'
-      description: 'VRRP0 neighbor'
-      ip:
-      - address: '172.16.222.1/30'
-      vrrp:
-      - router_id: '5'
-        ip: '172.16.222.1/30'
-        ipv6: ''
-        advertisement_interval: '1500'
-        priority: '254'
-    - name: 'vrrp1'
-      description: 'VRRP1 neighbor'
-      vrrp:
-      - router_id: '5'
-        ip: '172.16.223.1/30'
-        priority: '250'
-        preempt: 'false'
-        shutdown: 'true'
-    - name: 'vlan252'
-      description: 'PBR policy for iface'
-      pbr_policy: 'vlan252'
+      - name: 'lo'
+        description: 'Loopback0'
+        link_detect: 'true'
+        multicast: 'true'
+        ip:
+          - address: '172.16.254.1/32'
+            label: 'Router1'
+          - address: '172.16.255.1/32'
+            label: 'Router2'
+      - name: 'tap0'
+        description: 'openvpn0 description'
+        ip:
+          - ospf:
+              - cost: '100'
+                priority: '255'
+              - instance_id: '1'
+                area: '0.0.0.2'
+              - instance_id: '2'
+                area: '0.0.0.3'
+      - name: 'tap1'
+        description: 'openvpn1 description'
+        ip:
+          - ospf:
+              - cost: '10'
+              - instance_id: '1'
+                area: '0.0.0.3'
+              - instance_id: '2'
+                area: '0.0.0.3'
+      - name: 'tap2'
+        description: 'openvpn2 description'
+        ip:
+          - ospf:
+              - cost: '10'
+      - name: 'tap3'
+        description: 'openvpn3 description'
+        ip:
+          - ospf:
+              - cost: '100'
+              - instance_id: '1'
+                area: '0.0.0.2'
+              - network: 'point-to-multipoint'
+      - name: 'vrrp0'
+        description: 'VRRP0 neighbor'
+        ip:
+          - address: '172.16.222.1/30'
+        vrrp:
+          - router_id: '5'
+            ip: '172.16.222.1/30'
+            ipv6: ''
+            advertisement_interval: '1500'
+            priority: '254'
+      - name: 'vrrp1'
+        description: 'VRRP1 neighbor'
+        vrrp:
+          - router_id: '5'
+            ip: '172.16.223.1/30'
+            priority: '250'
+            preempt: 'false'
+            shutdown: 'true'
+      - name: 'vlan252'
+        description: 'PBR policy for iface'
+        pbr_policy: 'vlan252'
+    pbr_maps:
+      - name: 'vlan252'
+        rules:
+          - matchers:
+              - type: 'ip-protocol'
+                value: 'tcp'
+              - type: 'vlan'
+                value: '252'
+            actions:
+              - type: 'src-ip'
+                value: '1.1.1.1'
+              - type: 'nexthop'
+                value: '8.8.8.8'
+          - matchers:
+              - type: 'ip-protocol'
+                value: 'udp'
+              - type: 'vlan'
+                value: 'untagged'
+            actions:
+              - type: 'src-ip'
+                value: '2.2.2.2'
+              - type: 'nexthop'
+                value: '4.4.4.4'
     router:
     - ospf:
       - instance_id: '1'
