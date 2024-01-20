@@ -219,6 +219,7 @@ frr:
                 area: '0.0.0.2'
               - instance_id: '2'
                 area: '0.0.0.3'
+              - bfd: 'yes'
       - name: 'tap1'
         description: 'openvpn1 description'
         ip:

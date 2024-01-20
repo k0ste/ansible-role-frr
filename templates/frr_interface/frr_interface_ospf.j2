@@ -9,6 +9,9 @@
   iio['priority'] | int() <= 255) %}
 {{ ' ip ospf priority ' ~ iio['priority'] }}
 {% endif %}
+{% if iio.bfd is defined and iio.bfd in ['yes', 'no'] %}
+{{ ' ip ospf bfd' }}
+{% endif %}
 {% if iio['instance_id'] is defined and iio['instance_id'] != '' %}
 {% if iio['area'] is defined and iio['area'] != '' %}
 {{ ' ip ospf ' + iio['instance_id'] + ' area ' + iio['area'] }}
