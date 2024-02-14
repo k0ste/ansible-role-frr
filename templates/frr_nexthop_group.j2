@@ -1,0 +1,24 @@
+{% for nhg in vars['frr_nexthop_groups'] %}
+{% if (nhg['name'] is defined and nhg['name'] != '') and
+  (nhg['rules'] is defined and nhg['rules'] != '') %}
+{{ 'nexthop-group ' ~ nhg['name'] }}
+{% for nhgr in nhg['rules'] %}
+{% if nhgr['next_hop'] is defined and nhgr['next_hop'] != '' %}
+{{ ' nexthop ' ~ nhgr['next_hop'] -}}
+{% endif %}
+{% if nhgr['interface'] is defined and nhgr['interface'] != '' %}
+{{ ' ' ~ nhgr['interface'] -}}
+{% endif %}
+{% if nhgr['weight'] is defined and (nhgr['weight'] | int() > 1 and
+  nhgr['weight'] | int() <= 255) %}
+{{ ' weight ' ~ nhgr['weight'] -}}
+{% endif %}
+{% if not loop['last'] %}
+{{ '' }}
+{% endif %}
+{% endfor %}
+{{ '' }}
+{{ 'exit' }}
+{{ '!' }}
+{% endif %}
+{% endfor %}

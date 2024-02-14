@@ -286,232 +286,251 @@ frr:
                 value: '2.2.2.2'
               - type: 'nexthop'
                 value: '4.4.4.4'
+    nexthop_groups:
+      - name: 'one_eight'
+        rules:
+          - next_hop: '8.8.8.8'
+            interface: 'tun0'
+            weight: '10'
+          - next_hop: '1.1.1.1'
+            interface: 'tun1'
+            weight: '20'
+      - name: 'gig1'
+        rules:
+          - next_hop: '2.2.2.2'
+            interface: 'gig1'
+          - next_hop: '3.3.3.3'
+            interface: 'gig1'
+      # next_hop is point-to-point
+      - name: 'ppp0'
+        rules:
+          - next_hop: 'ppp0'
     router:
-    - ospf:
-      - instance_id: '1'
-        router_id: '172.16.255.1'
-        log_adjacency_changes: 'true'
-        default_information_originate:
-        - enabled: 'true'
-        redistribute:
-        - connected:
-          - route_map: 'TO_OSPF_CONNECTED'
-        - static:
-          - route_map: 'TO_OSPF_STATIC'
-        - bgp:
-          - route_map: 'TO_OSPF_BGP'
-        - kernel:
-          - route_map: 'TO_OSPF_KERNEL'
-        - ospf:
-          - instance_id: '2'
-      - instance_id: '2'
-        router_id: '192.168.1.1'
-        log_adjacency_changes: 'detail'
-        default_information_originate:
-          - enabled: 'always'
-            route_map: 'DEFAULT_INFORMATION'
-            metric: '40'
-            metric_type: '2'
-        distance: '100'
-        passive_interface:
-        - 'Tunnel0'
-        - 'Tunnel1'
-        area:
-        - area_id: '0.0.0.1'
-          filter_list_in: 'FILTER_PREFIX_IN'
-          filter_list_out: 'FILTER_PREFIX_OUT'
-          import_list: 'ACCESS_LIST_IMPORT'
-          export_list: 'ACCESS_LIST_EXPORT'
-        redistribute:
-        - connected:
-          - route_map: 'TO_OSPF_CONNECTED'
-            metric: '27'
-            metric_type: '1'
-        - static:
-          - route_map: 'TO_OSPF_STATIC'
-            metric: '28'
-            metric_type: '2'
-        - bgp:
-          - route_map: 'TO_OSPF_BGP'
-            metric: '45'
-            metric_type: '2'
-        - kernel:
-          - route_map: 'TO_OSPF_KERNEL'
-            metric: '46'
-            metric_type: '2'
-        - ospf:
+      - ospf:
           - instance_id: '1'
-            route_map: 'FROM_OSPF_1_TO_OSPF_2'
+            router_id: '172.16.255.1'
+            log_adjacency_changes: 'true'
+            default_information_originate:
+              - enabled: 'true'
+            redistribute:
+              - connected:
+                  - route_map: 'TO_OSPF_CONNECTED'
+              - static:
+                  - route_map: 'TO_OSPF_STATIC'
+              - bgp:
+                  - route_map: 'TO_OSPF_BGP'
+              - kernel:
+                  - route_map: 'TO_OSPF_KERNEL'
+              - ospf:
+                  - instance_id: '2'
+          - instance_id: '2'
+            router_id: '192.168.1.1'
+            log_adjacency_changes: 'detail'
+            default_information_originate:
+              - enabled: 'always'
+                route_map: 'DEFAULT_INFORMATION'
+                metric: '40'
+                metric_type: '2'
+            distance: '100'
+            passive_interface:
+              - 'Tunnel0'
+              - 'Tunnel1'
+            area:
+              - area_id: '0.0.0.1'
+                filter_list_in: 'FILTER_PREFIX_IN'
+                filter_list_out: 'FILTER_PREFIX_OUT'
+                import_list: 'ACCESS_LIST_IMPORT'
+                export_list: 'ACCESS_LIST_EXPORT'
+            redistribute:
+              - connected:
+                  - route_map: 'TO_OSPF_CONNECTED'
+                    metric: '27'
+                    metric_type: '1'
+              - static:
+                  - route_map: 'TO_OSPF_STATIC'
+                    metric: '28'
+                    metric_type: '2'
+              - bgp:
+                  - route_map: 'TO_OSPF_BGP'
+                    metric: '45'
+                    metric_type: '2'
+              - kernel:
+                  - route_map: 'TO_OSPF_KERNEL'
+                    metric: '46'
+                    metric_type: '2'
+              - ospf:
+                  - instance_id: '1'
+                    route_map: 'FROM_OSPF_1_TO_OSPF_2'
       bgp:
-      - as_num: '198181'
-        router_id: '100.100.100.1'
-        bgp_graceful_restart: 'true'
-        neighbors:
-        - neighbor: '212.17.15.169'
-          remote_as: '25549'
-          bfd_check_control_plane_failure: 'true'
-          bfd_profile: 'BFD_PROFILE'
-          capability: 'dynamic'
-          description: 'avantel'
-          disable_connected_check: 'true'
-          ebgp_multihop: '255'
-          enforce_first_as: 'true'
-          enforce_multihop: 'true'
-          graceful_restart: 'true'
-          graceful_restart_disable: 'true'
-          graceful_restart_helper: 'true'
-          interface: 'vlan597'
-          maximum_prefix_out: '220'
-          override_capability: 'true'
-          passive: 'false'
-          peer_group: 'PEER_GROUP_NAME'
-          sender_as_path_loop_detection: 'true'
-        - neighbor: '95.156.85.193'
-          remote_as: '12389'
-          description: 'rostelecom'
-          solo: 'true'
-          tcp_mss: '1400'
-        - neighbor: '178.49.129.89'
-          remote_as: '31200'
-          description: 'novotelecom'
-          strict_capability_match: 'true'
-        address_family_ipv4_unicast:
-        - networks:
-          - '193.150.124.0/24'
-          - '193.150.125.0/24'
+        - as_num: '198181'
+          router_id: '100.100.100.1'
+          bgp_graceful_restart: 'true'
           neighbors:
-          - neighbor: '212.17.15.169'
-            distribute_list:
-            - in: '101'
-            prefix_list:
-            - out: 'opentech_bgp_advertise'
-            route_map:
-            - in: 'opentech_avantel_in'
-              out: 'opentech_avantel_out'
-            soft_reconfiguration_inbound: 'true'
-          - neighbor: '95.156.85.193'
-            distribute_list:
-            - in: '101'
-            prefix_list:
-            - out: 'opentech_bgp_advertise'
-            route_map:
-            - in: 'opentech_rostelecom_in'
-              out: 'opentech_rostelecom_out'
-            soft_reconfiguration_inbound: 'true'
-          - neighbor: '178.49.129.89'
-            distribute_list:
-            - in: '101'
-            prefix_list:
-            - out: 'opentech_bgp_advertise'
-            route_map:
-            - in: 'opentech_novotelecom_in'
-              out: 'opentech_novotelecom_out'
-            soft_reconfiguration_inbound: 'true'
+            - neighbor: '212.17.15.169'
+              remote_as: '25549'
+              bfd_check_control_plane_failure: 'true'
+              bfd_profile: 'BFD_PROFILE'
+              capability: 'dynamic'
+              description: 'avantel'
+              disable_connected_check: 'true'
+              ebgp_multihop: '255'
+              enforce_first_as: 'true'
+              enforce_multihop: 'true'
+              graceful_restart: 'true'
+              graceful_restart_disable: 'true'
+              graceful_restart_helper: 'true'
+              interface: 'vlan597'
+              maximum_prefix_out: '220'
+              override_capability: 'true'
+              passive: 'false'
+              peer_group: 'PEER_GROUP_NAME'
+              sender_as_path_loop_detection: 'true'
+            - neighbor: '95.156.85.193'
+              remote_as: '12389'
+              description: 'rostelecom'
+              solo: 'true'
+              tcp_mss: '1400'
+            - neighbor: '178.49.129.89'
+              remote_as: '31200'
+              description: 'novotelecom'
+              strict_capability_match: 'true'
+          address_family_ipv4_unicast:
+            - networks:
+                - '193.150.124.0/24'
+                - '193.150.125.0/24'
+              neighbors:
+                - neighbor: '212.17.15.169'
+                  distribute_list:
+                    - in: '101'
+                  prefix_list:
+                    - out: 'opentech_bgp_advertise'
+                  route_map:
+                    - in: 'opentech_avantel_in'
+                      out: 'opentech_avantel_out'
+                  soft_reconfiguration_inbound: 'true'
+                - neighbor: '95.156.85.193'
+                  distribute_list:
+                    - in: '101'
+                  prefix_list:
+                    - out: 'opentech_bgp_advertise'
+                  route_map:
+                    - in: 'opentech_rostelecom_in'
+                      out: 'opentech_rostelecom_out'
+                  soft_reconfiguration_inbound: 'true'
+                - neighbor: '178.49.129.89'
+                  distribute_list:
+                    - in: '101'
+                  prefix_list:
+                    - out: 'opentech_bgp_advertise'
+                  route_map:
+                    - in: 'opentech_novotelecom_in'
+                      out: 'opentech_novotelecom_out'
+                  soft_reconfiguration_inbound: 'true'
       bgp_as_path_access_list:
-      - name: 'avantel'
-        rules:
-        - 'permit ^_25549$'
-      - name: 'ertelecom'
-        rules:
-        - 'permit ^_9049$'
-      - name: 'ixonly_in'
-        rules:
-        - 'permit ^_[0-9]*$'
-      - name: 'novotelecom'
-        rules:
-        - 'permit ^_31200$'
-      - name: 'rostelecom'
-        rules:
-        - 'permit ^_12389$'
+        - name: 'avantel'
+          rules:
+            - 'permit ^_25549$'
+        - name: 'ertelecom'
+          rules:
+            - 'permit ^_9049$'
+        - name: 'ixonly_in'
+          rules:
+            - 'permit ^_[0-9]*$'
+        - name: 'novotelecom'
+          rules:
+            - 'permit ^_31200$'
+        - name: 'rostelecom'
+          rules:
+            - 'permit ^_12389$'
       route_map:
-      - name: 'DISTRIBUTE_TO_OSPF'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match ip address prefix-list opentech_ospf'
-        - action: 'deny 100'
-      - name: 'TO_OSPF_NTK'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match ip address prefix-list EXAMPLE_PREFIX_LIST'
-          - 'match ip next-hop prefix-list i_give_up'
-        - action: 'permit 11'
-          rules:
-          - 'match ip address prefix-list FROM_TO'
-        - action: 'deny 100'
-      - name: 'opentech_avantel_in'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match as-path avantel'
-          - 'set local-preference 300'
-        - action: 'permit 20'
-          rules:
-          - 'set local-preference 100'
-      - name: 'opentech_avantel_out'
-        actions:
-        - action: 'permit 10'
-      - name: 'opentech_rostelecom_in'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match as-path rostelecom'
-          - 'set local-preference 300'
-        - action: 'permit 20'
-          rules:
-          - 'set local-preference 100'
-      - name: 'opentech_rostelecom_out'
-        actions:
-        - action: 'permit 10'
-      - name: 'opentech_novotelecom_in'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match as-path novotelecom'
-          - 'set local-preference 300'
-        - action: 'permit 20'
-          rules:
-          - 'set local-preference 100'
-      - name: 'opentech_novotelecom_out'
-        actions:
-        - action: 'permit 10'
-      - name: 'blackhole'
-        actions:
-        - action: 'permit 10'
-          rules:
-          - 'match ip address prefix-list blackhole'
-          - 'set community 12389:55555'
+        - name: 'DISTRIBUTE_TO_OSPF'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match ip address prefix-list opentech_ospf'
+            - action: 'deny 100'
+        - name: 'TO_OSPF_NTK'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match ip address prefix-list EXAMPLE_PREFIX_LIST'
+                - 'match ip next-hop prefix-list i_give_up'
+            - action: 'permit 11'
+              rules:
+                - 'match ip address prefix-list FROM_TO'
+            - action: 'deny 100'
+        - name: 'opentech_avantel_in'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match as-path avantel'
+                - 'set local-preference 300'
+            - action: 'permit 20'
+              rules:
+                - 'set local-preference 100'
+        - name: 'opentech_avantel_out'
+          actions:
+            - action: 'permit 10'
+        - name: 'opentech_rostelecom_in'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match as-path rostelecom'
+                - 'set local-preference 300'
+            - action: 'permit 20'
+              rules:
+                - 'set local-preference 100'
+        - name: 'opentech_rostelecom_out'
+          actions:
+            - action: 'permit 10'
+        - name: 'opentech_novotelecom_in'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match as-path novotelecom'
+                - 'set local-preference 300'
+            - action: 'permit 20'
+              rules:
+                - 'set local-preference 100'
+        - name: 'opentech_novotelecom_out'
+          actions:
+            - action: 'permit 10'
+        - name: 'blackhole'
+          actions:
+            - action: 'permit 10'
+              rules:
+                - 'match ip address prefix-list blackhole'
+                - 'set community 12389:55555'
       access_list:
-      - name: 'vty'
-        remark: 'Disable connections to vtysh from non localhost'
-        rules:
-        - 'permit 127.0.0.1/8'
-        - 'deny any'
-      - name: '101'
-        remark: 'Filter 0.0.0.0/0'
-        rules:
-        - 'deny ip host 0.0.0.0 any'
-        - 'permit ip any any'
+        - name: 'vty'
+          remark: 'Disable connections to vtysh from non localhost'
+          rules:
+            - 'permit 127.0.0.1/8'
+            - 'deny any'
+        - name: '101'
+          remark: 'Filter 0.0.0.0/0'
+          rules:
+            - 'deny ip host 0.0.0.0 any'
+            - 'permit ip any any'
       prefix_list:
-      - name: 'EXAMPLE_PREFIX_LIST'
-        description: 'Opentech OSPF'
-        rules:
-        - 'permit 192.168.0.0/16 le 32'
-        - 'deny any'
-      - name: 'no_default_originate'
-        description: 'Filter gateway of last resort'
-        rules:
-        - 'deny 0.0.0.0/0'
-        - 'permit 0.0.0.0/0 le 32'
-      - name: 'blackhole'
-        description: 'BlackHole RFC 7999'
-        rules:
-        - 'permit 193.150.124.100/32'
-        - 'deny any'
-      - name: 'opentech_bgp_advertise'
-        description: 'AS198181 ipv4 prefixes'
-        rules:
-        - 'permit 193.150.124.0/24'
-        - 'deny any'
+        - name: 'EXAMPLE_PREFIX_LIST'
+          description: 'Opentech OSPF'
+          rules:
+            - 'permit 192.168.0.0/16 le 32'
+            - 'deny any'
+        - name: 'no_default_originate'
+          description: 'Filter gateway of last resort'
+          rules:
+            - 'deny 0.0.0.0/0'
+            - 'permit 0.0.0.0/0 le 32'
+        - name: 'blackhole'
+          description: 'BlackHole RFC 7999'
+          rules:
+            - 'permit 193.150.124.100/32'
+            - 'deny any'
+        - name: 'opentech_bgp_advertise'
+          description: 'AS198181 ipv4 prefixes'
+          rules:
+            - 'permit 193.150.124.0/24'
+            - 'deny any'
 ```

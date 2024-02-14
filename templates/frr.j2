@@ -22,6 +22,10 @@
 {% if vars['frr_pbr_maps'] is defined and vars['frr_pbr_maps'] != [] %}
 {% include 'frr_pbr_map.j2' %}
 {% endif %}
+{% if vars['frr_nexthop_groups'] is defined and
+  vars['frr_nexthop_groups'] != [] %}
+{% include 'frr_nexthop_group.j2' %}
+{% endif %}
 {% if vars['frr_vrrp'] is defined and vars['frr_vrrp'] != [] %}
 {% include 'frr_vrrp.j2' %}
 {% endif %}
