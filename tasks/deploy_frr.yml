@@ -8,6 +8,29 @@
     mode: "0640"
   notify:
     - "Restart frr"
+- name: "frr | Deploy frr scripts"
+  ansible.builtin.template:
+    src: "frr_script.j2"
+    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts/' +
+      script['name'] + '.lua' }}"
+    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    mode: "0640"
+  loop: "{{ vars['frr_scripts_list'] | flatten(levels=1) }}"
+  loop_control:
+    loop_var: "script"
+    label: "{{ 'Deploy script: ' +
+      hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts/' +
+      script['name'] + '.lua' }}"
+  when:
+    - "vars['frr_scripts_list'] is defined"
+    - "vars['frr_scripts_list'] != ''"
+    - "script['name'] is defined"
+    - "script['name'] != ''"
+    - "script['data'] is defined"
+    - "script['data'] != ''"
+  notify:
+    - "Restart frr"
 - name: "frr | Deploy frr configuration"
   ansible.builtin.template:
     src: "frr.j2"

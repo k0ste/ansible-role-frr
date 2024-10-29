@@ -38,6 +38,10 @@
   z['service_integrated_vtysh_config'] == 'true' %}
 {{ 'service integrated-vtysh-config' }}
 {% endif %}
+{% if z['zebra_on_rib_process_script'] is defined and
+  z['zebra_on_rib_process_script'] != '' %}
+{{ 'zebra on-rib-process script ' + z['zebra_on_rib_process_script'] }}
+{% endif %}
 {% if z['service_advanced_vty'] is defined and
   z['service_advanced_vty'] == 'true' %}
 {{ 'service advanced-vty' }}

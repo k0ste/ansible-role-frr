@@ -1,7 +1,7 @@
 # ansible-role-frr
 
 Role for deploy [Free Range Routing](//frrouting.org/) package and router
-configuration.
+configuration
 
 ## Requirements for usage
 
@@ -61,10 +61,17 @@ frr:
     bfdd_options: '-A 127.0.0.1'
     fabricd_options: '-A 127.0.0.1'
     vrrpd_options: '-A 127.0.0.1'
+  # https://docs.frrouting.org/en/latest/scripting.html
+  scripts:
+    - name: 'test'
+      data: |
+        function on_rib_process_dplane_results(ctx)
+          log.info(ctx.rinfo.zd_dest.network)
+        return {}
   init_options:
-  - max_fds: '1024'
-    frr_profile: 'traditional'
-    watchfrr_options: "-d -r '/usr/bin/frr restart %s' -s '/usr/bin/frr start %s' -k '/usr/bin/frr stop %s'"
+    - max_fds: '1024'
+      frr_profile: 'traditional'
+      watchfrr_options: "-d -r '/usr/bin/frr restart %s' -s '/usr/bin/frr start %s' -k '/usr/bin/frr stop %s'"
   settings:
   - zebra:
     - hostname: 'R1'
@@ -175,6 +182,8 @@ frr:
       debug_zebra_vxlan: 'true'
       password: 'this'
       enable_password: 'that'
+      # The LUA script name (wihout '.lua' !!!)
+      zebra_on_rib_process_script: 'test'
     vty:
     - access_class: 'this'
       ipv6_access_class: 'that'

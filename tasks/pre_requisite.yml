@@ -12,6 +12,8 @@
       community.general.json_query('[].vtysh_options[]') }}"
     frr_init_settings: "{{ hostvars[inventory_hostname]['frr'] |
       community.general.json_query('[].init_options[]') }}"
+    frr_scripts_list: "{{ (hostvars[inventory_hostname]['frr'] |
+      community.general.json_query('[].scripts[]')) | default(omit) }}"
     frr_zebra_settings: "{{ hostvars[inventory_hostname]['frr'] |
       community.general.json_query('[].settings[].zebra[]') }}"
     frr_vty_settings: "{{ hostvars[inventory_hostname]['frr'] |
