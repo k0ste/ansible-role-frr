@@ -55,10 +55,11 @@
   when:
     - "vars['frr_package_state'] is defined"
     - "vars['frr_package_state'] == ''"
-- name: "frr | Create catalog"
+- name: "frr | Create catalog for frr configuration"
   ansible.builtin.file:
-    path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] }}"
+    path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts' }}"
     state: "directory"
+    recurse: "yes"
     owner: "root"
     group: "root"
-    mode: "0750"
+    mode: "0755"
