@@ -1,16 +1,21 @@
 {% for r in vars['frr_routes'] %}
-{% if (r['destination'] is defined and r['destination'] != '') and
-   (r['next_hop'] is defined and r['next_hop'] != '') %}
-{{ 'ip route ' + r['destination'] + ' ' + r['next_hop'] -}}
-{% if r['tag'] is defined and r['tag'] != '' %}
-{{ ' tag ' ~ r['tag'] -}}
+{% if r['destination'] is defined and r['destination'] != '' %}
+{{ 'ip route ' + r['destination'] -}}
+{% if r['next_hop'] is defined and r['next_hop'] != '' %}
+{{ ' ' ~ r['next_hop'] -}}
 {% endif %}
 {% if r['interface'] is defined and r['interface'] != '' %}
 {{ ' ' ~ r['interface'] -}}
 {% endif %}
+{% if r['tag'] is defined and r['tag'] != '' %}
+{{ ' tag ' ~ r['tag'] -}}
+{% endif %}
 {% if r['distance'] is defined and (r['distance'] | int() > 1 and
   r['distance'] | int() <= 255) %}
 {{ ' ' ~ r['distance'] -}}
+{% endif %}
+{% if r['table'] is defined and r['table'] != '' %}
+{{ ' table ' ~ r['table'] -}}
 {% endif %}
 {% endif %}
 {% if loop['last'] %}
