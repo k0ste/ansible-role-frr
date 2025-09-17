@@ -16,4 +16,4 @@
     frr_install_package: "[] | map(&install_package || 'false', @) | [0]"
 - name: "frr | Include deployment tasks"
   ansible.builtin.import_tasks:
-    file: "deploy_frr.yml"
+    file: "deploy.yml"

@@ -48,13 +48,15 @@
     quiet: "true"
   when:
     - "vars['frr_package_state'] is defined"
+    - "vars['frr_package_state'] != []"
     - "vars['frr_package_state'] != ''"
+    - "vars['frr_package_state'] != None"
 - name: "frr | Set frr package state to present state from empty state"
   ansible.builtin.set_fact:
     frr_package_state: 'present'
   when:
     - "vars['frr_package_state'] is defined"
-    - "vars['frr_package_state'] == ''"
+    - "(vars['frr_package_state'] == '' or vars['frr_package_state'] == None)"
 - name: "frr | Create catalog for frr configuration"
   ansible.builtin.file:
     path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts' }}"

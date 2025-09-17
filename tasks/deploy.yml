@@ -25,10 +25,13 @@
   when:
     - "vars['frr_scripts_list'] is defined"
     - "vars['frr_scripts_list'] != ''"
+    - "vars['frr_scripts_list'] != None"
     - "script['name'] is defined"
     - "script['name'] != ''"
+    - "script['name'] != None"
     - "script['data'] is defined"
     - "script['data'] != ''"
+    - "script['data'] != None"
   notify:
     - "Restart frr"
 - name: "frr | Deploy frr configuration"
