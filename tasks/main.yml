@@ -6,10 +6,10 @@
   ansible.builtin.include_tasks:
     file: "packages.yml"
   when:
-    - "hostvars[inventory_hostname]['frr'] is defined"
-    - "hostvars[inventory_hostname]['frr'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['frr'] |
-       community.general.json_query(lookup('ansible.builtin.vars',
+    - "lookup('ansible.builtin.vars', 'frr', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'frr') |
+      community.general.json_query(lookup('ansible.builtin.vars',
       'frr_install_package', default='')) == 'true'"
   vars:
     frr_install_package: "[] | map(&install_package || 'false', @) | [0]"

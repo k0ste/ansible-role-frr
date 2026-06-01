@@ -2,27 +2,26 @@
 - name: "frr | Deploy frr daemons"
   ansible.builtin.template:
     src: "daemons.j2"
-    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/daemons' }}"
-    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
-    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    dest: "{{ lookup('ansible.builtin.vars', 'frr_conf_dest') + '/daemons' }}"
+    owner: "{{ lookup('ansible.builtin.vars', 'frr_user') }}"
+    group: "{{ lookup('ansible.builtin.vars', 'frr_group') }}"
     mode: "0640"
   notify:
     - "Restart frr"
 - name: "frr | Deploy frr scripts"
   ansible.builtin.template:
     src: "frr_script.j2"
-    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts/' +
+    dest: "{{ lookup('ansible.builtin.vars', 'frr_conf_dest') + '/scripts/' +
       frr_script['name'] + '.lua' }}"
-    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
-    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    owner: "{{ lookup('ansible.builtin.vars', 'frr_user') }}"
+    group: "{{ lookup('ansible.builtin.vars', 'frr_group') }}"
     mode: "0640"
   loop: "{{ lookup('ansible.builtin.vars', 'frr_scripts_list') |
-    flatten(levels=1) }}"
+    ansible.builtin.flatten(levels=1) }}"
   loop_control:
     loop_var: "frr_script"
-    label: "{{ 'Deploy script: ' +
-      hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts/' +
-      frr_script['name'] + '.lua' }}"
+    label: "{{ 'Deploy script: ' + lookup('ansible.builtin.vars',
+      'frr_conf_dest') + '/scripts/' + frr_script['name'] + '.lua' }}"
   when:
     - "lookup('ansible.builtin.vars', 'frr_scripts_list',
       default='') not in ['', [], '[]', None]"
@@ -35,21 +34,21 @@
 - name: "frr | Deploy frr configuration"
   ansible.builtin.template:
     src: "frr.j2"
-    dest: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/frr.conf' }}"
-    owner: "{{ hostvars[inventory_hostname]['frr_user'] }}"
-    group: "{{ hostvars[inventory_hostname]['frr_group'] }}"
+    dest: "{{ lookup('ansible.builtin.vars', 'frr_conf_dest') + '/frr.conf' }}"
+    owner: "{{ lookup('ansible.builtin.vars', 'frr_user') }}"
+    group: "{{ lookup('ansible.builtin.vars', 'frr_group') }}"
     mode: "0640"
     validate: "vtysh -C -f %s"
   notify:
     - "Restart frr"
 - name: "frr | Enable frr service"
   ansible.builtin.systemd:
-    name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
+    name: "{{ lookup('ansible.builtin.vars', 'frr_service') }}"
     enabled: "yes"
   when:
-    - "hostvars[inventory_hostname]['frr'] is defined"
-    - "hostvars[inventory_hostname]['frr'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['frr'] |
+    - "lookup('ansible.builtin.vars', 'frr', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'frr') |
        community.general.json_query(lookup('ansible.builtin.vars',
       'frr_enable', default='')) == 'true'"
   vars:

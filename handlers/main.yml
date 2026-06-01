@@ -1,13 +1,13 @@
 ---
 - name: "frr | Reload frr service"
   ansible.builtin.systemd:
-    name: "{{ hostvars[inventory_hostname]['frr_service'] }}"
+    name: "{{ lookup('ansible.builtin.vars', 'frr_service') }}"
     state: "reloaded"
   listen: "Restart frr"
   when:
-    - "hostvars[inventory_hostname]['frr'] is defined"
-    - "hostvars[inventory_hostname]['frr'] not in ['', [], '[]', None]"
-    - "hostvars[inventory_hostname]['frr'] |
+    - "lookup('ansible.builtin.vars', 'frr', default='')
+      not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'frr') |
        community.general.json_query(lookup('ansible.builtin.vars',
       'frr_restart', default='')) == 'true'"
   vars:

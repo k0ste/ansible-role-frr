@@ -11,47 +11,47 @@
       '.yml' }}"
 - name: "frr | Set facts about frr role"
   ansible.builtin.set_fact:
-    frr_package_state: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_package_state: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].package_state | [0]') }}"
-    frr_daemons_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_daemons_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].daemons[]') }}"
-    frr_vtysh_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_vtysh_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].vtysh_options[]') }}"
-    frr_init_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_init_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].init_options[]') }}"
-    frr_scripts_list: "{{ (hostvars[inventory_hostname]['frr'] |
+    frr_scripts_list: "{{ (lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].scripts[]')) | default(omit) }}"
-    frr_zebra_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_zebra_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].zebra[]') }}"
-    frr_vty_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_vty_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].vty[]') }}"
-    frr_routes: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_routes: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].routes[]') }}"
-    frr_bfd: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_bfd: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].bfd[]') }}"
-    frr_vrrp: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_vrrp: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].vrrp[]') }}"
-    frr_interfaces: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_interfaces: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].interfaces[]') }}"
-    frr_nexthop_groups: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_nexthop_groups: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].nexthop_groups[]') }}"
-    frr_pbr_maps: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_pbr_maps: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].pbr_maps[]') }}"
-    frr_router_ospf_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_ospf_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].ospf[]') }}"
-    frr_router_bgp_settings: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_bgp_settings: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].bgp[]') }}"
-    frr_router_bgp_access_lists: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_bgp_access_lists: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].bgp_as_path_access_list[]') }}"
-    frr_router_route_maps: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_route_maps: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].route_map[]') }}"
-    frr_router_access_lists: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_access_lists: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].access_list[]') }}"
-    frr_router_prefix_lists: "{{ hostvars[inventory_hostname]['frr'] |
+    frr_router_prefix_lists: "{{ lookup('ansible.builtin.vars', 'frr') |
       community.general.json_query('[].settings[].router[].prefix_list[]') }}"
   when:
-    - "hostvars[inventory_hostname]['frr'] is defined"
-    - "hostvars[inventory_hostname]['frr'] not in ['', [], '[]', None]"
+    - "lookup('ansible.builtin.vars', 'frr', default='')
+      not in ['', [], '[]', None]"
 - name: "frr | Assert that frr package state in valid value"
   ansible.builtin.assert:
     that:
@@ -71,7 +71,7 @@
       default='') in ['', [], '[]', None]"
 - name: "frr | Create catalog for frr configuration"
   ansible.builtin.file:
-    path: "{{ hostvars[inventory_hostname]['frr_conf_dest'] + '/scripts' }}"
+    path: "{{ lookup('ansible.builtin.vars', 'frr_conf_dest') + '/scripts' }}"
     state: "directory"
     recurse: "yes"
     owner: "root"

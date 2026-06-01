@@ -8,7 +8,7 @@
         update_cache: "yes"
     - name: "frr | Install package with dnf"
       ansible.builtin.dnf:
-        name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars', 'frr_package') }}"
         state: "{{ lookup('ansible.builtin.vars', 'frr_package_state') }}"
 - name: "frr | Install the required packages in Debian derivatives"
   when:
@@ -19,7 +19,7 @@
         update_cache: "yes"
     - name: "frr | Install package with apt"
       ansible.builtin.apt:
-        name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars', 'frr_package') }}"
         state: "{{ lookup('ansible.builtin.vars', 'frr_package_state') }}"
 - name: "frr | Install the required packages in ArchLinux derivatives"
   when:
@@ -31,5 +31,5 @@
         update_cache: "yes"
     - name: "frr | Install package with pacman"
       community.general.pacman:
-        name: "{{ hostvars[inventory_hostname]['frr_package'] }}"
+        name: "{{ lookup('ansible.builtin.vars', 'frr_package') }}"
         state: "{{ lookup('ansible.builtin.vars', 'frr_package_state') }}"
