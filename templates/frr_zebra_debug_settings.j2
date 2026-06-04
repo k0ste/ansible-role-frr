@@ -1,101 +1,164 @@
-{% if z['debug_babel'] is defined and z['debug_babel'] in ['all', 'common',
-  'filter', 'interface', 'kernel', 'route', 'timeout'] %}
-{{ 'debug babel ' + z['debug_babel'] }}
+{% if z['debug'] is defined and z['debug'] not in ['', [], '[]', None] %}
+{% for zd in z['debug'] %}
+{% if zd['bfd'] is defined and zd['bfd'] not in ['', [], '[]', None] %}
+{% for zdb in zd['bfd'] %}
+{% if zdb['distributed'] is defined and zdb['distributed'] == 'true' %}
+{{ 'debug bfd distributed' }}
 {% endif %}
-{% if z['debug_bfd'] is defined and z['debug_bfd'] in ['distributed', 'network',
-  'peer', 'zebra'] %}
-{{ 'debug bfd ' + z['debug_babel'] }}
+{% if zdb['network'] is defined and zdb['network'] == 'true' %}
+{{ 'debug bfd network' }}
 {% endif %}
-{% if z['debug_bgp_as4_segment'] is defined and
-  z['debug_bgp_as4_segment'] == 'true' %}
+{% if zdb['peer'] is defined and zdb['peer'] == 'true' %}
+{{ 'debug bfd peer' }}
+{% endif %}
+{% if zdb['zebra'] is defined and zdb['zebra'] == 'true' %}
+{{ 'debug bfd zebra' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if zd['bgp'] is defined and zd['bgp'] not in ['', [], '[]', None] %}
+{% for zdb in zd['bgp'] %}
+{% if zdb['as4'] is defined and zdb['as4'] not in ['', [], '[]', None] %}
+{% for zdba in zdb['as4'] %}
+{% if zdba['enabled'] is defined and zdba['enabled'] == 'true' %}
+{{ 'debug bgp as4' }}
+{% if zdba['segment'] is defined and zdba['segment'] == 'true' %}
 {{ 'debug bgp as4 segment' }}
 {% endif %}
-{% if z['debug_bgp_bestpath'] is defined and z['debug_bgp_bestpath']
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if zdb['bestpath'] is defined and zdb['bestpath']
   not in ['', [], '[]', None] %}
-{% if (z['debug_bgp_bestpath'] |
-  ansible.utils.ipaddr('net')) is ansible.utils.ip() %}
-{{ 'debug bgp bestpath ' + z['debug_bgp_bestpath'] }}
-{% elif z['debug_bgp_bestpath'] is sequence %}
-{% for zb in z['debug_bgp_bestpath'] %}
-{% if (zb | ansible.utils.ipaddr('net')) is ansible.utils.ip() %}
-{{ 'debug bgp bestpath ' + zb }}
+{% if zdb['bestpath'] is ansible.utils.ip() %}
+{{ 'debug bgp bestpath ' + zdb['bestpath'] }}
+{% elif zdb['bestpath'] is sequence %}
+{% for zdbb in zdb['bestpath'] %}
+{% if (zdbb | ansible.utils.ipaddr('net')) is ansible.utils.ip() %}
+{{ 'debug bgp bestpath ' + zdbb }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z['debug_bgp_keepalives'] is defined and
-  z['debug_bgp_keepalives'] == 'true' %}
+{% if zdb['keepalives'] is defined and zdb['keepalives']
+  not in ['', [], '[]', None] %}
+{% for zdbk in zdb['keepalives'] %}
+{% if (zdbk['enabled'] is defined and zdbk['enabled'] == 'true') and
+  zdbk['peers'] is not defined %}
 {{ 'debug bgp keepalives' }}
-{% endif %}
-{% if z['debug_bgp_keepalives_peers'] is defined and
-  z['debug_bgp_keepalives_peers'] not in ['', [], '[]', None] %}
-{% if z['debug_bgp_keepalives_peers'] is string and
-  ((z['debug_bgp_keepalives_peers'] | ansible.utils.ipaddr('net')) is
-  ansible.utils.ip()) %}
-{{ 'debug bgp keepalives ' + z['debug_bgp_keepalives_peers'] }}
-{% elif z['debug_bgp_keepalives_peers'] is sequence %}
-{% for zk in z['debug_bgp_keepalives_peers'] %}
-{% if (zk | ansible.utils.ipaddr('host')) is ansible.utils.ip() %}
-{{ 'debug bgp keepalives ' + zk }}
+{% elif zdbk['peers'] is defined and zdbk['peers']
+  not in ['', [], '[]', None] %}
+{% if zdbk['peers'] is string and zdbk['peers'] is ansible.utils.ip() %}
+{{ 'debug bgp keepalives ' + zdbk['peers'] }}
+{% elif zdbk['peers'] is sequence %}
+{% for zdbkp in zdbk['peers'] %}
+{% if zdbkp is ansible.utils.ip() %}
+{{ 'debug bgp keepalives ' + zdbkp }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z['debug_bgp_labelpool'] is defined and
-  z['debug_bgp_labelpool'] == 'true' %}
-{{ 'debug bgp labelpool' }}
+{% endfor %}
 {% endif %}
-{% if z['debug_bgp_neighbor_events'] is defined and
-  z['debug_bgp_neighbor_events'] == 'true' %}
+{% if zdb['neighbor_events'] is defined and zdb['neighbor_events']
+  not in ['', [], '[]', None] %}
+{% for zdbn in zdb['neighbor_events'] %}
+{% if (zdbn['enabled'] is defined and zdbn['enabled'] == 'true') and
+  zdbn['peers'] is not defined %}
 {{ 'debug bgp neighbor-events' }}
-{% endif %}
-{% if z['debug_bgp_neighbor_events_peers'] is defined and
-  z['debug_bgp_neighbor_events_peers'] not in ['', [], '[]', None] %}
-{% if z['debug_bgp_neighbor_events_peers'] is string and
-  ((z['debug_bgp_neighbor_events_peers'] | ansible.utils.ipaddr('net')) is
-  ansible.utils.ip()) %}
-{{ 'debug bgp neighbor-events ' + z['debug_bgp_neighbor_events_peers'] }}
-{% elif z['debug_bgp_neighbor_events_peers'] is sequence %}
-{% for zn in z['debug_bgp_neighbor_events_peers'] %}
-{% if (zn | ansible.utils.ipaddr('host')) is ansible.utils.ip() %}
-{{ 'debug bgp neighbor-events ' + zn }}
+{% elif zdbn['peers'] is defined and zdbn['peers']
+  not in ['', [], '[]', None] %}
+{% if zdbn['peers'] is string and zdbn['peers'] is ansible.utils.ip() %}
+{{ 'debug bgp neighbor-events ' + zdbn['peers'] }}
+{% elif zdbn['peers'] is sequence %}
+{% for zdbnp in zdbn['peers'] %}
+{% if zdbnp is ansible.utils.ip() %}
+{{ 'debug bgp neighbor-events ' + zdbnp }}
 {% endif %}
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if z['debug_bgp_nht'] is defined and z['debug_bgp_nht'] == 'true' %}
+{% endfor %}
+{% endif %}
+{% if zdb['nht'] is defined and zdb['nht'] == 'true' %}
 {{ 'debug bgp nht' }}
 {% endif %}
-{% if z['debug_bgp_pbr'] is defined and z['debug_bgp_pbr'] == 'true' %}
-{{ 'debug bgp pbr' }}
-{% endif %}
-{% if z['debug_bgp_pbr_error'] is defined and
-  z['debug_bgp_pbr_error'] == 'true' %}
-{{ 'debug bgp pbr error' }}
-{% endif %}
-{% if z['debug_bgp_update_groups'] is defined and
-  z['debug_bgp_update_groups'] == 'true' %}
+{% if zdb['update_groups'] is defined and zdb['update_groups'] == 'true' %}
 {{ 'debug bgp update-groups' }}
 {% endif %}
-{% if z['debug_bgp_updates'] is defined and z['debug_bgp_updates'] == 'true' %}
-{{ 'debug bgp updates' }}
+{% if zdb['updates'] is defined and zdb['updates']
+  not in ['', [], '[]', None] %}
+{% for zdbu in zdb['updates'] %}
+{% if zdbu['detail'] is defined and zdbu['detail'] == 'true' %}
+{{ 'debug bgp updates detail' }}
 {% endif %}
-{% if z['debug_bgp_zebra'] is defined and z['debug_bgp_zebra'] == 'true' %}
-{{ 'debug bgp zebra' }}
+{% if zdbu['in'] is defined and zdbu['in'] == 'true' %}
+{{ 'debug bgp updates in' }}
 {% endif %}
-{% if z['debug_bgp_zebra_prefix'] is defined and
-  z['debug_bgp_zebra_prefix'] not in ['', [], '[]', None] %}
-{% if z['debug_bgp_zebra_prefix'] is string and
-  ((z['debug_bgp_zebra_prefix'] | ansible.utils.ipaddr('host/prefix')) is
-  ansible.utils.ip()) %}
-{{ 'debug bgp zebra prefix ' + z['debug_bgp_zebra_prefix'] }}
-{% elif z['debug_bgp_zebra_prefix'] is sequence %}
-{% for zz in z['debug_bgp_zebra_prefix'] %}
-{% if (zz | ansible.utils.ipaddr('host')) is ansible.utils.ip() %}
-{{ 'debug bgp zebra prefix ' + zz }}
+{% if zdbu['out'] is defined and zdbu['out'] == 'true' %}
+{{ 'debug bgp updates out' }}
 {% endif %}
 {% endfor %}
 {% endif %}
+{% if zdb['zebra'] is defined and zdb['zebra'] not in ['', [], '[]', None] %}
+{% for zdbz in zdb['zebra'] %}
+{% if (zdbz['enabled'] is defined and zdbz['enabled'] == 'true') and
+  zdbz['prefix'] is not defined %}
+{{ 'debug bgp zebra' }}
+{% elif zdbz['prefix'] is defined and zdbz['prefix']
+  not in ['', [], '[]', None] %}
+{% if zdbz['prefix'] is string and zdbz['prefix'] is ansible.utils.ip() %}
+{{ 'debug bgp zebra prefix ' + zdbz['prefix'] }}
+{% elif zdbz['prefix'] is sequence %}
+{% for zdbzp in zdbz['prefix'] %}
+{% if zdbzp is ansible.utils.ip() %}
+{{ 'debug bgp zebra prefix ' + zdbzp }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if zdb['flowspec'] is defined and zdb['flowspec'] == 'true' %}
+{{ 'debug bgp flowspec' }}
+{% endif %}
+{% if zdb['labelpool'] is defined and zdb['labelpool'] == 'true' %}
+{{ 'debug bgp labelpool' }}
+{% endif %}
+{% if zdb['pbr'] is defined and zdb['pbr'] not in ['', [], '[]', None] %}
+{% for zdbp in zdb['pbr'] %}
+{% if zdbp['enabled'] is defined and zdbp['enabled'] == 'true' %}
+{{ 'debug bgp pbr' }}
+{% endif %}
+{% if zdbp['error'] is defined and zdbp['error'] == 'true' %}
+{{ 'debug bgp pbr error' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if zdb['graceful_restart'] is defined and
+  zdb['graceful_restart'] == 'true' %}
+{{ 'debug bgp graceful-restart' }}
+{% endif %}
+{% if zdb['bfd'] is defined and zdb['bfd'] == 'true' %}
+{{ 'debug bgp bfd' }}
+{% endif %}
+{% if zdb['conditional_advertisement'] is defined and
+  zdb['conditional_advertisement'] == 'true' %}
+{{ 'debug bgp conditional-advertisement' }}
+{% endif %}
+{% if zdb['vnc'] is defined and zdb['vnc'] not in ['', [], '[]', None] %}
+{% for zdbv in zdb['vnc'] %}
+{% if zdbv['enabled'] is defined and zdbv['enabled'] == 'true' %}
+{{ 'debug bgp vnc' }}
+{% endif %}
+{% if zdbv['verbose'] is defined and zdbv['verbose'] == 'true' %}
+{{ 'debug bgp vnc verbose' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
 {% endif %}
 {% if z['debug_memstats_at_exit'] is defined and
   z['debug_memstats_at_exit'] == 'true' %}

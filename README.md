@@ -91,48 +91,76 @@ frr:
             # debug: 'all', 'common', 'filter', 'interface', 'kernel', 'route',
             # 'timeout'
             debug_babel: 'all'
-            # debug: 'distributed', 'network', 'peer', 'zebra'
-            debug_bfd: 'peer'
-            debug_bgp_as4_segment: 'true'
-            # Enable or disable debugging for bestpath selection on the
-            # specified prefix
-            debug_bgp_bestpath:
-              - '100.100.100.0/24'
-              - '100.100.101.0/24'
-            # Enable or disable debugging for BGP keepalives. This provides
-            # information on BGP KEEPALIVE messages transmitted and received
-            # between local and remote instances
-            debug_bgp_keepalives: 'true'
-            debug_bgp_keepalives_peers:
-              - '100.100.100.0/24'
-              - '100.100.101.0/24'
-            debug_bgp_labelpool: 'true'
-            # Enable or disable debugging for neighbor events. This provides
-            # general information on BGP events such as peer
-            # connection/disconnection, session establishment/teardown, and
-            # capability negotiation
-            debug_bgp_neighbor_events: 'true'
-            debug_bgp_neighbor_events_peers:
-              - '100.100.100.0/24'
-              - '100.100.101.0/24'
-            # Enable or disable debugging of BGP nexthop tracking
-            debug_bgp_nht: 'true'
-            debug_bgp_pbr: 'true'
-            debug_bgp_pbr_error: 'true'
-            # Enable or disable debugging of dynamic update groups. This
-            # provides general information on group creation, deletion, join
-            # and prune events
-            debug_bgp_update_groups: 'true'
-            # Enable or disable debugging for BGP updates. This provides
-            # information on BGP UPDATE messages transmitted and received
-            # between local and remote instances
-            debug_bgp_updates: 'true'
-            # Enable or disable debugging of communications between bgpd and
-            # zebra
-            debug_bgp_zebra: 'true'
-            debug_bgp_zebra_prefix:
-              - '100.100.100.0/24'
-              - '100.100.101.0/24'
+            # NEW DEBUG
+            debug:
+              - bfd:
+# BFD data plane (distributed BFD) debugging
+                  - distributed: 'true'
+# Network layer debugging
+                    network: 'true'
+# Peer events debugging
+                    peer: 'true'
+# Zebra events debugging
+                    zebra: 'true'
+                bgp:
+# BGP AS4 actions
+                  - as4:
+                      - enabled: 'true'
+# BGP AS4 aspath segment handling
+                        segment: 'true'
+# Enable or disable debugging for bestpath selection on the specified prefix
+                    bestpath:
+                      - '100.100.100.0/24'
+                      - '100.100.101.0/24'
+# Enable or disable debugging for BGP keepalives. This provides information on
+# BGP KEEPALIVE messages transmitted and received between local and remote
+# instances
+                    keepalives:
+                      - enabled: 'true'
+                        peers:
+                          - '100.100.100.1'
+                          - '100.100.101.1'
+# Enable or disable debugging for neighbor events. This provides general
+# information on BGP events such as peer connection/disconnection, session
+# establishment/teardown, and capability negotiation
+                    neighbor_events:
+                      - enabled: 'true'
+                        peers:
+                          - '100.100.100.1'
+                          - '100.100.101.1'
+# Enable or disable debugging of BGP nexthop tracking
+                    nht: 'true'
+# Enable or disable debugging of dynamic update groups. This provides general
+# information on group creation, deletion, join and prune events
+                    update_groups: 'true'
+# Enable or disable debugging for BGP updates. This provides information on BGP
+# UPDATE messages transmitted and received between local and remote instances
+                    updates:
+                      - detail: 'true'
+                        in: 'true'
+                        out: 'true'
+# Enable or disable debugging of communications between bgpd and zebra
+                    zebra:
+                      enabled: 'true'
+                      prefix:
+                        - '100.100.100.0/24'
+                        - '100.100.101.0/24'
+# You can troubleshoot Flowspec, or BGP policy based routing. For instance, if
+# you encounter some issues when decoding a Flowspec entry
+                    flowspec: 'true'
+                    labelpool: 'true'
+# BGP policy based routing
+                    pbr:
+                      - enabled: 'true'
+                        error: 'true'
+# Graceful Restart - Enable Debug Logs
+                    graceful_restart: 'true'
+# Enable debug for bfd proto
+                    bfd: 'true'
+                    conditional_advertisement: 'true'
+                    vnc:
+                      - enabled: 'true'
+                        verbose: 'true'
             debug_memstats_at_exit: 'true'
             # Show debug information of OSPF event
             debug_ospf_event: 'true'
